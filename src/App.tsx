@@ -17,9 +17,10 @@ import {
   Typography
 } from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
-import {Workout} from "./components/Workout";
-import {Routines} from "./components/Routines";
+import {Workout} from "./components/workout/Workout";
+import {ProgramsView} from "./components/programs/ProgramsView";
 import {Exercises} from "./components/Exercises";
+import {Equipment} from "./components/Equipment";
 import {Menu} from "@material-ui/icons";
 
 const drawerWidth = 240;
@@ -88,8 +89,6 @@ function App() {
       }
     }
   });
-
-  const container = undefined;
   return (
     <BrowserRouter>
       <MuiThemeProvider theme={theme}>
@@ -116,7 +115,6 @@ function App() {
             {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
             <Hidden smUp implementation="css">
               <Drawer
-                container={container}
                 variant="temporary"
                 anchor={theme.direction === 'rtl' ? 'right' : 'left'}
                 open={mobileOpen}
@@ -149,11 +147,14 @@ function App() {
               <Route path="/workout">
                 <Workout/>
               </Route>
-              <Route path="/routines">
-                <Routines/>
+              <Route path="/programs">
+                <ProgramsView/>
               </Route>
               <Route path="/exercises">
                 <Exercises/>
+              </Route>
+              <Route path="/equipment">
+                <Equipment/>
               </Route>
             </Switch>
           </main>

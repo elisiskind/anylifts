@@ -1,6 +1,6 @@
 import React from 'react';
 import {ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
-import { Link as RouterLink, LinkProps as RouterLinkProps } from 'react-router-dom';
+import {Link as RouterLink, LinkProps as RouterLinkProps} from 'react-router-dom';
 
 interface ListItemLinkProps {
   icon?: React.ReactElement;
@@ -9,7 +9,7 @@ interface ListItemLinkProps {
 }
 
 export function ListItemLink(props: ListItemLinkProps) {
-  const { icon, primary, to } = props;
+  const {icon, primary, to} = props;
 
   const renderLink = React.useMemo(
     () =>
@@ -23,7 +23,7 @@ export function ListItemLink(props: ListItemLinkProps) {
     <div>
       <ListItem button component={renderLink}>
         <ListItemIcon>{icon}</ListItemIcon>
-        <ListItemText primary={primary} />
+        <ListItemText primary={primary}/>
       </ListItem>
     </div>
   );
