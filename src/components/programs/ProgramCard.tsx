@@ -1,13 +1,7 @@
 import React from "react";
-import {Card, CardActionArea, CardContent, CardMedia, Grid, TextField, Typography} from "@material-ui/core";
+import {Card, CardActionArea, CardContent, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {Program} from "./Program";
-
-interface ProgramCardProps {
-  icon?: React.ReactElement;
-  primary: string;
-  to: string;
-}
 
 const useStyles = makeStyles({
   root: {
@@ -27,9 +21,9 @@ export const ProgramCard = (program: Program) => {
         <Typography gutterBottom color="textPrimary" variant="h5" component="h2">
           {program.name}
         </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              {program.routines.length} routines
-            </Typography>
+        <Typography variant="body2" color="textSecondary" component="p">
+          {program.routines.length} routines
+        </Typography>
       </CardContent>
     </CardActionArea>
   </Card>
