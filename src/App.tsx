@@ -56,9 +56,56 @@ const useStyles = makeStyles((theme: Theme) =>
     content: {
       flexGrow: 1,
       padding: theme.spacing(3),
+      background: theme.palette.grey["100"]
     },
   }),
 );
+
+export const AppTheme1 = {
+  palette: {
+    primary: {
+      main: '#32373B',
+    },
+    secondary: {
+      main: '#999AC6',
+    },
+    error: {
+      main: '#DB5461'
+    },
+    warning: {
+      main: '#F1D302'
+    },
+    info: {
+      main: '#00B9AE'
+    },
+    success: {
+      main: '#97DB4F'
+    }
+  }
+};
+
+export const AppTheme = {
+  palette: {
+    primary: {
+      main: '#008C88',
+    },
+    secondary: {
+      main: '#940063',
+    },
+    error: {
+      main: '#DE432E'
+    },
+    warning: {
+      main: '#FFA825'
+    },
+    info: {
+      main: '#2D73E4'
+    },
+    success: {
+      main: '#5ba100'
+    }
+  }
+};
 
 function App() {
   const classes = useStyles();
@@ -67,33 +114,12 @@ function App() {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  const theme = createMuiTheme({
-    palette: {
-      primary: {
-        main: '#32373B',
-      },
-      secondary: {
-        main: '#999AC6',
-      },
-      error: {
-        main: '#DB5461'
-      },
-      warning: {
-        main: '#F1D302'
-      },
-      info: {
-        main: '#00B9AE'
-      },
-      success: {
-        main: '#97DB4F'
-      }
-    }
-  });
+  const theme = createMuiTheme(AppTheme);
+
   return (
     <BrowserRouter>
       <MuiThemeProvider theme={theme}>
         <Box className={classes.root}>
-
           <CssBaseline/>
           <AppBar position="fixed" className={classes.appBar}>
             <Toolbar>

@@ -1,14 +1,14 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 
-import { Button, ButtonProps } from './Button';
+import { WaButton, WaButtonProps } from '../components/elements/WaButton';
 
 export default {
-  title: 'Example/Button',
-  component: Button
+  title: 'elements/WaButton',
+  component: WaButton
 } as Meta;
 
-const Template: Story<ButtonProps> = (args) => <Button {...args} />;
+const Template: Story<WaButtonProps> = (args) => <WaButton {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
@@ -23,13 +23,13 @@ PrimaryOutline.args = {
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-  secondary: true,
+  color: 'secondary',
   label: 'Button',
 };
 
 export const SecondaryOutline = Template.bind({});
 SecondaryOutline.args = {
-  secondary: true,
+  color: 'secondary',
   outline: true,
   label: 'Button',
 };
