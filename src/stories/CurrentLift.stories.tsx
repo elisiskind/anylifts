@@ -10,7 +10,7 @@ export default {
 } as Meta;
 
 const Template: Story<CurrentLiftProps> = (args) => <Grid container justify={"center"}>
-  <Grid xs={6}>
+  <Grid xs={12} sm={10} md={6}>
     <CurrentLift {...args} />
   </Grid>
 </Grid>

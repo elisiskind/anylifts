@@ -61,29 +61,6 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export const AppTheme1 = {
-  palette: {
-    primary: {
-      main: '#32373B',
-    },
-    secondary: {
-      main: '#999AC6',
-    },
-    error: {
-      main: '#DB5461'
-    },
-    warning: {
-      main: '#F1D302'
-    },
-    info: {
-      main: '#00B9AE'
-    },
-    success: {
-      main: '#97DB4F'
-    }
-  }
-};
-
 export const AppTheme = {
   palette: {
     primary: {

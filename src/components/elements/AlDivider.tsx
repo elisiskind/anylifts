@@ -1,11 +1,11 @@
 import {Divider, Grid, useTheme} from "@material-ui/core";
 import React from "react";
 
-export interface WaDividerProps {
+export interface AlDividerProps {
   grid?: boolean
 }
 
-export const WaDivider = ({grid} : WaDividerProps) => {
+export const AlDivider = ({grid} : AlDividerProps) => {
 
   const theme = useTheme()
 

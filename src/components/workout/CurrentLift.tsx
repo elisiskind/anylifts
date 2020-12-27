@@ -1,13 +1,14 @@
 import React from "react";
-import {Grid} from "@material-ui/core";
-import {WaPaper} from "../elements/WaPaper";
-import {WaButton} from "../elements/WaButton";
+import {AlPaper} from "../elements/AlPaper";
+import {AlButton} from "../elements/AlButton";
 import {FitnessCenter} from "@material-ui/icons";
-import {WaSubtitle} from "../elements/WaSubtitle";
-import {WaHeader} from "../elements/WaHeader";
-import {WaHighlight} from "../elements/WaHighlight";
-import {WaDivider} from "../elements/WaDivider";
+import {AlSubtitle} from "../elements/AlSubtitle";
+import {AlHeader} from "../elements/AlHeader";
+import {AlHighlight} from "../elements/AlHighlight";
+import {AlDivider} from "../elements/AlDivider";
 import {PlateCalculator} from "./PlateCalculator";
+import {Grid, Theme} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core/styles";
 
 export interface CurrentLiftProps {
   name: string,
@@ -17,41 +18,57 @@ export interface CurrentLiftProps {
   bar?: number
 }
 
+const useStyles = makeStyles(({breakpoints,spacing}: Theme) => ({
+  container: {
+    alignItems: 'center'
+  },
+  icon: {
+    fontSize: 48,
+    marginRight: spacing(1),
+    [breakpoints.up('sm')]: {
+    marginRight: spacing(3),
+      fontSize: 64,
+    },
+  }
+}))
+
 export const CurrentLift = ({name, reps, plates, weight, bar}: CurrentLiftProps) => {
 
-  return <WaPaper>
-    <Grid container>
-      <Grid item style={{margin: 'auto 15px'}}>
-        <FitnessCenter style={{fontSize: 64}}/>
+  const classes = useStyles();
+
+  return <AlPaper>
+    <Grid container className={classes.container}>
+      <Grid item>
+        <FitnessCenter className={classes.icon}/>
       </Grid>
       <Grid item>
-        <WaHeader variant={"h2"}>
+        <AlHeader variant={"h2"}>
           {name}
-        </WaHeader>
-        <WaSubtitle>
-          <WaHighlight>{weight}</WaHighlight> lbs
-        </WaSubtitle>
-        <WaSubtitle>
-          <WaHighlight>{reps}</WaHighlight> reps
-        </WaSubtitle>
+        </AlHeader>
+        <AlSubtitle>
+          <AlHighlight>{weight}</AlHighlight> lbs
+        </AlSubtitle>
+        <AlSubtitle>
+          <AlHighlight>{reps}</AlHighlight> reps
+        </AlSubtitle>
       </Grid>
       {weight && plates && bar && (
         <>
-          <WaDivider grid/>
+          <AlDivider grid/>
           <Grid item xs={12}>
             <PlateCalculator weight={weight} plates={plates} bar={bar}/>
           </Grid>
         </>
       )}
-      <WaDivider grid/>
-      <Grid item container xs={12} justify={"center"}>
+      <AlDivider grid/>
+      <Grid item container xs={12} justify="space-around">
         <Grid item>
-          <WaButton label={'Done'} color={"secondary"}/>
+          <AlButton color={"secondary"}>Done</AlButton>
         </Grid>
         <Grid item>
-          <WaButton label={'Failed'} outline/>
+          <AlButton outline>Failed</AlButton>
         </Grid>
       </Grid>
     </Grid>
-  </WaPaper>
+  </AlPaper>
 }

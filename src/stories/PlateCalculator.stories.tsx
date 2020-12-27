@@ -1,7 +1,5 @@
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
-
-import { WaButton, WaButtonProps } from '../components/elements/WaButton';
+import {Meta, Story} from '@storybook/react';
 import {PlateCalculator, PlateCalculatorProps} from "../components/workout/PlateCalculator";
 
 export default {

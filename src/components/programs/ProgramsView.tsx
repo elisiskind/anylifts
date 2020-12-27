@@ -1,7 +1,8 @@
 import React from 'react';
-import {Box, Fab} from "@material-ui/core";
+import {Box} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {Add} from "@material-ui/icons";
+import {AlButton} from "../elements/AlButton";
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -21,9 +22,10 @@ export const ProgramsView = () => {
 
   return <Box className={classes.root}>
     Programs!
-    <Fab name={'create'} className={classes.fab} onClick={createNewProgam} color="secondary" variant="extended">
-      <Add/>
-      Create
-    </Fab>
+    <Box className={classes.fab}>
+      <AlButton onClick={createNewProgam} color="secondary">
+        <Add/> Create
+      </AlButton>
+    </Box>
   </Box>
 }

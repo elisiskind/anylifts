@@ -36,19 +36,48 @@ const requiredPlates = (availablePlates: number[], weight: number): [number[], n
   return [plates, total]
 }
 
-const calculatePlateDisplaySize = (plates: number[], plate: number): number => {
+const calculateForRange = (plates: number[], plate: number, min: number, max: number, invert?: boolean): number => {
   const smallest = Math.min(...plates)
   const largest = Math.max(...plates)
   const range = largest - smallest
-  return 110 + ((plate - smallest) / range) * 90
+  if (!invert) {
+    return min + ((plate - smallest) / range) * (max - min)
+  } else {
+    return max - ((plate - smallest) / range) * (max - min)
+  }
 }
 
-export const useStyles = makeStyles(({palette, spacing}: Theme) => ({
+const calculateColor = (plates: number[], plate: number): string => {
+  const [rmin, gmin, bmin] = [86, 194, 191]
+
+  const plateSet = Array.from(new Set(plates))
+  const values = []
+  for (let i = 0; i < new Set(plates).size; i++) {
+    values.push(i)
+  }
+  const value = plateSet.indexOf(plate);
+
+  const r = calculateForRange(values, value, rmin, 255)
+  const g = calculateForRange(values, value, gmin, 255)
+  const b = calculateForRange(values, value, bmin, 255)
+  return 'rgb(' + r + ',' + g + ',' + b + ')'
+}
+
+const calculatePlateDisplaySize = (plates: number[], plate: number): number => {
+  return calculateForRange(plates, plate, 110, 200)
+}
+
+export const useStyles = makeStyles(({palette, spacing, breakpoints}: Theme) => ({
   bar: {
+    fontSize: 12,
+    padding: spacing(1, 1),
+    [breakpoints.up('sm')]: {
+      fontSize: 16,
+      padding: spacing(3, 1),
+    },
     borderStyle: 'none solid none solid',
     borderWidth: '2px',
     borderColor: palette.grey[400],
-    padding: spacing(3, 1),
     writingMode: 'vertical-rl',
     fontWeight: 700,
     margin: '0 auto',
@@ -66,14 +95,22 @@ export const useStyles = makeStyles(({palette, spacing}: Theme) => ({
     borderStyle: 'none solid solid solid',
     borderWidth: '2px',
     borderColor: palette.grey[400],
-    padding: spacing(1, 1),
+    padding: spacing(0.5, 1),
+    [breakpoints.up('sm')]: {
+      padding: spacing(1, 1),
+    },
     margin: '0 auto',
     width: '40px'
   },
   plate: {
-    color: palette.primary.main,
+    fontSize: 12,
+    padding: spacing(0.5, 3),
+    [breakpoints.up('sm')]: {
+      fontSize: 16,
+      padding: spacing(1, 3),
+    },
+    color: palette.primary.dark,
     border: '2px solid ' + palette.primary.main,
-    padding: spacing(1, 3),
     fontWeight: 700,
     borderRadius: 5,
     margin: '0 auto',
@@ -101,7 +138,12 @@ export const PlateCalculator = ({weight, plates, bar}: PlateCalculatorProps) => 
           return <>
             <Grid item className={classes.barFiller}/>
             <Grid item className={classes.plate}
-                  style={{width: calculatePlateDisplaySize(plateList, plate)}}>{plate} lbs</Grid>
+                  style={
+                    {
+                      width: calculatePlateDisplaySize(plateList, plate),
+                      backgroundColor: calculateColor(plateList, plate)
+                    }
+                  }>{plate} lbs</Grid>
           </>
         })}
         <Grid item className={classes.barEnd}/>

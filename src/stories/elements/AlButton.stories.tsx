@@ -1,14 +1,27 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 
-import { WaButton, WaButtonProps } from '../components/elements/WaButton';
+import { AlButton, AlButtonProps } from '../../components/elements/AlButton';
 
 export default {
-  title: 'elements/WaButton',
-  component: WaButton
+  title: 'elements/AlButton',
+  component: AlButton
 } as Meta;
 
-const Template: Story<WaButtonProps> = (args) => <WaButton {...args} />;
+interface AlButtonStoryProps extends AlButtonProps {
+  label: string
+}
+
+const Template: Story<AlButtonStoryProps> = (args) => {
+  const onclick = () => {
+    console.log('hello')
+  }
+  return <div>
+    <AlButton {...args} onClick={onclick} >
+      {args.label}
+    </AlButton>
+  </div>
+}
 
 export const Primary = Template.bind({});
 Primary.args = {

@@ -1,10 +1,14 @@
 import React, {FunctionComponent} from 'react';
 import {makeStyles, Theme} from "@material-ui/core/styles";
 import {Typography} from "@material-ui/core";
+import {AlHeaderProps} from "./AlHeader";
 
-const useStyles = makeStyles(({palette}: Theme) => ({
+const useStyles = makeStyles(({palette, breakpoints}: Theme) => ({
   subtitle: {
-    fontSize: 20,
+    fontSize: 14,
+    [breakpoints.up('sm')]: {
+      fontSize: 20,
+    },
     fontFamily: "'Source Sans Pro', sans-serif",
     fontWeight: 700,
     color: palette.grey["700"]
@@ -14,7 +18,7 @@ const useStyles = makeStyles(({palette}: Theme) => ({
 /**
  * Primary UI component for user interaction
  */
-export const WaSubtitle : FunctionComponent = ({children}) => {
+export const AlSubtitle : FunctionComponent = ({children}) => {
   const classes = useStyles()
 
   return (
