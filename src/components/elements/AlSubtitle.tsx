@@ -1,7 +1,6 @@
 import React, {FunctionComponent} from 'react';
 import {makeStyles, Theme} from "@material-ui/core/styles";
 import {Typography} from "@material-ui/core";
-import {AlHeaderProps} from "./AlHeader";
 
 const useStyles = makeStyles(({palette, breakpoints}: Theme) => ({
   subtitle: {
@@ -18,7 +17,7 @@ const useStyles = makeStyles(({palette, breakpoints}: Theme) => ({
 /**
  * Primary UI component for user interaction
  */
-export const AlSubtitle : FunctionComponent = ({children}) => {
+export const AlSubtitle: FunctionComponent = ({children}) => {
   const classes = useStyles()
 
   return (

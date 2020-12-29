@@ -61,7 +61,7 @@ export const AlTimer = ({time, onFinish, addTime}: AlTimerProps) => {
         clearInterval(timer);
       }
     }
-  }, [])
+  }, [timer])
 
 
   const value = time - elapsed

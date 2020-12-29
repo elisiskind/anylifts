@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {Story, Meta} from '@storybook/react';
-import {AlTimer, AlTimerProps} from "../../components/elements/AlTimer";
+import {Meta, Story} from '@storybook/react';
+import {AlTimer} from "../../components/elements/AlTimer";
 
 export default {
   title: 'elements/AlTimer',
@@ -18,7 +18,9 @@ const Template: Story<AlTimerStoryProps> = ({startTime}: AlTimerStoryProps) => {
     setTime(time + timeToAdd);
   }
 
-  return <AlTimer addTime={addTime}  time={time} onFinish={() => {console.log('Finished!')}}/>;
+  return <AlTimer addTime={addTime} time={time} onFinish={() => {
+    console.log('Finished!')
+  }}/>;
 }
 
 export const Default = Template.bind({});

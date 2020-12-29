@@ -1,10 +1,10 @@
 export interface Program {
   name: string,
   id: number,
-  routines: Array<Routine>
+  routines: Array<Day>
 }
 
-export interface Routine {
+export interface Day {
   lifts: Array<SetGroup>
 }
 

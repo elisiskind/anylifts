@@ -1,87 +1,69 @@
-import React from 'react';
-import './App.css';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
-import {NavigationDrawer} from "./components/NavigationDrawer";
+import React from "react";
+import "./App.css";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import {
-  AppBar,
   Box,
   createMuiTheme,
   createStyles,
   CssBaseline,
-  Drawer,
   Hidden,
-  IconButton,
   MuiThemeProvider,
   Theme,
-  Toolbar,
-  Typography
 } from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
-import {Workout} from "./components/workout/Workout";
-import {ProgramsView} from "./components/programs/ProgramsView";
-import {Exercises} from "./components/Exercises";
-import {Equipment} from "./components/Equipment";
-import {Menu} from "@material-ui/icons";
+import { makeStyles } from "@material-ui/core/styles";
+import { Workout } from "./components/workout/Workout";
+import { ProgramsView } from "./components/programs/ProgramsView";
+import { Exercises } from "./components/Exercises";
+import { Equipment } from "./components/Equipment";
+import { AlAppBar } from "./components/base/AlAppBar";
+import { AlNavigationDrawer } from "./components/base/AlNavigationDrawer";
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      display: 'flex',
-    },
-    drawer: {
-      [theme.breakpoints.up('sm')]: {
-        width: drawerWidth,
-        flexShrink: 0,
+const useStyles = makeStyles(
+  ({ palette, spacing, breakpoints, mixins }: Theme) =>
+    createStyles({
+      root: {
+        display: "flex",
+        height: '100%'
       },
-    },
-    appBar: {
-      [theme.breakpoints.up('sm')]: {
-        width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: drawerWidth,
+      drawer: {
+        [breakpoints.up("sm")]: {
+          width: drawerWidth,
+          flexShrink: 0,
+        },
       },
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-      [theme.breakpoints.up('sm')]: {
-        display: 'none',
+      // necessary for content to be below app bar
+      toolbar: mixins.toolbar,
+      content: {
+        flexGrow: 1,
+        padding: spacing(3),
+        background: palette.grey["100"],
       },
-    },
-    // necessary for content to be below app bar
-    toolbar: theme.mixins.toolbar,
-    drawerPaper: {
-      width: drawerWidth,
-    },
-    content: {
-      flexGrow: 1,
-      padding: theme.spacing(3),
-      background: theme.palette.grey["100"]
-    },
-  }),
+    })
 );
 
 export const AppTheme = {
   palette: {
     primary: {
-      main: '#008C88',
+      main: "#008C88",
     },
     secondary: {
-      main: '#940063',
+      main: "#940063",
     },
     error: {
-      main: '#DE432E'
+      main: "#DE432E",
     },
     warning: {
-      main: '#FFA825'
+      main: "#FFA825",
     },
     info: {
-      main: '#2D73E4'
+      main: "#2D73E4",
     },
     success: {
-      main: '#5ba100'
-    }
-  }
+      main: "#5ba100",
+    },
+  },
 };
 
 function App() {
@@ -97,67 +79,31 @@ function App() {
     <BrowserRouter>
       <MuiThemeProvider theme={theme}>
         <Box className={classes.root}>
-          <CssBaseline/>
-          <AppBar position="fixed" className={classes.appBar}>
-            <Toolbar>
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleDrawerToggle}
-                className={classes.menuButton}
-              >
-                <Menu/>
-              </IconButton>
-              <Typography variant="h6" noWrap>
-                Bob Lifts
-              </Typography>
-            </Toolbar>
-          </AppBar>
-          <nav className={classes.drawer}>
-            {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-            <Hidden smUp implementation="css">
-              <Drawer
-                variant="temporary"
-                anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                open={mobileOpen}
-                onClose={handleDrawerToggle}
-                classes={{
-                  paper: classes.drawerPaper,
-                }}
-                ModalProps={{
-                  keepMounted: true, // Better open performance on mobile.
-                }}
-              >
-                <NavigationDrawer/>
-              </Drawer>
-            </Hidden>
-            <Hidden xsDown implementation="css">
-              <Drawer
-                classes={{
-                  paper: classes.drawerPaper,
-                }}
-                variant="permanent"
-                open
-              >
-                <NavigationDrawer/>
-              </Drawer>
-            </Hidden>
-          </nav>
+          <CssBaseline />
+          <AlAppBar handleToggle={handleDrawerToggle} />
+          <Hidden smUp implementation="css">
+            <nav className={classes.drawer}>
+              <AlNavigationDrawer
+                mobileOpen={mobileOpen}
+                handleDrawerToggle={handleDrawerToggle}
+                drawerWidth={drawerWidth}
+              />
+            </nav>
+          </Hidden>
           <main className={classes.content}>
-            <div className={classes.toolbar}/>
+            <div className={classes.toolbar} />
             <Switch>
               <Route path="/workout">
-                <Workout/>
+                <Workout />
               </Route>
               <Route path="/programs">
-                <ProgramsView/>
+                <ProgramsView />
               </Route>
               <Route path="/exercises">
-                <Exercises/>
+                <Exercises />
               </Route>
               <Route path="/equipment">
-                <Equipment/>
+                <Equipment />
               </Route>
             </Switch>
           </main>

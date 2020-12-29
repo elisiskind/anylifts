@@ -15,7 +15,8 @@ export interface CurrentLiftProps {
   reps: number,
   weight?: number,
   plates?: Array<number>,
-  bar?: number
+  bar?: number,
+  amrap: boolean
 }
 
 const useStyles = makeStyles(({breakpoints,spacing}: Theme) => ({
@@ -32,7 +33,7 @@ const useStyles = makeStyles(({breakpoints,spacing}: Theme) => ({
   }
 }))
 
-export const CurrentLift = ({name, reps, plates, weight, bar}: CurrentLiftProps) => {
+export const CurrentLift = ({name, reps, plates, weight, bar, amrap}: CurrentLiftProps) => {
 
   const classes = useStyles();
 
@@ -49,7 +50,7 @@ export const CurrentLift = ({name, reps, plates, weight, bar}: CurrentLiftProps)
           <AlHighlight>{weight}</AlHighlight> lbs
         </AlSubtitle>
         <AlSubtitle>
-          <AlHighlight>{reps}</AlHighlight> reps
+          <AlHighlight>{reps + (amrap ? '+' : '')}</AlHighlight> reps
         </AlSubtitle>
       </Grid>
       {weight && plates && bar && (

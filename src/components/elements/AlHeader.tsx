@@ -8,9 +8,9 @@ export interface AlHeaderProps {
 
 const useStyles = makeStyles((theme: Theme) => ({
   header: {
-    fontSize: ({variant} : AlHeaderProps) => variant === 'h1' ? 12 : 16,
+    fontSize: ({variant}: AlHeaderProps) => variant === 'h1' ? 16 : 12,
     [theme.breakpoints.up('sm')]: {
-      fontSize: ({variant} : AlHeaderProps) => variant === 'h1' ? 24 : 20,
+      fontSize: ({variant}: AlHeaderProps) => variant === 'h1' ? 24 : 20,
     },
     fontWeight: 700
   }

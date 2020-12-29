@@ -1,30 +1,52 @@
-import React from 'react';
-import {ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
-import {Link as RouterLink, LinkProps as RouterLinkProps} from 'react-router-dom';
+import React from "react";
+import { ListItemIcon, Theme } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
+import { AlButton } from "./elements/AlButton";
+import { makeStyles } from "@material-ui/core/styles";
 
 interface ListItemLinkProps {
   icon?: React.ReactElement;
   primary: string;
   to: string;
+  action?: () => void;
 }
 
-export function ListItemLink(props: ListItemLinkProps) {
-  const {icon, primary, to} = props;
+const useStyles = makeStyles(({ spacing }: Theme) => ({
+  button: {
+    margin: spacing(2, 1),
+    display: "flex",
+    justifyContent: "left",
+    whiteSpace: "nowrap",
+    width: "calc(100% - " + spacing(2) + "px)",
+    fontSize: 16,
+  },
+  icon: {
+    minWidth: 0,
+    marginRight: spacing(2),
+    fontSize: 48,
+  },
+}));
 
-  const renderLink = React.useMemo(
-    () =>
-      React.forwardRef<any, Omit<RouterLinkProps, 'to'>>((itemProps, ref) => (
-        <RouterLink to={to} ref={ref} {...itemProps} />
-      )),
-    [to],
-  );
+export function ListItemLink({ primary, icon, to, action }: ListItemLinkProps) {
+  const history = useHistory();
+  const classes = useStyles();
+
+  const handleClick = () => {
+    history.push(to);
+    if (action) {
+      action();
+    }
+  };
 
   return (
-    <div>
-      <ListItem button component={renderLink}>
-        <ListItemIcon>{icon}</ListItemIcon>
-        <ListItemText primary={primary}/>
-      </ListItem>
-    </div>
+    <AlButton
+      onClick={handleClick}
+      size={"small"}
+      className={classes.button}
+      outline
+    >
+      <ListItemIcon className={classes.icon}>{icon}</ListItemIcon>
+      {primary}
+    </AlButton>
   );
 }
