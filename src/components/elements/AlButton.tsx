@@ -53,7 +53,7 @@ export interface AlButtonProps {
   className?: string;
 }
 
-const useStyles = makeStyles(({ palette }: Theme) => ({
+const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
   btn: {
     display: "flex",
     alignItems: "center",
@@ -79,7 +79,9 @@ const useStyles = makeStyles(({ palette }: Theme) => ({
       return palette[color || "primary"].main;
     },
     color: ({ outline, link, color }: AlButtonProps) => {
-      return palette[color || "primary"][(outline || link) ? "main" : "contrastText"];
+      return palette[color || "primary"][
+        outline || link ? "main" : "contrastText"
+      ];
     },
     border: ({ outline, color, link }: AlButtonProps) => {
       if (!outline || link) {
@@ -92,28 +94,40 @@ const useStyles = makeStyles(({ palette }: Theme) => ({
       return link ? "none" : "0 6px " + palette[color || "primary"].dark;
     },
     padding: ({ outline, size }: AlButtonProps) => {
+      const borderSize = outline ? 2 : 0;
       switch (size ? size : "medium") {
         case "small":
-          return outline ? "10px 18px" : "12px 20px";
+          return (
+            `calc(${spacing(1)}px - ${borderSize}px) ` +
+            `calc(${spacing(2)}px - ${borderSize}px)`
+          );
         case "medium":
-          return outline ? "15px 27px" : "18px 30px";
+          return (
+            `calc(${spacing(2)}px - ${borderSize}px) ` +
+            `calc(${spacing(3)}px - ${borderSize}px)`
+          );
         case "large":
-          return outline ? "22px 37px" : "25px 40px";
+          return (
+            `calc(${spacing(3)}px - ${borderSize}px) ` +
+            `calc(${spacing(4)}px - ${borderSize}px)`
+          );
       }
     },
     "&:hover": {
-      top:  ({ link }: AlButtonProps) => link ? 0 : "2px",
+      top: ({ link }: AlButtonProps) => (link ? 0 : "2px"),
       boxShadow: ({ color, link }: AlButtonProps) => {
         return link ? "none" : "0 4px " + palette[color || "primary"].dark;
       },
-      textDecoration: ({ link }: AlButtonProps) => link ? 'underline' : 'none'
+      textDecoration: ({ link }: AlButtonProps) =>
+        link ? "underline" : "none",
     },
     "&:active": {
-      top:  ({ link }: AlButtonProps) => link ? 0 : "6px",
+      top: ({ link }: AlButtonProps) => (link ? 0 : "6px"),
       boxShadow: ({ color, link }: AlButtonProps) => {
         return link ? "none" : "0 0 " + palette[color || "primary"].dark;
       },
-      textDecoration: ({ link }: AlButtonProps) => link ? 'underline' : 'none'
+      textDecoration: ({ link }: AlButtonProps) =>
+        link ? "underline" : "none",
     },
     "&:after": {
       content: "",

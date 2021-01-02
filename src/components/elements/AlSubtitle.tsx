@@ -4,9 +4,9 @@ import {Typography} from "@material-ui/core";
 
 const useStyles = makeStyles(({palette, breakpoints}: Theme) => ({
   subtitle: {
-    fontSize: 14,
+    fontSize: 12,
     [breakpoints.up('sm')]: {
-      fontSize: 20,
+      fontSize: 16,
     },
     fontFamily: "'Source Sans Pro', sans-serif",
     fontWeight: 700,

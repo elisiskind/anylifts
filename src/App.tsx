@@ -25,7 +25,7 @@ const useStyles = makeStyles(
     createStyles({
       root: {
         display: "flex",
-        height: '100%'
+        height: "100%",
       },
       drawer: {
         [breakpoints.up("sm")]: {
@@ -34,12 +34,25 @@ const useStyles = makeStyles(
         },
       },
       // necessary for content to be below app bar
-      toolbar: mixins.toolbar,
+      toolbar: {
+        height: "58px",
+        [breakpoints.up("sm")]: {
+          height: "66px",
+        },
+      },
       content: {
+        height: "100%",
         flexGrow: 1,
-        padding: spacing(3),
         background: palette.grey["100"],
       },
+      contentContainer: {
+        overflowY: "auto",
+        overflowX: "hidden",
+        height: "calc(100% - 58px)",
+        [breakpoints.up("sm")]: {
+          height: "calc(100% - 69px)",
+        },
+      }
     })
 );
 
@@ -92,20 +105,22 @@ function App() {
           </Hidden>
           <main className={classes.content}>
             <div className={classes.toolbar} />
-            <Switch>
-              <Route path="/workout">
-                <Workout />
-              </Route>
-              <Route path="/programs">
-                <ProgramsView />
-              </Route>
-              <Route path="/exercises">
-                <Exercises />
-              </Route>
-              <Route path="/equipment">
-                <Equipment />
-              </Route>
-            </Switch>
+            <Box className={classes.contentContainer}>
+              <Switch>
+                <Route path="/workout">
+                  <Workout />
+                </Route>
+                <Route path="/programs">
+                  <ProgramsView />
+                </Route>
+                <Route path="/exercises">
+                  <Exercises />
+                </Route>
+                <Route path="/equipment">
+                  <Equipment />
+                </Route>
+              </Switch>
+            </Box>
           </main>
         </Box>
       </MuiThemeProvider>

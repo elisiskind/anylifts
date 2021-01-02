@@ -58,6 +58,12 @@ export const AlNavigationDrawer = ({
       <AlDivider/>
       <List component="nav" className={classes.nav}>
         <ListItemLink
+          to="/workout"
+          primary={"Workout"}
+          icon={<BicepIcon fontSize={"large"} />}
+          action={handleDrawerToggle}
+        />
+        <ListItemLink
           to="/programs"
           primary={"Programs"}
           icon={<BicepIcon fontSize={"large"} />}

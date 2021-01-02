@@ -4,6 +4,11 @@ import {Paper} from "@material-ui/core";
 
 export interface AlPaperProps {
   color?: 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
+
+  /**
+   * Any custom classes go here
+   */
+  className?: string;
 }
 
 const useStyles = makeStyles(({palette, spacing}: Theme) => ({
@@ -11,7 +16,7 @@ const useStyles = makeStyles(({palette, spacing}: Theme) => ({
     backgroundColor: ({color}: AlPaperProps) => color ? palette[color].main : 'white',
     border: ({color}: AlPaperProps) => color ? 'none' : '2px solid ' + palette.grey.A100,
     boxShadow: 'none',
-    color: ({color}: AlPaperProps) => color ? palette[color].contrastText : 'black',
+    // color: ({color}: AlPaperProps) => color ? palette[color].contrastText : 'black',
     borderRadius: 20,
     padding: spacing(4)
   },
@@ -20,8 +25,13 @@ const useStyles = makeStyles(({palette, spacing}: Theme) => ({
 /**
  * Primary UI component for user interaction
  */
-export const AlPaper : FunctionComponent = ({children}) => {
-  const classes = useStyles()
+export const AlPaper : FunctionComponent<AlPaperProps> = ({color, className, children}) => {
+  const classes = useStyles({color})
 
-  return <Paper className={classes.paper}>{children}</Paper>
+  const paperClasses = className
+    ? `${classes.paper} ${className}`
+    : classes.paper;
+
+
+  return <Paper className={paperClasses}>{children}</Paper>
 };

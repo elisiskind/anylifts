@@ -1,23 +1,30 @@
-import React from 'react';
-import {Box} from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
+import React from "react";
+import { makeStyles, Theme } from "@material-ui/core/styles";
+import { Lifts } from "./programs/Program";
+import { Box, Grid } from "@material-ui/core";
+import {AlPaper} from "./elements/AlPaper";
+import {AlHeader} from "./elements/AlHeader";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(({ spacing }: Theme) => ({
   root: {
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-    border: 0,
-    borderRadius: 3,
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    color: 'white',
-    padding: '0 30px',
+    padding: spacing(3)
   },
-});
+}));
 
 export const Exercises = () => {
-
   const classes = useStyles();
 
-  return <Box className={classes.root}>
-
-  </Box>
-}
+  return (
+    <Grid container spacing={3} className={classes.root}>
+      {Lifts.map((lift) => {
+        return <Grid item xs={12}>
+          <AlPaper>
+            <AlHeader variant={"h1"}>
+              {lift.name}
+            </AlHeader>
+          </AlPaper>
+        </Grid>
+      })}
+    </Grid>
+  );
+};

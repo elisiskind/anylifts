@@ -1,40 +1,57 @@
-import React, {useEffect, useState} from "react";
-import {makeStyles, Theme} from "@material-ui/core/styles";
+import React, { useEffect, useState } from "react";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
-import {AlButton} from "./AlButton";
-import {Typography} from "@material-ui/core";
+import { AlButton } from "./AlButton";
+import { Typography } from "@material-ui/core";
 
-const useStyles = makeStyles(({palette, spacing}: Theme) => ({
+const useStyles = makeStyles(({ palette, spacing, breakpoints }: Theme) => ({
+  container: {
+  },
+  adjustButtonContainer: {
+    minWidth: '74px'
+  },
+  timeBoxContainer: {
+    maxWidth: 'calc(100% - 148px)'
+  },
   timeBox: {
-    border: '2px solid ' + palette.grey.A100,
+    border: "2px solid " + palette.grey.A100,
+    boxShadow: "inset 0 4px " + palette.grey[100],
+    borderRadius: 20,
     backgroundColor: "white",
-    letterSpacing: '5px',
-    fontWeight: 700,
-    boxShadow: 'inset 0 4px ' + palette.grey[100],
-    width: '250px',
+    letterSpacing: "5px",
+    width: "100%",
     textAlign: "center",
-    height: '52px',
-    fontSize: '20px',
+    height: "48px",
   },
   timeDisplay: {
-    fontSize: '32px',
-    color: (negative: boolean) => negative ? palette.error.main : 'black'
+    fontWeight: 700,
+    fontSize: "24px",
+    [breakpoints.up("md")]: {
+      fontSize: "32px",
+    },
+    color: (negative: boolean) => (negative ? palette.error.main : "black"),
   },
   totalTimeDisplay: {
-    marginLeft: '5px',
-    color: palette.grey[700]
+    marginLeft: "5px",
+    color: palette.grey[700],
   },
   adjustButton: {
-    margin: '-5px'
-  }
-}))
+    width: "100%",
+    whiteSpace: 'nowrap',
+    height: '42px',
+    padding: spacing(1),
+    justifyContent: 'center'
+  },
+}));
 
 const displayTime = (value: number) => {
-  const minutes = Math.floor(Math.abs(value) / 60).toString().padStart(2, '0');
-  const seconds = (Math.abs(value) % 60).toString().padStart(2, '0');
-  return (value < 0 ? '-' : '') + minutes + ':' + seconds;
-}
+  const minutes = Math.floor(Math.abs(value) / 60)
+    .toString()
+    .padStart(2, "0");
+  const seconds = (Math.abs(value) % 60).toString().padStart(2, "0");
+  return (value < 0 ? "-" : "") + minutes + ":" + seconds;
+};
 
 export interface AlTimerProps {
   time: number;
@@ -42,64 +59,66 @@ export interface AlTimerProps {
   onFinish: () => void;
 }
 
-export const AlTimer = ({time, onFinish, addTime}: AlTimerProps) => {
-  const [elapsed, setElapsed] = useState<number>(0)
-  const [timer, setTimer] = useState<NodeJS.Timeout>()
-  const [completed, setCompleted] = useState<boolean>(false)
+export const AlTimer = ({ time, onFinish, addTime }: AlTimerProps) => {
+  const [elapsed, setElapsed] = useState<number>(0);
+  const [timer, setTimer] = useState<NodeJS.Timeout>();
+  const [completed, setCompleted] = useState<boolean>(false);
 
   const createTimer = () => {
-    const start = Date.now()
+    const start = Number.parseInt(localStorage.getItem("timeStart") || Date.now().toString())
     return setInterval(() => {
       setElapsed(Math.floor((Date.now() - start) / 1000));
-    }, 500)
-  }
+    }, 500);
+  };
 
   useEffect(() => {
-    setTimer(createTimer())
+    localStorage.setItem("timeStart", Date.now().toString());
+    setTimer(createTimer());
     return () => {
       if (timer) {
         clearInterval(timer);
       }
-    }
-  }, [timer])
+      // localStorage.removeItem("timeStart");
+    };
+  }, []);
 
-
-  const value = time - elapsed
+  const value = time - elapsed;
   if (value <= 0 && !completed) {
     onFinish();
-    setCompleted(true)
+    setCompleted(true);
   } else if (value > 0 && completed) {
-    setCompleted(false)
+    setCompleted(false);
   }
 
-  const classes = useStyles(value < 0)
+  const classes = useStyles(value < 0);
 
-  return <Grid>
-    <Grid container>
-      <Grid>
-        <AlButton onClick={() => addTime(-15)} flatRight>
-          <Typography className={classes.adjustButton}>
-            - 15
-          </Typography>
+  return (
+    <Grid container spacing={2} className={classes.container}>
+      <Grid item xs={2} className={classes.adjustButtonContainer}>
+        <AlButton onClick={() => addTime(-15)} className={classes.adjustButton}>
+          <Typography>- 15</Typography>
         </AlButton>
       </Grid>
-      <Grid item>
-        <Box className={classes.timeBox} display='flex' alignItems='center' justifyContent={'center'}>
+      <Grid item xs={8} className={classes.timeBoxContainer}>
+        <Box
+          className={classes.timeBox}
+          display="flex"
+          alignItems="center"
+          justifyContent={"center"}
+        >
           <Typography component={"span"} className={classes.timeDisplay}>
             {displayTime(value)}
           </Typography>
           <Typography component={"span"} className={classes.totalTimeDisplay}>
-            {' / ' + displayTime(time)}
+            {" / " + displayTime(time)}
           </Typography>
         </Box>
       </Grid>
-      <Grid>
-        <AlButton onClick={() => addTime(15)} flatLeft>
-          <Typography className={classes.adjustButton}>
-            + 15
-          </Typography>
+      <Grid item xs={2} className={classes.adjustButtonContainer}>
+        <AlButton onClick={() => addTime(15)} className={classes.adjustButton}>
+          <Typography>+ 15</Typography>
         </AlButton>
       </Grid>
     </Grid>
-  </Grid>
-}
+  );
+};

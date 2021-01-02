@@ -64,7 +64,7 @@ const calculateColor = (plates: number[], plate: number): string => {
 }
 
 const calculatePlateDisplaySize = (plates: number[], plate: number): number => {
-  return calculateForRange(plates, plate, 110, 200)
+  return calculateForRange(plates, plate, 112, 200)
 }
 
 export const useStyles = makeStyles(({palette, spacing, breakpoints}: Theme) => ({
