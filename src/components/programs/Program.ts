@@ -49,27 +49,27 @@ export const Lifts: Lift[] = [
   {
     name: "Bench Press",
     id: 1,
-    tm: 190,
+    tm: 150,
   },
   {
     name: "Squat",
     id: 2,
-    tm: 200,
+    tm: 190,
   },
   {
     name: "Deadlift",
     id: 3,
-    tm: 190,
+    tm: 180,
   },
   {
     name: "Overhead Press",
     id: 4,
-    tm: 190,
+    tm: 100,
   },
   {
     name: "Barbell Row",
     id: 5,
-    tm: 130,
+    tm: 120,
   },
   {
     name: "Pullup",
@@ -110,7 +110,7 @@ export const Lifts: Lift[] = [
     tm: 30,
   },
   {
-    name: "Standing Triceps Extension",
+    name: "Triceps Extension",
     id: 14,
     tm: 30,
   },
@@ -263,8 +263,8 @@ export const Programs: Program[] = [
               { weight: 50, reps: 5 },
               { weight: 60, reps: 5 },
               { weight: 70, reps: 3 },
-              { weight: 80, reps: 5, sets: 4 },
-              { weight: 80, reps: 5, amrap: true },
+              { weight: 85, reps: 5, sets: 4 },
+              { weight: 85, reps: 5, amrap: true },
             ],
           },
           {
@@ -305,14 +305,14 @@ export const Programs: Program[] = [
               { weight: 50, reps: 5 },
               { weight: 60, reps: 5 },
               { weight: 70, reps: 3 },
-              { weight: 80, reps: 5, sets: 4 },
-              { weight: 80, reps: 5, amrap: true },
+              { weight: 85, reps: 5, sets: 4 },
+              { weight: 85, reps: 5, amrap: true },
             ],
           },
           {
             liftId: 4,
             mode: "percent",
-            lifts: [{ weight: 65, reps: 10, sets: 3 }],
+            lifts: [{ weight: 60, reps: 10, sets: 3 }],
           },
           {
             liftId: 11,

@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid, Theme } from "@material-ui/core";
+import { Box, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { AlPaper } from "../elements/AlPaper";
-import { CurrentLift } from "./CurrentLift";
 import { Lifts, Programs, WorkoutRoutine } from "../programs/Program";
 import { AvailableEquipment } from "../Equipment";
 import Hidden from "@material-ui/core/Hidden";
 import { AlTimer } from "../elements/AlTimer";
 import { WorkoutOverview } from "./WorkoutOverview";
+import { AlButton } from "../elements/AlButton";
+import { ExpandLess, ExpandMore } from "@material-ui/icons";
+import { CurrentLift } from "./CurrentLift";
 
 const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
-
   root: {
-    height: '100%',
-    display: 'flex'
+    height: "100%",
+    display: "flex",
   },
   workoutOverviewContainer: {
-    height: '100%',
+    height: "100%",
     flex: 2,
     padding: spacing(2),
     backgroundColor: palette.common.white,
@@ -24,12 +25,37 @@ const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
   },
   liftContainer: {
     flex: 3,
-    padding: spacing(2)
+    height: "100%",
+    padding: spacing(2),
+  },
+  showMobileOverview: {
+    display: "flex",
+    justifyContent: 'center',
+    padding: spacing(1),
+    height: '72px'
+  },
+  showMobileOverviewBtn: {
+    height: "40px",
+  },
+  mobileOverview: (show: boolean) => ({
+    position: 'fixed',
+    top: show ? 0 : 'calc(100% - 80px - 56px)',
+    zIndex: 1,
+    backgroundColor: "white",
+    height: "100%",
+    width: '100%',
+    padding: spacing(1),
+    outline: "none",
+    transition: 'top 0.3s ease 0s',
+    margin: '56px -16px',
+    borderTop: "2px solid " + palette.grey.A100,
+  }),
+  workoutOverview: {
+    height: 'calc(100% - 132px)'
   }
 }));
 
 export const Workout = () => {
-  const classes = useStyles();
 
   useEffect(() => {
     if (!("Notification" in window)) {
@@ -87,42 +113,95 @@ export const Workout = () => {
     }
   };
 
+  const prev = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+    }
+  };
+
+  const next = () => {
+    if (currentIndex + 1 < routine.sets.length) {
+      setCurrentIndex(currentIndex + 1);
+    } else {
+      setComplete(true);
+    }
+  };
+
+  const reset = () => {
+    setComplete(false);
+    setCurrentIndex(0);
+  };
+
+  const [showMobileOverview, setShowMobileOverview] = useState<boolean>(false);
+  const toggleShowOverview = () => {
+    setShowMobileOverview(!showMobileOverview)
+  }
+
+  const classes = useStyles(showMobileOverview);
+
   return (
     <>
-      {complete ? (
-        <AlPaper color={"primary"} >Workout Finished!</AlPaper>
-      ) : (
-        <Box className={classes.root}>
-          <Hidden xsDown>
-            <Box className={classes.workoutOverviewContainer}>
-              <WorkoutOverview
-                routine={routine}
-                currentIndex={currentIndex}
-                setCurrentIndex={setCurrentIndex}
-              />
-            </Box>
-          </Hidden>
-          <Box className={classes.liftContainer}>
-            <Box alignItems={"center"} marginBottom={2}>
-              <AlTimer
-                key={currentIndex}
-                time={time}
-                addTime={addTime}
-                onFinish={alert}
-              />
-            </Box>
-            <CurrentLift
-              name={currentSet.exercise}
-              reps={currentSet.reps}
-              amrap={currentSet.amrap || false}
-              weight={currentSet.weight}
-              plates={AvailableEquipment[0].plates}
-              bar={AvailableEquipment[0].bar}
-              next={() => setCurrentIndex(currentIndex + 1)}
+      <Box className={classes.root}>
+        <Hidden xsDown>
+          <Box className={classes.workoutOverviewContainer}>
+            <WorkoutOverview
+              routine={routine}
+              currentIndex={currentIndex}
+              next={next}
+              prev={prev}
+              reset={reset}
             />
           </Box>
+        </Hidden>
+        <Box className={classes.liftContainer}>
+          <Hidden smUp>
+            <Box className={classes.mobileOverview}>
+              <Box className={classes.showMobileOverview}>
+                <AlButton
+                  outline
+                  onClick={toggleShowOverview}
+                  className={classes.showMobileOverviewBtn}
+                >
+                  {currentIndex + 1}/{routine.sets.length} - {showMobileOverview ? 'Hide' : 'Show'} overview{" "}
+                  {showMobileOverview ? <ExpandMore /> : <ExpandLess />}
+                </AlButton>
+              </Box>
+              <Box className={classes.workoutOverview}>
+                <WorkoutOverview
+                  routine={routine}
+                  currentIndex={currentIndex}
+                  next={next}
+                  prev={prev}
+                  reset={reset}
+                />
+              </Box>
+            </Box>
+          </Hidden>
+          {complete ? (
+            <AlPaper color={"primary"}>Workout Finished!</AlPaper>
+          ) : (
+            <>
+              <Box alignItems={"center"} marginBottom={2}>
+                <AlTimer
+                  key={currentIndex}
+                  time={time}
+                  addTime={addTime}
+                  onFinish={alert}
+                />
+              </Box>
+              <CurrentLift
+                name={currentSet.exercise}
+                reps={currentSet.reps}
+                amrap={currentSet.amrap || false}
+                weight={currentSet.weight}
+                plates={AvailableEquipment[0].plates}
+                bar={AvailableEquipment[0].bar}
+                next={next}
+              />
+            </>
+          )}
         </Box>
-      )}
+      </Box>
     </>
   );
 };

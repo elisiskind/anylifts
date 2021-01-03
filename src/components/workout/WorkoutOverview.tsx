@@ -56,27 +56,19 @@ const useStyles = makeStyles(({ spacing, palette, breakpoints }: Theme) => ({
 interface WorkoutOverviewProps {
   routine: WorkoutRoutine;
   currentIndex: number;
-  setCurrentIndex: (index: number) => void;
+  reset: () => void;
+  next: () => void;
+  prev: () => void;
 }
 
 export const WorkoutOverview = ({
   currentIndex,
-  setCurrentIndex,
+  next,
+  prev,
+  reset,
   routine,
 }: WorkoutOverviewProps) => {
   const classes = useStyles();
-
-  const reset = () => {
-    setCurrentIndex(0);
-  };
-
-  const back = () => {
-    setCurrentIndex(currentIndex - 1);
-  };
-
-  const next = () => {
-    setCurrentIndex(currentIndex + 1);
-  };
 
   return (
     <>
@@ -118,7 +110,7 @@ export const WorkoutOverview = ({
             </AlButton>
           </Grid>
           <Grid item className={classes.backNextButtons}>
-            <AlButton size={"small"} onClick={back} className={classes.prevBtn}>
+            <AlButton size={"small"} onClick={prev} className={classes.prevBtn}>
               <SkipPrevious />
             </AlButton>
             <AlButton size={"small"} onClick={next}>
