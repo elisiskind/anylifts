@@ -11,12 +11,12 @@ import {
   Theme,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Workout } from "./components/workout/Workout";
 import { ProgramsView } from "./components/programs/ProgramsView";
 import { Exercises } from "./components/Exercises";
 import { Equipment } from "./components/Equipment";
 import { AlAppBar } from "./components/base/AlAppBar";
 import { AlNavigationDrawer } from "./components/base/AlNavigationDrawer";
+import { WorkoutsView } from "./components/workout/WorkoutsView";
 
 const drawerWidth = 240;
 
@@ -52,7 +52,7 @@ const useStyles = makeStyles(
         [breakpoints.up("sm")]: {
           height: "calc(100% - 69px)",
         },
-      }
+      },
     })
 );
 
@@ -108,7 +108,7 @@ function App() {
             <Box className={classes.contentContainer}>
               <Switch>
                 <Route path="/workout">
-                  <Workout />
+                  <WorkoutsView />
                 </Route>
                 <Route path="/programs">
                   <ProgramsView />

@@ -114,7 +114,26 @@ export const Lifts: Lift[] = [
     id: 14,
     tm: 30,
   },
-
+  {
+    name: "Romanian Deadlift",
+    id: 15,
+    tm: 30,
+  },
+  {
+    name: "Front Squat",
+    id: 16,
+    tm: 30,
+  },
+  {
+    name: "Glute Ham Raise",
+    id: 17,
+    tm: 30,
+  },
+  {
+    name: "Calf Raise",
+    id: 18,
+    tm: 30,
+  },
 ];
 
 export const Programs: Program[] = [
@@ -338,6 +357,43 @@ export const Programs: Program[] = [
             liftId: 14,
             mode: "absolute",
             lifts: [{ weight: 20, reps: 10, sets: 3 }],
+          },
+        ],
+      },
+      {
+        name: "Legs 1",
+        groups: [
+          {
+            liftId: 2,
+            mode: "percent",
+            lifts: [
+              { weight: 40, reps: 5 },
+              { weight: 50, reps: 5 },
+              { weight: 60, reps: 5 },
+              { weight: 70, reps: 3 },
+              { weight: 85, reps: 5, sets: 4 },
+              { weight: 85, reps: 5, amrap: true },
+            ],
+          },
+          {
+            liftId: 15,
+            mode: "absolute",
+            lifts: [{ weight: 35, reps: 10, sets: 3 }],
+          },
+          {
+            liftId: 16,
+            mode: "absolute",
+            lifts: [{ weight: 10, reps: 18, sets: 3 }],
+          },
+          {
+            liftId: 17,
+            mode: "absolute",
+            lifts: [{ weight: 10, reps: 10, sets: 3 }],
+          },
+          {
+            liftId: 18,
+            mode: "absolute",
+            lifts: [{ weight: 20, reps: 18, sets: 3 }],
           },
         ],
       },

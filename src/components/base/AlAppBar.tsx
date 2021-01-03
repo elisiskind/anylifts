@@ -9,7 +9,7 @@ import {
   Theme,
   Toolbar,
 } from "@material-ui/core";
-import {Fullscreen, FullscreenExit, Menu} from "@material-ui/icons";
+import { Fullscreen, FullscreenExit, Menu } from "@material-ui/icons";
 import { AlHeader } from "../elements/AlHeader";
 import Hidden from "@material-ui/core/Hidden";
 import { AlButton } from "../elements/AlButton";
@@ -121,7 +121,7 @@ export const AlAppBar = ({ handleToggle }: AlAppBarProps) => {
           </Hidden>
         </Grid>
         <AlButton link onClick={toggleFullscreen}>
-          {fullscreen ? <FullscreenExit /> : <Fullscreen/>}
+          {fullscreen ? <FullscreenExit /> : <Fullscreen />}
         </AlButton>
       </Toolbar>
     </AppBar>

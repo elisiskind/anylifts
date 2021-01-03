@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { AlPaper } from "../elements/AlPaper";
-import { Lifts, Programs, WorkoutRoutine } from "../programs/Program";
+import { WorkoutRoutine } from "../programs/Program";
 import { AvailableEquipment } from "../Equipment";
 import Hidden from "@material-ui/core/Hidden";
 import { AlTimer } from "../elements/AlTimer";
@@ -10,6 +10,7 @@ import { WorkoutOverview } from "./WorkoutOverview";
 import { AlButton } from "../elements/AlButton";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import { CurrentLift } from "./CurrentLift";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
   root: {
@@ -30,33 +31,37 @@ const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
   },
   showMobileOverview: {
     display: "flex",
-    justifyContent: 'center',
+    justifyContent: "center",
     padding: spacing(1),
-    height: '72px'
+    height: "72px",
   },
   showMobileOverviewBtn: {
     height: "40px",
   },
   mobileOverview: (show: boolean) => ({
-    position: 'fixed',
-    top: show ? 0 : 'calc(100% - 80px - 56px)',
+    position: "fixed",
+    top: show ? 0 : "calc(100% - 80px - 56px)",
     zIndex: 1,
     backgroundColor: "white",
     height: "100%",
-    width: '100%',
+    width: "100%",
     padding: spacing(1),
     outline: "none",
-    transition: 'top 0.3s ease 0s',
-    margin: '56px -16px',
+    transition: "top 0.3s ease 0s",
+    margin: "56px -16px",
     borderTop: "2px solid " + palette.grey.A100,
   }),
   workoutOverview: {
-    height: 'calc(100% - 132px)'
-  }
+    height: "calc(100% - 132px)",
+  },
 }));
 
-export const Workout = () => {
+interface WorkoutProps {
+  routine: WorkoutRoutine;
+  reset: () => void;
+}
 
+export const Workout = ({ routine, reset }: WorkoutProps) => {
   useEffect(() => {
     if (!("Notification" in window)) {
       console.log("This browser does not support desktop notification");
@@ -71,7 +76,6 @@ export const Workout = () => {
 
   const [complete, setComplete] = useState<boolean>(false);
   localStorage.setItem("set", currentIndex.toString());
-  const routine = new WorkoutRoutine(Programs[1].routines[1], Lifts);
   const currentSet = routine.getSet(currentIndex);
 
   const [time, setTime] = useState<number>(90);
@@ -127,15 +131,21 @@ export const Workout = () => {
     }
   };
 
-  const reset = () => {
+  const finish = () => {
+    setCurrentIndex(0);
+    setComplete(false);
+    reset();
+  }
+
+  const restart = () => {
     setComplete(false);
     setCurrentIndex(0);
   };
 
   const [showMobileOverview, setShowMobileOverview] = useState<boolean>(false);
   const toggleShowOverview = () => {
-    setShowMobileOverview(!showMobileOverview)
-  }
+    setShowMobileOverview(!showMobileOverview);
+  };
 
   const classes = useStyles(showMobileOverview);
 
@@ -149,7 +159,7 @@ export const Workout = () => {
               currentIndex={currentIndex}
               next={next}
               prev={prev}
-              reset={reset}
+              reset={restart}
             />
           </Box>
         </Hidden>
@@ -162,7 +172,8 @@ export const Workout = () => {
                   onClick={toggleShowOverview}
                   className={classes.showMobileOverviewBtn}
                 >
-                  {currentIndex + 1}/{routine.sets.length} - {showMobileOverview ? 'Hide' : 'Show'} overview{" "}
+                  {currentIndex + 1}/{routine.sets.length} -{" "}
+                  {showMobileOverview ? "Hide" : "Show"} overview{" "}
                   {showMobileOverview ? <ExpandMore /> : <ExpandLess />}
                 </AlButton>
               </Box>
@@ -172,13 +183,22 @@ export const Workout = () => {
                   currentIndex={currentIndex}
                   next={next}
                   prev={prev}
-                  reset={reset}
+                  reset={restart}
                 />
               </Box>
             </Box>
           </Hidden>
           {complete ? (
-            <AlPaper color={"primary"}>Workout Finished!</AlPaper>
+            <AlPaper color={"primary"}>
+              <Grid container spacing={3}>
+                <Grid item xs={12}>
+                  All sets complete!
+                </Grid>
+                <Grid item xs={12}>
+                  <AlButton onClick={reset}>Finish workout</AlButton>
+                </Grid>
+              </Grid>
+            </AlPaper>
           ) : (
             <>
               <Box alignItems={"center"} marginBottom={2}>
