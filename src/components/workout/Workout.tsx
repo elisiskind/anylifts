@@ -73,9 +73,9 @@ export const Workout = ({ routine, reset }: WorkoutProps) => {
   const [currentIndex, setCurrentIndex] = useState<number>(
     Number.parseInt(localStorage.getItem("set") || "0")
   );
+  localStorage.setItem("set", currentIndex.toString());
 
   const [complete, setComplete] = useState<boolean>(false);
-  localStorage.setItem("set", currentIndex.toString());
   const currentSet = routine.getSet(currentIndex);
 
   const [time, setTime] = useState<number>(90);
@@ -195,7 +195,7 @@ export const Workout = ({ routine, reset }: WorkoutProps) => {
                   All sets complete!
                 </Grid>
                 <Grid item xs={12}>
-                  <AlButton onClick={reset}>Finish workout</AlButton>
+                  <AlButton onClick={finish}>Finish workout</AlButton>
                 </Grid>
               </Grid>
             </AlPaper>

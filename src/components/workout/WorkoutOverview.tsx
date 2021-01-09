@@ -12,6 +12,7 @@ const useStyles = makeStyles(({ spacing, palette, breakpoints }: Theme) => ({
   setList: {
     height: "100%",
     overflowY: "scroll",
+    padding: spacing(2),
     borderRadius: 20,
   },
   setListContainer: {

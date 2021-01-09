@@ -35,7 +35,7 @@ const useStyles = makeStyles(({ spacing, breakpoints, palette }: Theme) => ({
     fontSize: 12,
     padding: spacing(1),
     margin: spacing(1, 0),
-    lineHeight: '33px'
+    lineHeight: "33px",
   },
 }));
 
@@ -56,37 +56,39 @@ export const Equipment = () => {
   const classes = useStyles();
 
   return (
-    <Grid container spacing={3}>
-      {AvailableEquipment.map(({ name, bar, plates }) => {
-        return (
-          <Grid item xs={12} sm={6}>
-            <Grid container className={classes.card}>
-              <Grid item>
-                <WeightsIcon className={classes.icon} />
-              </Grid>
-              <Grid item>
-                <AlHeader variant={"h1"}>{name}</AlHeader>
-              </Grid>
-              <AlDivider grid />
-              <Grid item xs={12} justify="space-around">
-                <AlSubtitle>
-                  Bar: <AlHighlight>{bar} </AlHighlight> lbs
-                </AlSubtitle>
-                <AlSubtitle>
-                  Plates:{" "}
-                  {plates.map((plate) => (
-                    <>
-                      <Box className={classes.plate} component={"span"}>
-                        {plate} lbs
-                      </Box>{" "}
-                    </>
-                  ))}
-                </AlSubtitle>
+    <Box padding={3}>
+      <Grid container spacing={3}>
+        {AvailableEquipment.map(({ name, bar, plates }) => {
+          return (
+            <Grid item xs={12} sm={6}>
+              <Grid container className={classes.card}>
+                <Grid item>
+                  <WeightsIcon className={classes.icon} />
+                </Grid>
+                <Grid item>
+                  <AlHeader variant={"h1"}>{name}</AlHeader>
+                </Grid>
+                <AlDivider grid />
+                <Grid item xs={12} justify="space-around">
+                  <AlSubtitle>
+                    Bar: <AlHighlight>{bar} </AlHighlight> lbs
+                  </AlSubtitle>
+                  <AlSubtitle>
+                    Plates:{" "}
+                    {plates.map((plate) => (
+                      <>
+                        <Box className={classes.plate} component={"span"}>
+                          {plate} lbs
+                        </Box>{" "}
+                      </>
+                    ))}
+                  </AlSubtitle>
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
-        );
-      })}
-    </Grid>
+          );
+        })}
+      </Grid>
+    </Box>
   );
 };

@@ -82,15 +82,14 @@ export const AlTimer = ({ time, onFinish, addTime }: AlTimerProps) => {
     };
   }, []);
 
-  const value = time - elapsed;
-  if (value <= 0 && !completed) {
+  if (elapsed >= time && !completed) {
     onFinish();
     setCompleted(true);
-  } else if (value > 0 && completed) {
+  } else if (elapsed < time && completed) {
     setCompleted(false);
   }
 
-  const classes = useStyles(value < 0);
+  const classes = useStyles(elapsed > time);
 
   return (
     <Grid container spacing={2} className={classes.container}>
@@ -107,7 +106,7 @@ export const AlTimer = ({ time, onFinish, addTime }: AlTimerProps) => {
           justifyContent={"center"}
         >
           <Typography component={"span"} className={classes.timeDisplay}>
-            {displayTime(value)}
+            {displayTime(elapsed)}
           </Typography>
           <Typography component={"span"} className={classes.totalTimeDisplay}>
             {" / " + displayTime(time)}
