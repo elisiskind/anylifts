@@ -30,7 +30,7 @@ Primary.args = {
 
 export const PrimaryOutline = Template.bind({});
 PrimaryOutline.args = {
-  outline: true,
+  variant: "outline",
   label: 'Button',
 };
 
@@ -43,7 +43,13 @@ Secondary.args = {
 export const SecondaryOutline = Template.bind({});
 SecondaryOutline.args = {
   color: 'secondary',
-  outline: true,
-  label: 'Button',
+  variant: "outline",
+  label: 'Outline Button',
+};
+
+export const Link = Template.bind({});
+Link.args = {
+  variant: "link",
+  label: 'Link Button',
 };
 

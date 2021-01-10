@@ -43,7 +43,7 @@ export function ListItemLink({ primary, icon, to, action }: ListItemLinkProps) {
       onClick={handleClick}
       size={"small"}
       className={classes.button}
-      outline
+      variant="outline"
     >
       <ListItemIcon className={classes.icon}>{icon}</ListItemIcon>
       {primary}

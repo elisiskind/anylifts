@@ -1,10 +1,9 @@
-import React, {FunctionComponent} from 'react';
-import {makeStyles, Theme} from "@material-ui/core/styles";
-import {Paper} from "@material-ui/core";
-import {on} from "cluster";
+import React, { FunctionComponent } from "react";
+import { makeStyles, Theme } from "@material-ui/core/styles";
+import { Paper } from "@material-ui/core";
 
 export interface AlPaperProps {
-  color?: 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
+  color?: "primary" | "secondary" | "error" | "warning" | "info" | "success";
 
   /**
    * Any custom classes go here
@@ -14,14 +13,15 @@ export interface AlPaperProps {
   onClick?: () => void;
 }
 
-const useStyles = makeStyles(({palette, spacing}: Theme) => ({
+const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
   paper: {
-    backgroundColor: ({color}: AlPaperProps) => color ? palette[color].main : 'white',
-    border: ({color}: AlPaperProps) => color ? 'none' : '2px solid ' + palette.grey.A100,
-    boxShadow: 'none',
-    // color: ({color}: AlPaperProps) => color ? palette[color].contrastText : 'black',
+    backgroundColor: ({ color }: AlPaperProps) =>
+      color ? palette[color].main : "white",
+    border: ({ color }: AlPaperProps) =>
+      color ? "none" : "2px solid " + palette.grey.A100,
+    boxShadow: "none",
     borderRadius: 20,
-    padding: spacing(4)
+    padding: spacing(4),
   },
   hoverable: {
     cursor: "pointer",
@@ -31,26 +31,34 @@ const useStyles = makeStyles(({palette, spacing}: Theme) => ({
       borderColor: palette.primary.main,
       boxShadow: "inset 0 4px " + palette.primary.dark,
       top: "4px",
-      paddingBottom: 'calc(' + spacing(4) + 'px - 4px)',
-      marginBottom: '4px'
+      paddingBottom: "calc(" + spacing(4) + "px - 4px)",
+      marginBottom: "4px",
     },
-  }
+  },
 }));
 
 /**
  * Primary UI component for user interaction
  */
-export const AlPaper : FunctionComponent<AlPaperProps> = ({color, className, onClick, children}) => {
-  const classes = useStyles({color})
+export const AlPaper: FunctionComponent<AlPaperProps> = ({
+  color,
+  className,
+  onClick,
+  children,
+}) => {
+  const classes = useStyles({ color });
 
   const paperClasses = [classes.paper];
   if (onClick) {
-    paperClasses.push(classes.hoverable)
+    paperClasses.push(classes.hoverable);
   }
   if (className) {
-    paperClasses.push(className)
+    paperClasses.push(className);
   }
 
-
-  return <Paper className={paperClasses.join(' ')} onClick={onClick}>{children}</Paper>
+  return (
+    <Paper className={paperClasses.join(" ")} onClick={onClick}>
+      {children}
+    </Paper>
+  );
 };

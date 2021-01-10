@@ -10,12 +10,7 @@ export interface AlButtonProps {
   /**
    * Should the button be solid or outlined?
    */
-  outline?: boolean;
-
-  /**
-   * Should the button be displayed like a link?
-   */
-  link?: boolean;
+  variant?: "normal" | "outline" | "link";
 
   /**
    * How large should the button be?
@@ -72,29 +67,31 @@ const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
     outline: "none",
     top: 0,
     position: "relative",
-    background: ({ outline, link, color }: AlButtonProps) => {
-      if (outline || link) {
+    background: ({ variant, color }: AlButtonProps) => {
+      if (variant && variant !== "normal") {
         return "#fff";
       }
       return palette[color || "primary"].main;
     },
-    color: ({ outline, link, color }: AlButtonProps) => {
+    color: ({ variant, color }: AlButtonProps) => {
       return palette[color || "primary"][
-        outline || link ? "main" : "contrastText"
+          (variant && variant !== "normal") ? "main" : "contrastText"
       ];
     },
-    border: ({ outline, color, link }: AlButtonProps) => {
-      if (!outline || link) {
-        return "none";
-      } else {
+    border: ({ variant, color }: AlButtonProps) => {
+      if (variant === "outline") {
         return "3px solid " + palette[color || "primary"].main;
+      } else {
+        return "none";
       }
     },
-    boxShadow: ({ color, link }: AlButtonProps) => {
-      return link ? "none" : "0 6px " + palette[color || "primary"].dark;
+    boxShadow: ({ color, variant }: AlButtonProps) => {
+      return variant === "link"
+        ? "none"
+        : "0 6px " + palette[color || "primary"].dark;
     },
-    padding: ({ outline, size }: AlButtonProps) => {
-      const borderSize = outline ? 2 : 0;
+    padding: ({ variant, size }: AlButtonProps) => {
+      const borderSize = variant === "outline" ? 2 : 0;
       switch (size ? size : "medium") {
         case "small":
           return (
@@ -114,20 +111,24 @@ const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
       }
     },
     "&:hover": {
-      top: ({ link }: AlButtonProps) => (link ? 0 : "2px"),
-      boxShadow: ({ color, link }: AlButtonProps) => {
-        return link ? "none" : "0 4px " + palette[color || "primary"].dark;
+      top: ({ variant }: AlButtonProps) => (variant === "link" ? 0 : "2px"),
+      boxShadow: ({ color, variant }: AlButtonProps) => {
+        return variant === "link"
+          ? "none"
+          : "0 4px " + palette[color || "primary"].dark;
       },
-      textDecoration: ({ link }: AlButtonProps) =>
-        link ? "underline" : "none",
+      textDecoration: ({ variant }: AlButtonProps) =>
+        variant === "link" ? "underline" : "none",
     },
     "&:active": {
-      top: ({ link }: AlButtonProps) => (link ? 0 : "6px"),
-      boxShadow: ({ color, link }: AlButtonProps) => {
-        return link ? "none" : "0 0 " + palette[color || "primary"].dark;
+      top: ({ variant }: AlButtonProps) => (variant === "link" ? 0 : "6px"),
+      boxShadow: ({ color, variant }: AlButtonProps) => {
+        return variant === "link"
+          ? "none"
+          : "0 0 " + palette[color || "primary"].dark;
       },
-      textDecoration: ({ link }: AlButtonProps) =>
-        link ? "underline" : "none",
+      textDecoration: ({ variant }: AlButtonProps) =>
+        variant === "link" ? "underline" : "none",
     },
     "&:after": {
       content: "",

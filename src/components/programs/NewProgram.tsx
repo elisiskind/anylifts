@@ -3,7 +3,6 @@ import { Box, Theme } from "@material-ui/core";
 import { AlButton } from "../elements/AlButton";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
-import { WorkoutRoutine } from "./Program";
 import Grid from "@material-ui/core/Grid";
 
 export interface NewProgramProps {
@@ -30,7 +29,7 @@ export const NewProgram = ({ close }: NewProgramProps) => {
   const classes = useStyles();
 
   const [name, setName] = useState<string>("");
-  const [days, setDays] = useState<WorkoutRoutine[]>([]);
+  // const [days, setDays] = useState<WorkoutRoutine[]>([]);
 
   const clearAndClose = () => {
     setName("");
@@ -56,7 +55,7 @@ export const NewProgram = ({ close }: NewProgramProps) => {
           >
             Create
           </AlButton>
-          <AlButton outline onClick={clearAndClose}>
+          <AlButton variant="outline" onClick={clearAndClose}>
             Cancel
           </AlButton>
         </Grid>

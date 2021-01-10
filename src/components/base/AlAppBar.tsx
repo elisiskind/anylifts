@@ -92,35 +92,35 @@ export const AlAppBar = ({ handleToggle }: AlAppBarProps) => {
               <AlButton
                 onClick={() => history.push("workout")}
                 className={classes.navButton}
-                link
+                variant="link"
               >
                 Workout
               </AlButton>
               <AlButton
                 onClick={() => history.push("programs")}
-                link
                 className={classes.navButton}
+                variant="link"
               >
                 Programs
               </AlButton>
               <AlButton
                 onClick={() => history.push("exercises")}
-                link
                 className={classes.navButton}
+                variant="link"
               >
                 Exercises
               </AlButton>
               <AlButton
                 onClick={() => history.push("equipment")}
-                link
                 className={classes.navButton}
+                variant="link"
               >
                 Equipment
               </AlButton>
             </List>
           </Hidden>
         </Grid>
-        <AlButton link onClick={toggleFullscreen}>
+        <AlButton variant="link" onClick={toggleFullscreen}>
           {fullscreen ? <FullscreenExit /> : <Fullscreen />}
         </AlButton>
       </Toolbar>

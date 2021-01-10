@@ -1,8 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import reportWebVitals from "./reportWebVitals";
 import firebase from "firebase";
 
 firebase.initializeApp({
@@ -13,15 +14,21 @@ firebase.initializeApp({
   storageBucket: "anylifts.appspot.com",
   messagingSenderId: "826852575492",
   appId: "1:826852575492:web:0174edf9ba70e809d0e851",
-  measurementId: "G-PXC5YY149E"
+  measurementId: "G-PXC5YY149E",
 });
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
+
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://cra.link/PWA
+serviceWorkerRegistration.register();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

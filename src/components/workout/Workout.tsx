@@ -11,6 +11,7 @@ import { AlButton } from "../elements/AlButton";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import { CurrentLift } from "./CurrentLift";
 import Grid from "@material-ui/core/Grid";
+import { getSetIndex, setSetIndex } from "../state/localStorage";
 
 const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
   root: {
@@ -70,12 +71,10 @@ export const Workout = ({ routine, reset }: WorkoutProps) => {
     }
   });
 
-  const [currentIndex, setCurrentIndex] = useState<number>(
-    Number.parseInt(localStorage.getItem("set") || "0")
-  );
-  localStorage.setItem("set", currentIndex.toString());
+  const [currentIndex, setCurrentIndex] = useState<number>(getSetIndex() || 0);
 
   const [complete, setComplete] = useState<boolean>(false);
+  setSetIndex(currentIndex);
   const currentSet = routine.getSet(currentIndex);
 
   const [time, setTime] = useState<number>(90);
@@ -103,15 +102,24 @@ export const Workout = ({ routine, reset }: WorkoutProps) => {
   const alert = () => {
     if (document.hidden) {
       const [title, body] = message();
-      const n = new Notification(title, {
-        body: body,
-        vibrate: [100, 100, 100],
-        icon: "/wristwatch.png",
+      navigator.serviceWorker.ready.then(function (serviceWorker) {
+        serviceWorker.showNotification(title, {
+          body: body,
+          vibrate: [100, 100, 100],
+          icon: "/wristwatch.png",
+        });
       });
-      n.onclick = function (x) {
-        window.focus();
-        this.close();
-      };
+      try {
+        const n = new Notification(title, {
+          body: body,
+          vibrate: [100, 100, 100],
+          icon: "/wristwatch.png",
+        });
+        n.onclick = function (x) {
+          window.focus();
+          this.close();
+        };
+      } catch {}
     } else {
       audio.play();
     }
@@ -135,7 +143,7 @@ export const Workout = ({ routine, reset }: WorkoutProps) => {
     setCurrentIndex(0);
     setComplete(false);
     reset();
-  }
+  };
 
   const restart = () => {
     setComplete(false);
@@ -168,7 +176,7 @@ export const Workout = ({ routine, reset }: WorkoutProps) => {
             <Box className={classes.mobileOverview}>
               <Box className={classes.showMobileOverview}>
                 <AlButton
-                  outline
+                  variant="outline"
                   onClick={toggleShowOverview}
                   className={classes.showMobileOverviewBtn}
                 >
@@ -189,14 +197,19 @@ export const Workout = ({ routine, reset }: WorkoutProps) => {
             </Box>
           </Hidden>
           {complete ? (
-            <AlPaper color={"primary"}>
+            <AlPaper>
               <Grid container spacing={3}>
                 <Grid item xs={12}>
                   All sets complete!
                 </Grid>
-                <Grid item xs={12}>
+                <Box
+                  width={"100%"}
+                  textAlign={"center"}
+                  display={"flex"}
+                  justifyContent={"center"}
+                >
                   <AlButton onClick={finish}>Finish workout</AlButton>
-                </Grid>
+                </Box>
               </Grid>
             </AlPaper>
           ) : (

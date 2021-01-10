@@ -84,7 +84,7 @@ export const CurrentLift = ({
               className={classes.buttons}
               color={"secondary"}
               onClick={next}
-              link
+              variant="link"
             >
               Failed
             </AlButton>

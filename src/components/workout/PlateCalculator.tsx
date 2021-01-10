@@ -1,5 +1,5 @@
 import React from "react";
-import {Grid} from "@material-ui/core";
+import {Box, Grid} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {Theme} from "@material-ui/core/styles/createMuiTheme";
 
@@ -40,6 +40,9 @@ const calculateForRange = (plates: number[], plate: number, min: number, max: nu
   const smallest = Math.min(...plates)
   const largest = Math.max(...plates)
   const range = largest - smallest
+  if (range === 0) {
+    return (min + max)/2
+  }
   if (!invert) {
     return min + ((plate - smallest) / range) * (max - min)
   } else {
@@ -134,8 +137,8 @@ export const PlateCalculator = ({weight, plates, bar}: PlateCalculatorProps) => 
     ) : (
       <>
         <Grid item className={classes.bar}>{bar} lbs</Grid>
-        {plateList.map(plate => {
-          return <>
+        {plateList.map((plate, index) => {
+          return <Box key={index}>
             <Grid item className={classes.barFiller}/>
             <Grid item className={classes.plate}
                   style={
@@ -144,7 +147,7 @@ export const PlateCalculator = ({weight, plates, bar}: PlateCalculatorProps) => 
                       backgroundColor: calculateColor(plateList, plate)
                     }
                   }>{plate} lbs</Grid>
-          </>
+          </Box>
         })}
         <Grid item className={classes.barEnd}/>
         {(!weightAchieved) && (<Grid item xs={12}>

@@ -4,15 +4,15 @@ import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import { AlButton } from "./AlButton";
 import { Typography } from "@material-ui/core";
+import { getTime, setTime } from "../state/localStorage";
 
 const useStyles = makeStyles(({ palette, spacing, breakpoints }: Theme) => ({
-  container: {
-  },
+  container: {},
   adjustButtonContainer: {
-    minWidth: '74px'
+    minWidth: "74px",
   },
   timeBoxContainer: {
-    maxWidth: 'calc(100% - 148px)'
+    maxWidth: "calc(100% - 148px)",
   },
   timeBox: {
     border: "2px solid " + palette.grey.A100,
@@ -38,10 +38,10 @@ const useStyles = makeStyles(({ palette, spacing, breakpoints }: Theme) => ({
   },
   adjustButton: {
     width: "100%",
-    whiteSpace: 'nowrap',
-    height: '42px',
+    whiteSpace: "nowrap",
+    height: "42px",
     padding: spacing(1),
-    justifyContent: 'center'
+    justifyContent: "center",
   },
 }));
 
@@ -61,25 +61,20 @@ export interface AlTimerProps {
 
 export const AlTimer = ({ time, onFinish, addTime }: AlTimerProps) => {
   const [elapsed, setElapsed] = useState<number>(0);
-  const [timer, setTimer] = useState<NodeJS.Timeout>();
   const [completed, setCompleted] = useState<boolean>(false);
 
-  const createTimer = () => {
-    const start = Number.parseInt(localStorage.getItem("timeStart") || Date.now().toString())
-    return setInterval(() => {
+  useEffect(() => {
+    setTime(Date.now());
+    const start = getTime() || Date.now();
+    const timer = setInterval(() => {
       setElapsed(Math.floor((Date.now() - start) / 1000));
     }, 500);
-  };
-
-  useEffect(() => {
-    localStorage.setItem("timeStart", Date.now().toString());
-    setTimer(createTimer());
     return () => {
       if (timer) {
         clearInterval(timer);
       }
-      // localStorage.removeItem("timeStart");
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (elapsed >= time && !completed) {

@@ -85,10 +85,10 @@ export const WorkoutOverview = ({
                     ? classes.finishedLift
                     : classes.futureLift;
                 return (
-                  <>
+                  <Grid item xs={12} container key={index}>
                     {index !== 0 &&
                       routine.sets[index - 1].exercise !== set.exercise && (
-                        <AlDivider grid space={1} />
+                        <AlDivider grid space={1}/>
                       )}
                     <Grid item xs={12}>
                       <Box className={className}>
@@ -97,7 +97,7 @@ export const WorkoutOverview = ({
                         {set.amrap && "+"}
                       </Box>
                     </Grid>
-                  </>
+                  </Grid>
                 );
               })}
             </Grid>
