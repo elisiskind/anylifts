@@ -1,50 +1,59 @@
 import * as React from "react";
-import { useState } from "react";
-import { Workout } from "./Workout";
-import { WorkoutSelector } from "./WorkoutSelector";
+import {useEffect, useState} from "react";
+import {Workout} from "./Workout";
+import {WorkoutSelector} from "./WorkoutSelector";
 import {
-  getProgramIndex as retrieveProgramIndex,
-  getWorkoutIndex as retrieveWorkoutIndex,
-  setProgramIndex as storeProgramIndex,
-  setWorkoutIndex as storeWorkoutIndex,
-} from "../state/localStorage";
-import { Lifts, Programs, WorkoutRoutine } from "../programs/Program";
+  retrieveProgramId,
+  retrieveRoutineIndex,
+  storeProgramId,
+  storeRoutineIndex,
+} from "../../state/localStorage";
+import {getProgramsForUser, Routine} from "../../state/Programs";
 
 export const WorkoutsView = () => {
-  const [programIndex, setProgramIndex] = useState<number | null>(
-    retrieveProgramIndex()
+  const [programId, setProgramId] = useState<number | null>(
+      retrieveProgramId()
   );
-  const [workoutIndex, setWorkoutIndex] = useState<number | null>(
-    retrieveWorkoutIndex()
+  const [routineIndex, setRoutineIndex] = useState<number | null>(
+      retrieveRoutineIndex()
   );
+  const [routine, setRoutine] = useState<Routine | null>(null);
 
   const selectWorkout = (
-    programIndex: number | null,
-    workoutIndex: number | null
+      programId: number | null,
+      routineIndex: number | null
   ) => {
-    storeProgramIndex(programIndex);
-    storeWorkoutIndex(workoutIndex);
-    setProgramIndex(programIndex);
-    setWorkoutIndex(workoutIndex);
+    storeProgramId(programId);
+    storeRoutineIndex(routineIndex);
+    setProgramId(programId);
+    setRoutineIndex(routineIndex);
   };
+
+  useEffect(() => {
+    if (programId !== null && routineIndex !== null) {
+      const program = getProgramsForUser(0).find(
+          (program) => program.id === programId
+      );
+      const currentRoutine = program && program.routines[routineIndex];
+      if (currentRoutine) {
+        setRoutine(currentRoutine);
+        return;
+      }
+    }
+    setRoutine(null);
+  }, [programId, routineIndex]);
 
   const reset = () => {
     selectWorkout(null, null);
   };
 
-  console.log('Program: ' + programIndex + ', Workout: ' + workoutIndex)
-  const workout =
-      (programIndex !== null && workoutIndex !== null)
-      ? new WorkoutRoutine(Programs[programIndex].routines[workoutIndex], Lifts)
-      : null;
-
   return (
-    <>
-      {workout ? (
-        <Workout routine={workout} reset={reset} />
-      ) : (
-        <WorkoutSelector selectWorkout={selectWorkout} />
-      )}
-    </>
+      <>
+        {routine ? (
+            <Workout routine={routine} reset={reset}/>
+        ) : (
+            <WorkoutSelector selectWorkout={selectWorkout}/>
+        )}
+      </>
   );
 };

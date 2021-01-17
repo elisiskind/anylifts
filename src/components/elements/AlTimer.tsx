@@ -4,7 +4,6 @@ import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import { AlButton } from "./AlButton";
 import { Typography } from "@material-ui/core";
-import { getTime, setTime } from "../state/localStorage";
 
 const useStyles = makeStyles(({ palette, spacing, breakpoints }: Theme) => ({
   container: {},
@@ -55,20 +54,19 @@ const displayTime = (value: number) => {
 
 export interface AlTimerProps {
   time: number;
+  start: number;
   addTime: (time: number) => void;
   onFinish: () => void;
 }
 
-export const AlTimer = ({ time, onFinish, addTime }: AlTimerProps) => {
+export const AlTimer = ({ time, onFinish, addTime, start }: AlTimerProps) => {
   const [elapsed, setElapsed] = useState<number>(0);
-  const [completed, setCompleted] = useState<boolean>(false);
+  const [completed, setCompleted] = useState<boolean>(elapsed > time);
 
   useEffect(() => {
-    setTime(Date.now());
-    const start = getTime() || Date.now();
     const timer = setInterval(() => {
       setElapsed(Math.floor((Date.now() - start) / 1000));
-    }, 500);
+    }, 50);
     return () => {
       if (timer) {
         clearInterval(timer);

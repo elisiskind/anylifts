@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import { Lifts } from "./programs/Program";
+import { Lifts } from "../state/HardcodedDataSource";
 import { Grid } from "@material-ui/core";
 import { AlPaper } from "./elements/AlPaper";
 import { AlHeader } from "./elements/AlHeader";

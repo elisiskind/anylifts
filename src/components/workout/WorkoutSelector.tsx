@@ -1,11 +1,11 @@
 import * as React from "react";
 import { useState } from "react";
 import { Box, Grid, makeStyles, Theme } from "@material-ui/core";
-import { Lifts, Programs, WorkoutRoutine } from "../programs/Program";
 import { AlPaper } from "../elements/AlPaper";
 import { AlHeader } from "../elements/AlHeader";
 import { AlSubtitle } from "../elements/AlSubtitle";
 import { AlButton } from "../elements/AlButton";
+import { getProgramsForUser, Program } from "../../state/Programs";
 
 const useStyles = makeStyles(({ breakpoints, spacing }: Theme) => ({
   root: {
@@ -20,30 +20,32 @@ const useStyles = makeStyles(({ breakpoints, spacing }: Theme) => ({
 }));
 
 interface WorkoutSelectorProps {
-  selectWorkout: (programIndex: number, workoutIndex: number) => void;
+  selectWorkout: (programId: number, workoutIndex: number) => void;
 }
 
 export const WorkoutSelector = ({ selectWorkout }: WorkoutSelectorProps) => {
   const classes = useStyles();
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [programs] = useState<Program[] | null>(getProgramsForUser(0));
 
-  if (selectedIndex !== null) {
-    const selectedProgram = Programs[selectedIndex];
+  if (selectedIndex !== null && programs) {
+    const selectedProgram = programs[selectedIndex];
     return (
       <Box className={classes.root}>
         <Grid container spacing={3}>
           {selectedProgram.routines.map((routine, index) => {
-            const workout = new WorkoutRoutine(routine, Lifts);
-            const lifts = workout.sets
+            const lifts = routine.sets
               .map((s) => s.exercise)
               .filter((v, i, a) => a.indexOf(v) === i)
               .join(", ");
             return (
               <Grid xs={12} item>
                 <AlPaper onClick={() => selectWorkout(selectedIndex, index)}>
-                  <AlHeader variant={"h2"}>{routine.name}</AlHeader>
-                  <AlSubtitle>{workout.sets.length} sets</AlSubtitle>
+                  <AlHeader variant={"h2"}>
+                    {selectedProgram.routines[index].name}
+                  </AlHeader>
+                  <AlSubtitle>{routine.sets.length} sets</AlSubtitle>
                   <AlSubtitle>{lifts}</AlSubtitle>
                 </AlPaper>
               </Grid>
@@ -55,11 +57,11 @@ export const WorkoutSelector = ({ selectWorkout }: WorkoutSelectorProps) => {
         </Grid>
       </Box>
     );
-  } else {
+  } else if (programs) {
     return (
       <Box className={classes.root}>
         <Grid container spacing={3}>
-          {Programs.map((program, index) => {
+          {programs.map((program, index) => {
             return (
               <Grid xs={12} item key={program.id}>
                 <AlPaper onClick={() => setSelectedIndex(index)}>
@@ -72,5 +74,7 @@ export const WorkoutSelector = ({ selectWorkout }: WorkoutSelectorProps) => {
         </Grid>
       </Box>
     );
+  } else {
+    return <Box>No programs found</Box>;
   }
 };

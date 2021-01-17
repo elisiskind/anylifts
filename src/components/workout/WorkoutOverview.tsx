@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Box, Grid, Hidden, makeStyles, Theme } from "@material-ui/core";
 import { AlButton } from "../elements/AlButton";
-import { WorkoutRoutine } from "../programs/Program";
+import { Set } from "../../state/Programs";
 import { Replay, SkipNext, SkipPrevious } from "@material-ui/icons";
 import { AlDivider } from "../elements/AlDivider";
 
@@ -55,7 +55,7 @@ const useStyles = makeStyles(({ spacing, palette, breakpoints }: Theme) => ({
 }));
 
 interface WorkoutOverviewProps {
-  routine: WorkoutRoutine;
+  routine: Set[];
   currentIndex: number;
   reset: () => void;
   next: () => void;
@@ -77,7 +77,7 @@ export const WorkoutOverview = ({
         <Box className={classes.setListContainer}>
           <Box className={classes.setList}>
             <Grid container>
-              {routine.sets.map((set, index) => {
+              {routine.map((set, index) => {
                 const className =
                   index === currentIndex
                     ? classes.currentLift
@@ -87,7 +87,7 @@ export const WorkoutOverview = ({
                 return (
                   <Grid item xs={12} container key={index}>
                     {index !== 0 &&
-                      routine.sets[index - 1].exercise !== set.exercise && (
+                      routine[index - 1].exercise !== set.exercise && (
                         <AlDivider grid space={1}/>
                       )}
                     <Grid item xs={12}>

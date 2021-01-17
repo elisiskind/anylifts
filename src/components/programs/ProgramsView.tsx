@@ -7,7 +7,7 @@ import Modal from "@material-ui/core/Modal";
 import { NewProgram } from "./NewProgram";
 import { AlPaper } from "../elements/AlPaper";
 import Grid from "@material-ui/core/Grid";
-import { Programs } from "./Program";
+import { Programs } from "../../state/HardcodedDataSource";
 import {AlHeader} from "../elements/AlHeader";
 import {AlSubtitle} from "../elements/AlSubtitle";
 
