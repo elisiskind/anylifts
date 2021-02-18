@@ -2,7 +2,7 @@ import * as React from "react";
 import { Box, Grid, Hidden, makeStyles, Theme } from "@material-ui/core";
 import { AlButton } from "../elements/AlButton";
 import { Set } from "../../state/Programs";
-import { Replay, SkipNext, SkipPrevious } from "@material-ui/icons";
+import { Close, Replay, SkipNext, SkipPrevious } from "@material-ui/icons";
 import { AlDivider } from "../elements/AlDivider";
 
 const useStyles = makeStyles(({ spacing, palette, breakpoints }: Theme) => ({
@@ -26,10 +26,10 @@ const useStyles = makeStyles(({ spacing, palette, breakpoints }: Theme) => ({
     paddingTop: spacing(2),
     justifyContent: "space-between",
   },
-  backNextButtons: {
+  buttons: {
     display: "flex",
   },
-  prevBtn: {
+  leftButton: {
     marginRight: spacing(1),
   },
   replayIcon: {
@@ -58,6 +58,7 @@ interface WorkoutOverviewProps {
   routine: Set[];
   currentIndex: number;
   reset: () => void;
+  finish: () => void;
   next: () => void;
   prev: () => void;
 }
@@ -66,6 +67,7 @@ export const WorkoutOverview = ({
   currentIndex,
   next,
   prev,
+  finish,
   reset,
   routine,
 }: WorkoutOverviewProps) => {
@@ -88,7 +90,7 @@ export const WorkoutOverview = ({
                   <Grid item xs={12} container key={index}>
                     {index !== 0 &&
                       routine[index - 1].exercise !== set.exercise && (
-                        <AlDivider grid space={1}/>
+                        <AlDivider grid space={1} />
                       )}
                     <Grid item xs={12}>
                       <Box className={className}>
@@ -104,14 +106,24 @@ export const WorkoutOverview = ({
           </Box>
         </Box>
         <Grid container className={classes.navigation}>
-          <Grid item>
-            <AlButton size={"small"} onClick={reset}>
-              <Replay className={classes.replayIcon} />{" "}
-              <Hidden smDown>Start Over</Hidden>
+          <Grid item className={classes.buttons}>
+            <AlButton
+              size={"small"}
+              onClick={reset}
+              className={classes.leftButton}
+            >
+              <Replay />
+            </AlButton>
+            <AlButton size={"small"} onClick={finish}>
+              <Close />
             </AlButton>
           </Grid>
-          <Grid item className={classes.backNextButtons}>
-            <AlButton size={"small"} onClick={prev} className={classes.prevBtn}>
+          <Grid item className={classes.buttons}>
+            <AlButton
+              size={"small"}
+              onClick={prev}
+              className={classes.leftButton}
+            >
               <SkipPrevious />
             </AlButton>
             <AlButton size={"small"} onClick={next}>

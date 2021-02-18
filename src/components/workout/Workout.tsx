@@ -11,7 +11,12 @@ import { AlButton } from "../elements/AlButton";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import { CurrentLift } from "./CurrentLift";
 import Grid from "@material-ui/core/Grid";
-import { retrieveSetIndex, storeSetIndex, retrieveStartTime, storeStartTime } from "../../state/localStorage";
+import {
+  retrieveSetIndex,
+  retrieveStartTime,
+  storeSetIndex,
+  storeStartTime,
+} from "../../state/localStorage";
 
 const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
   root: {
@@ -71,14 +76,18 @@ export const Workout = ({ routine, reset }: WorkoutProps) => {
     }
   });
 
-  const [currentIndex, setCurrentIndex] = useState<number>(retrieveSetIndex() || 0);
+  const [currentIndex, setCurrentIndex] = useState<number>(
+    retrieveSetIndex() || 0
+  );
 
   const [complete, setComplete] = useState<boolean>(false);
   storeSetIndex(currentIndex);
   const currentSet = routine.sets[currentIndex];
 
   const [time, setTime] = useState<number>(90);
-  const [startTime, setStartTime] = useState<number>(retrieveStartTime() || Date.now());
+  const [startTime, setStartTime] = useState<number>(
+    retrieveStartTime() || Date.now()
+  );
 
   const addTime = (timeToAdd: number) => {
     setTime(time + timeToAdd);
@@ -116,14 +125,14 @@ export const Workout = ({ routine, reset }: WorkoutProps) => {
   };
 
   const restartTimer = () => {
-    const start = Date.now()
-    setStartTime(start)
-    storeStartTime(start)
-  }
+    const start = Date.now();
+    setStartTime(start);
+    storeStartTime(start);
+  };
 
   const clearTimer = () => {
     storeStartTime(null);
-  }
+  };
 
   const prev = () => {
     if (currentIndex > 0) {
@@ -135,7 +144,7 @@ export const Workout = ({ routine, reset }: WorkoutProps) => {
   const next = () => {
     if (currentIndex + 1 < routine.sets.length) {
       setCurrentIndex(currentIndex + 1);
-      restartTimer()
+      restartTimer();
     } else {
       setComplete(true);
       clearTimer();
@@ -169,6 +178,7 @@ export const Workout = ({ routine, reset }: WorkoutProps) => {
       next={next}
       prev={prev}
       reset={restart}
+      finish={finish}
     />
   );
 
@@ -194,9 +204,7 @@ export const Workout = ({ routine, reset }: WorkoutProps) => {
                   {showMobileOverview ? <ExpandMore /> : <ExpandLess />}
                 </AlButton>
               </Box>
-              <Box className={classes.workoutOverview}>
-                {workoutOverview}
-              </Box>
+              <Box className={classes.workoutOverview}>{workoutOverview}</Box>
             </Box>
           </Hidden>
           {complete ? (
@@ -218,14 +226,16 @@ export const Workout = ({ routine, reset }: WorkoutProps) => {
           ) : (
             <>
               <Box alignItems={"center"} marginBottom={2}>
-                {currentIndex > 0 ? (<AlTimer
-                  key={currentIndex}
-                  time={time}
-                  start={startTime}
-                  addTime={addTime}
-                  onFinish={alert}
-                />) : (
-                    'Go ahead!'
+                {currentIndex > 0 ? (
+                  <AlTimer
+                    key={currentIndex}
+                    time={time}
+                    start={startTime}
+                    addTime={addTime}
+                    onFinish={alert}
+                  />
+                ) : (
+                  "Go ahead!"
                 )}
               </Box>
               <CurrentLift
