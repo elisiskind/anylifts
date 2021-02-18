@@ -439,7 +439,7 @@ export const Programs: ProgramData[] = [
         ],
       },
       {
-        name: "Legs 1",
+        name: "Legs 2",
         groups: [
           {
             liftId: 2,
@@ -544,6 +544,77 @@ export const Programs: ProgramData[] = [
             liftId: 10,
             mode: "absolute",
             lifts: [{ weight: 20, reps: 10, sets: 3 }],
+          },
+        ],
+      },
+      {
+        name: "Legs 2",
+        groups: [
+          {
+            liftId: 16,
+            mode: "absolute",
+            lifts: [{ weight: 70, reps: 10, sets: 3 }],
+          },
+          {
+            liftId: 17,
+            mode: "absolute",
+            lifts: [{ weight: 0, reps: 10, sets: 3 }],
+          },
+          {
+            liftId: 18,
+            mode: "absolute",
+            lifts: [{ weight: 0, reps: 10, sets: 3 }],
+          },
+          {
+            liftId: 2,
+            mode: "percent",
+            lifts: [
+              { weight: 40, reps: 5 },
+              { weight: 50, reps: 5 },
+              { weight: 60, reps: 3 },
+              { weight: 65, reps: 5 },
+              { weight: 75, reps: 5 },
+              { weight: 85, reps: 5, amrap: true },
+              { weight: 65, reps: 5, sets: 5 },
+            ],
+          },
+        ],
+      },
+      {
+        name: "Upper Body 2",
+        groups: [
+          {
+            liftId: 4,
+            mode: "percent",
+            lifts: [
+              { weight: 40, reps: 5 },
+              { weight: 50, reps: 5 },
+              { weight: 60, reps: 3 },
+              { weight: 65, reps: 5 },
+              { weight: 75, reps: 5 },
+              { weight: 85, reps: 5, amrap: true },
+              { weight: 65, reps: 5, sets: 5 },
+            ],
+          },
+          {
+            liftId: 1,
+            mode: "percent",
+            lifts: [{ weight: 65, reps: 10, sets: 3 }],
+          },
+          {
+            liftId: 5,
+            mode: "percent",
+            lifts: [{ weight: 60, reps: 10, sets: 3 }],
+          },
+          {
+            liftId: 13,
+            mode: "absolute",
+            lifts: [{ weight: 30, reps: 10, sets: 3 }],
+          },
+          {
+            liftId: 12,
+            mode: "absolute",
+            lifts: [{ weight: 10, reps: 10, sets: 3 }],
           },
         ],
       },
