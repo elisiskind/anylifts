@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
-import { AlButton } from "./AlButton";
+import { Button } from "components/elements";
 import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles(({ palette, spacing, breakpoints }: Theme) => ({
@@ -59,7 +59,7 @@ export interface AlTimerProps {
   onFinish: () => void;
 }
 
-export const AlTimer = ({ time, onFinish, addTime, start }: AlTimerProps) => {
+export const Timer = ({ time, onFinish, addTime, start }: AlTimerProps) => {
   const [elapsed, setElapsed] = useState<number>(0);
   const [completed, setCompleted] = useState<boolean>(elapsed > time);
 
@@ -87,9 +87,9 @@ export const AlTimer = ({ time, onFinish, addTime, start }: AlTimerProps) => {
   return (
     <Grid container spacing={2} className={classes.container}>
       <Grid item xs={2} className={classes.adjustButtonContainer}>
-        <AlButton onClick={() => addTime(-15)} className={classes.adjustButton}>
+        <Button onClick={() => addTime(-15)} className={classes.adjustButton}>
           <Typography>- 15</Typography>
-        </AlButton>
+        </Button>
       </Grid>
       <Grid item xs={8} className={classes.timeBoxContainer}>
         <Box
@@ -107,9 +107,9 @@ export const AlTimer = ({ time, onFinish, addTime, start }: AlTimerProps) => {
         </Box>
       </Grid>
       <Grid item xs={2} className={classes.adjustButtonContainer}>
-        <AlButton onClick={() => addTime(15)} className={classes.adjustButton}>
-          <Typography>+ 15</Typography>
-        </AlButton>
+        <Button onClick={() => addTime(15)} className={classes.adjustButton}>
+          + 15
+        </Button>
       </Grid>
     </Grid>
   );

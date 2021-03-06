@@ -1,11 +1,8 @@
 import * as React from "react";
 import { useState } from "react";
 import { Box, Grid, makeStyles, Theme } from "@material-ui/core";
-import { AlPaper } from "../elements/AlPaper";
-import { AlHeader } from "../elements/AlHeader";
-import { AlSubtitle } from "../elements/AlSubtitle";
-import { AlButton } from "../elements/AlButton";
-import { getProgramsForUser, Program } from "../../state/Programs";
+import { getProgramsForUser, Program } from "state/Programs";
+import { Button, Header, Paper, Subtitle } from "components/elements";
 
 const useStyles = makeStyles(({ breakpoints, spacing }: Theme) => ({
   root: {
@@ -41,18 +38,18 @@ export const WorkoutSelector = ({ selectWorkout }: WorkoutSelectorProps) => {
               .join(", ");
             return (
               <Grid xs={12} item>
-                <AlPaper onClick={() => selectWorkout(selectedIndex, index)}>
-                  <AlHeader variant={"h2"}>
+                <Paper onClick={() => selectWorkout(selectedIndex, index)}>
+                  <Header variant={"h2"}>
                     {selectedProgram.routines[index].name}
-                  </AlHeader>
-                  <AlSubtitle>{routine.sets.length} sets</AlSubtitle>
-                  <AlSubtitle>{lifts}</AlSubtitle>
-                </AlPaper>
+                  </Header>
+                  <Subtitle>{routine.sets.length} sets</Subtitle>
+                  <Subtitle>{lifts}</Subtitle>
+                </Paper>
               </Grid>
             );
           })}
           <Grid item xs={12}>
-            <AlButton onClick={() => setSelectedIndex(null)}>Back</AlButton>
+            <Button onClick={() => setSelectedIndex(null)}>Back</Button>
           </Grid>
         </Grid>
       </Box>
@@ -64,10 +61,10 @@ export const WorkoutSelector = ({ selectWorkout }: WorkoutSelectorProps) => {
           {programs.map((program, index) => {
             return (
               <Grid xs={12} item key={program.id}>
-                <AlPaper onClick={() => setSelectedIndex(index)}>
-                  <AlHeader variant={"h2"}>{program.name}</AlHeader>
-                  <AlSubtitle>{program.routines.length} day program</AlSubtitle>
-                </AlPaper>
+                <Paper onClick={() => setSelectedIndex(index)}>
+                  <Header variant={"h2"}>{program.name}</Header>
+                  <Subtitle>{program.routines.length} day program</Subtitle>
+                </Paper>
               </Grid>
             );
           })}

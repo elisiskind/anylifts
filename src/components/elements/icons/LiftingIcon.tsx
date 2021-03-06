@@ -1,5 +1,5 @@
 import * as React from "react";
-import {SvgIcon, SvgIconProps} from "@material-ui/core";
+import { SvgIcon, SvgIconProps } from "@material-ui/core";
 
 export const LiftingIcon = (props: SvgIconProps) => {
   return (
@@ -7,15 +7,15 @@ export const LiftingIcon = (props: SvgIconProps) => {
       <svg viewBox="0 0 512 512">
         <g>
           <path
-            style={{fill: "#ffe5c1"}}
+            style={{ fill: "#ffe5c1" }}
             d="m178.719 235.085c-5.463-3.038-11.334-8.792-12.736-17.351l-17.556-106.589-16.943-11.334-19.105 11.334 14.986 120.026c2.688 21.528 9.757 35.315 14.986 42.676l36.34 51.498c11.976-7.416 22.523-11.75 19.643-69.416l-7.987-14.417z"
           />
           <path
-            style={{fill: "#ffe5c1"}}
+            style={{ fill: "#ffe5c1" }}
             d="m373.506 273.848c5.2-7.361 12.298-21.148 14.986-42.676l14.957-120.026-15.804-11.334-20.245 11.334-17.527 106.589c-1.402 8.559-7.274 14.313-12.736 17.351l-11.626 6.426-10.02 18.084c.321 43.667 7.51 56.667 21.646 65.75z"
           />
           <path
-            style={{fill: "#fed1a3"}}
+            style={{ fill: "#fed1a3" }}
             d="m141.737 211.016-12.474-99.87h-16.885l14.986 120.026c2.688 21.528 9.757 35.315 14.986 42.676l36.34 51.498c3.944-6.134 6.923-16.241 8.88-27.925l-30.848-43.699c-5.228-7.391-12.298-21.178-14.985-42.706z"
           />
         </g>
@@ -146,7 +146,7 @@ export const LiftingIcon = (props: SvgIconProps) => {
           />
         </g>
         <g>
-          <path d="m231.301 446.364h26.612v65.636h-26.612z" fill="#fed1a3"/>
+          <path d="m231.301 446.364h26.612v65.636h-26.612z" fill="#fed1a3" />
         </g>
         <g>
           <path

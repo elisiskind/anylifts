@@ -1,12 +1,14 @@
 import React from "react";
-import { AlPaper } from "../elements/AlPaper";
-import { AlButton } from "../elements/AlButton";
 import { FitnessCenter } from "@material-ui/icons";
-import { AlSubtitle } from "../elements/AlSubtitle";
-import { AlHeader } from "../elements/AlHeader";
-import { AlHighlight } from "../elements/AlHighlight";
-import { AlDivider } from "../elements/AlDivider";
-import { PlateCalculator } from "./PlateCalculator";
+import {
+  Button,
+  Divider,
+  Header,
+  Highlight,
+  Paper,
+  Subtitle,
+} from "components/elements";
+import { PlateCalculator } from "components/workout";
 import { Grid, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -18,6 +20,8 @@ export interface CurrentLiftProps {
   bar?: number;
   amrap: boolean;
   next: () => void;
+  jokerSet: boolean;
+  addJokerSet: () => void;
 }
 
 const useStyles = makeStyles(({ breakpoints, spacing }: Theme) => ({
@@ -48,58 +52,65 @@ export const CurrentLift = ({
   bar,
   amrap,
   next,
+  jokerSet,
+  addJokerSet,
 }: CurrentLiftProps) => {
   const classes = useStyles();
 
   return (
-    <AlPaper>
+    <Paper>
       <Grid container className={classes.container}>
         <Grid item>
           <FitnessCenter className={classes.icon} />
         </Grid>
         <Grid item>
-          <AlHeader variant={"h2"}>{name}</AlHeader>
-          <AlSubtitle>
+          <Header variant={"h2"}>
+            {name}
+            {jokerSet && " - Joker Set"}
+          </Header>
+          <Subtitle>
             {!!weight && (
               <>
-                <AlHighlight>{weight}</AlHighlight>
+                <Highlight>{weight}</Highlight>
                 {" lbs x "}
               </>
             )}
-            <AlHighlight>{reps + (amrap ? "+" : "")}</AlHighlight> reps
-          </AlSubtitle>
+            <Highlight>{reps + (amrap ? "+" : "")}</Highlight> reps
+          </Subtitle>
         </Grid>
         {!!weight && plates && !!bar && (
           <>
-            <AlDivider grid />
+            <Divider grid />
             <Grid item xs={12}>
               <PlateCalculator weight={weight} plates={plates} bar={bar} />
             </Grid>
           </>
         )}
-        <AlDivider grid />
+        <Divider grid />
         <Grid item container xs={12} justify="flex-end">
+          {(jokerSet || amrap) && (
+            <Grid item>
+              <Button
+                className={classes.buttons}
+                color={"secondary"}
+                onClick={addJokerSet}
+                variant="link"
+              >
+                Joker Set
+              </Button>
+            </Grid>
+          )}
           <Grid item>
-            <AlButton
-              className={classes.buttons}
-              color={"secondary"}
-              onClick={next}
-              variant="link"
-            >
-              Failed
-            </AlButton>
-          </Grid>
-          <Grid item>
-            <AlButton
+            <Button
               className={classes.buttons}
               onClick={next}
               color={"secondary"}
             >
               Done
-            </AlButton>
+            </Button>
           </Grid>
         </Grid>
       </Grid>
-    </AlPaper>
+    </Paper>
   );
 };

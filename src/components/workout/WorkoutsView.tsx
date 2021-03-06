@@ -1,27 +1,26 @@
 import * as React from "react";
-import {useEffect, useState} from "react";
-import {Workout} from "./Workout";
-import {WorkoutSelector} from "./WorkoutSelector";
+import { useEffect, useState } from "react";
+import { Workout, WorkoutSelector } from "components/workout";
 import {
   retrieveProgramId,
   retrieveRoutineIndex,
   storeProgramId,
   storeRoutineIndex,
-} from "../../state/localStorage";
-import {getProgramsForUser, Routine} from "../../state/Programs";
+} from "state/localStorage";
+import { getProgramsForUser, Routine } from "state/Programs";
 
 export const WorkoutsView = () => {
   const [programId, setProgramId] = useState<number | null>(
-      retrieveProgramId()
+    retrieveProgramId()
   );
   const [routineIndex, setRoutineIndex] = useState<number | null>(
-      retrieveRoutineIndex()
+    retrieveRoutineIndex()
   );
   const [routine, setRoutine] = useState<Routine | null>(null);
 
   const selectWorkout = (
-      programId: number | null,
-      routineIndex: number | null
+    programId: number | null,
+    routineIndex: number | null
   ) => {
     storeProgramId(programId);
     storeRoutineIndex(routineIndex);
@@ -32,7 +31,7 @@ export const WorkoutsView = () => {
   useEffect(() => {
     if (programId !== null && routineIndex !== null) {
       const program = getProgramsForUser(0).find(
-          (program) => program.id === programId
+        (program) => program.id === programId
       );
       const currentRoutine = program && program.routines[routineIndex];
       if (currentRoutine) {
@@ -47,13 +46,9 @@ export const WorkoutsView = () => {
     selectWorkout(null, null);
   };
 
-  return (
-      <>
-        {routine ? (
-            <Workout routine={routine} reset={reset}/>
-        ) : (
-            <WorkoutSelector selectWorkout={selectWorkout}/>
-        )}
-      </>
+  return routine ? (
+    <Workout routine={routine} reset={reset} />
+  ) : (
+    <WorkoutSelector selectWorkout={selectWorkout} />
   );
 };

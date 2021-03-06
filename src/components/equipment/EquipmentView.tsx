@@ -1,11 +1,13 @@
 import React from "react";
 import { Grid, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { AlHeader } from "./elements/AlHeader";
-import { AlSubtitle } from "./elements/AlSubtitle";
-import { AlHighlight } from "./elements/AlHighlight";
-import { AlDivider } from "./elements/AlDivider";
-import { WeightsIcon } from "./elements/icons/WeightsIcon";
+import {
+  Divider,
+  Header,
+  Highlight,
+  Subtitle,
+  WeightsIcon,
+} from "components/elements";
 import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles(({ spacing, breakpoints, palette }: Theme) => ({
@@ -52,7 +54,7 @@ export const AvailableEquipment = [
   },
 ];
 
-export const Equipment = () => {
+export const EquipmentView = () => {
   const classes = useStyles();
 
   return (
@@ -66,14 +68,14 @@ export const Equipment = () => {
                   <WeightsIcon className={classes.icon} />
                 </Grid>
                 <Grid item>
-                  <AlHeader variant={"h1"}>{name}</AlHeader>
+                  <Header variant={"h1"}>{name}</Header>
                 </Grid>
-                <AlDivider grid />
+                <Divider grid />
                 <Grid item xs={12} justify="space-around">
-                  <AlSubtitle>
-                    Bar: <AlHighlight>{bar} </AlHighlight> lbs
-                  </AlSubtitle>
-                  <AlSubtitle>
+                  <Subtitle>
+                    Bar: <Highlight>{bar} </Highlight> lbs
+                  </Subtitle>
+                  <Subtitle>
                     Plates:{" "}
                     {plates.map((plate) => (
                       <>
@@ -82,7 +84,7 @@ export const Equipment = () => {
                         </Box>{" "}
                       </>
                     ))}
-                  </AlSubtitle>
+                  </Subtitle>
                 </Grid>
               </Grid>
             </Grid>

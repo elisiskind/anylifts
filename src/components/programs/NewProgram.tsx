@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Box, Theme } from "@material-ui/core";
-import { AlButton } from "../elements/AlButton";
-import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
+import { Button, TextInput } from "components/elements";
 
 export interface NewProgramProps {
   close: () => void;
@@ -40,24 +39,19 @@ export const NewProgram = ({ close }: NewProgramProps) => {
     <Box padding={2} className={classes.root}>
       <Box>
         <form className={classes.form} noValidate autoComplete="off">
-          <TextField
-            id="name"
-            label="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+          <TextInput label="Name" onChange={(e) => setName(name)} />
         </form>
         <Grid container className={classes.buttons}>
-          <AlButton
+          <Button
             onClick={async () => {
               clearAndClose();
             }}
           >
             Create
-          </AlButton>
-          <AlButton variant="outline" onClick={clearAndClose}>
+          </Button>
+          <Button variant="outline" onClick={clearAndClose}>
             Cancel
-          </AlButton>
+          </Button>
         </Grid>
       </Box>
     </Box>

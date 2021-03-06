@@ -1,12 +1,14 @@
 import * as React from "react";
 import { Drawer, List, makeStyles, Theme, useTheme } from "@material-ui/core";
-import { ListItemLink } from "../ListItemLink";
-import { AlHeader } from "../elements/AlHeader";
-import { WeightsIcon } from "../elements/icons/WeightsIcon";
-import { LiftingIcon } from "../elements/icons/LiftingIcon";
-import { BicepIcon } from "../elements/icons/BicepIcon";
+import {
+  ListItemLink,
+  Header,
+  WeightsIcon,
+  LiftingIcon,
+  BicepIcon,
+  Divider,
+} from "components/elements";
 import Box from "@material-ui/core/Box";
-import {AlDivider} from "../elements/AlDivider";
 
 const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
   drawerPaper: {
@@ -22,11 +24,11 @@ const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
     marginTop: spacing(2),
     padding: spacing(0, 2),
     textAlign: "center",
-    fontSize: "large !important"
+    fontSize: "large !important",
   },
   nav: {
-    marginTop: spacing(-2)
-  }
+    marginTop: spacing(-2),
+  },
 }));
 
 interface AlNavigationDrawerProps {
@@ -53,9 +55,9 @@ export const AlNavigationDrawer = ({
       ModalProps={{ keepMounted: true }}
     >
       <Box className={classes.header}>
-        <AlHeader variant={"h1"}>AnyLifts</AlHeader>
+        <Header variant={"h1"}>AnyLifts</Header>
       </Box>
-      <AlDivider/>
+      <Divider />
       <List component="nav" className={classes.nav}>
         <ListItemLink
           to="/workout"

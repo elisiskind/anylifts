@@ -1,10 +1,8 @@
 import React from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import { Lifts } from "../state/HardcodedDataSource";
+import { Lifts } from "state/HardcodedDataSource";
 import { Grid } from "@material-ui/core";
-import { AlPaper } from "./elements/AlPaper";
-import { AlHeader } from "./elements/AlHeader";
-import { EditIcon } from "./elements/icons/EditIcon";
+import { Paper, Header, EditIcon } from "components/elements";
 
 const useStyles = makeStyles(({ spacing }: Theme) => ({
   root: {
@@ -12,7 +10,7 @@ const useStyles = makeStyles(({ spacing }: Theme) => ({
   },
 }));
 
-export const Exercises = () => {
+export const ExercisesView = () => {
   const classes = useStyles();
 
   return (
@@ -20,16 +18,16 @@ export const Exercises = () => {
       {Lifts.map((lift) => {
         return (
           <Grid item xs={12} sm={4} md={3}>
-            <AlPaper>
+            <Paper>
               <Grid container>
                 <Grid item>
-                  <AlHeader variant={"h2"}>{lift.name}</AlHeader>
+                  <Header variant={"h2"}>{lift.name}</Header>
                 </Grid>
                 <Grid item>
                   <EditIcon />
                 </Grid>
               </Grid>
-            </AlPaper>
+            </Paper>
           </Grid>
         );
       })}

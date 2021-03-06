@@ -1,22 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Box, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { AlPaper } from "../elements/AlPaper";
-import { AvailableEquipment } from "../Equipment";
+import { Button, Paper, Timer } from "components/elements";
+import { AvailableEquipment } from "components/equipment";
 import Hidden from "@material-ui/core/Hidden";
-import { Routine } from "../../state/Programs";
-import { AlTimer } from "../elements/AlTimer";
-import { WorkoutOverview } from "./WorkoutOverview";
-import { AlButton } from "../elements/AlButton";
+import { Routine, Set } from "state/Programs";
+import { CurrentLift, WorkoutOverview } from "components/workout";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
-import { CurrentLift } from "./CurrentLift";
 import Grid from "@material-ui/core/Grid";
+import { SendAlert } from "lib/notifications";
 import {
   retrieveSetIndex,
   retrieveStartTime,
   storeSetIndex,
   storeStartTime,
-} from "../../state/localStorage";
+} from "state/localStorage";
 
 const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
   root: {
@@ -68,21 +66,14 @@ interface WorkoutProps {
 }
 
 export const Workout = ({ routine, reset }: WorkoutProps) => {
-  useEffect(() => {
-    if (!("Notification" in window)) {
-      console.log("This browser does not support desktop notification");
-    } else {
-      Notification.requestPermission();
-    }
-  });
-
   const [currentIndex, setCurrentIndex] = useState<number>(
     retrieveSetIndex() || 0
   );
+  storeSetIndex(currentIndex);
 
   const [complete, setComplete] = useState<boolean>(false);
-  storeSetIndex(currentIndex);
-  const currentSet = routine.sets[currentIndex];
+  const [sets, setSets] = useState<Set[]>(routine.sets);
+  const currentSet = sets[currentIndex];
 
   const [time, setTime] = useState<number>(90);
   const [startTime, setStartTime] = useState<number>(
@@ -93,34 +84,14 @@ export const Workout = ({ routine, reset }: WorkoutProps) => {
     setTime(time + timeToAdd);
   };
 
-  let audio = new Audio("/ding.mp3");
+  const onFinish = () => {
+    if (currentSet) {
+      const title = "Time for next set!";
+      const message = `${currentSet.exercise} - ${currentSet.reps}${
+        currentSet.amrap ? "+" : ""
+      } x ${currentSet.weight} lbs`;
 
-  const message = () => {
-    const next = routine.sets[currentIndex];
-    if (next) {
-      return [
-        "Time for next lift!",
-        `${next.exercise} - ${next.reps}${next.amrap ? "+" : ""} x ${
-          next.weight
-        } lbs`,
-      ];
-    } else {
-      return ["Workout complete!", "Great job!"];
-    }
-  };
-
-  const alert = () => {
-    if (document.hidden) {
-      const [title, body] = message();
-      navigator.serviceWorker.ready.then(function (serviceWorker) {
-        serviceWorker.showNotification(title, {
-          body: body,
-          vibrate: [100, 100, 100],
-          icon: "/wristwatch.png",
-        });
-      });
-    } else {
-      audio.play();
+      SendAlert(title, message);
     }
   };
 
@@ -142,7 +113,7 @@ export const Workout = ({ routine, reset }: WorkoutProps) => {
   };
 
   const next = () => {
-    if (currentIndex + 1 < routine.sets.length) {
+    if (currentIndex + 1 < sets.length) {
       setCurrentIndex(currentIndex + 1);
       restartTimer();
     } else {
@@ -169,11 +140,25 @@ export const Workout = ({ routine, reset }: WorkoutProps) => {
     setShowMobileOverview(!showMobileOverview);
   };
 
+  const addJokerSet = () => {
+    const jokerSet = {
+      weight: Math.round((currentSet.weight * 1.05) / 2.5) * 2.5,
+      reps: currentSet.reps,
+      amrap: false,
+      exercise: currentSet.exercise,
+      jokerSet: true,
+    };
+    sets.splice(currentIndex + 1, 0, jokerSet);
+    setSets([...sets]);
+    setCurrentIndex(currentIndex + 1);
+    restartTimer();
+  };
+
   const classes = useStyles(showMobileOverview);
 
   const workoutOverview = (
     <WorkoutOverview
-      routine={routine.sets}
+      routine={sets}
       currentIndex={currentIndex}
       next={next}
       prev={prev}
@@ -194,21 +179,21 @@ export const Workout = ({ routine, reset }: WorkoutProps) => {
           <Hidden smUp>
             <Box className={classes.mobileOverview}>
               <Box className={classes.showMobileOverview}>
-                <AlButton
+                <Button
                   variant="outline"
                   onClick={toggleShowOverview}
                   className={classes.showMobileOverviewBtn}
                 >
-                  {currentIndex + 1}/{routine.sets.length} -{" "}
+                  {currentIndex + 1}/{sets.length} -{" "}
                   {showMobileOverview ? "Hide" : "Show"} overview{" "}
                   {showMobileOverview ? <ExpandMore /> : <ExpandLess />}
-                </AlButton>
+                </Button>
               </Box>
               <Box className={classes.workoutOverview}>{workoutOverview}</Box>
             </Box>
           </Hidden>
           {complete ? (
-            <AlPaper>
+            <Paper>
               <Grid container spacing={3}>
                 <Grid item xs={12}>
                   All sets complete!
@@ -219,23 +204,21 @@ export const Workout = ({ routine, reset }: WorkoutProps) => {
                   display={"flex"}
                   justifyContent={"center"}
                 >
-                  <AlButton onClick={finish}>Finish workout</AlButton>
+                  <Button onClick={finish}>Finish workout</Button>
                 </Box>
               </Grid>
-            </AlPaper>
+            </Paper>
           ) : (
             <>
               <Box alignItems={"center"} marginBottom={2}>
-                {currentIndex > 0 ? (
-                  <AlTimer
+                {currentIndex > 0 && (
+                  <Timer
                     key={currentIndex}
                     time={time}
                     start={startTime}
                     addTime={addTime}
-                    onFinish={alert}
+                    onFinish={onFinish}
                   />
-                ) : (
-                  "Go ahead!"
                 )}
               </Box>
               <CurrentLift
@@ -246,6 +229,8 @@ export const Workout = ({ routine, reset }: WorkoutProps) => {
                 plates={AvailableEquipment[0].plates}
                 bar={AvailableEquipment[0].bar}
                 next={next}
+                jokerSet={!!currentSet.jokerSet}
+                addJokerSet={addJokerSet}
               />
             </>
           )}

@@ -1,8 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import { Paper } from "@material-ui/core";
 
-export interface AlPaperProps {
+export interface PaperProps {
   color?: "primary" | "secondary" | "error" | "warning" | "info" | "success";
 
   /**
@@ -15,9 +14,9 @@ export interface AlPaperProps {
 
 const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
   paper: {
-    backgroundColor: ({ color }: AlPaperProps) =>
+    backgroundColor: ({ color }: PaperProps) =>
       color ? palette[color].main : "white",
-    border: ({ color }: AlPaperProps) =>
+    border: ({ color }: PaperProps) =>
       color ? "none" : "2px solid " + palette.grey.A100,
     boxShadow: "none",
     borderRadius: 20,
@@ -40,7 +39,7 @@ const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
 /**
  * Primary UI component for user interaction
  */
-export const AlPaper: FunctionComponent<AlPaperProps> = ({
+export const Paper: FunctionComponent<PaperProps> = ({
   color,
   className,
   onClick,
@@ -57,8 +56,8 @@ export const AlPaper: FunctionComponent<AlPaperProps> = ({
   }
 
   return (
-    <Paper className={paperClasses.join(" ")} onClick={onClick}>
+    <div className={paperClasses.join(" ")} onClick={onClick}>
       {children}
-    </Paper>
+    </div>
   );
 };

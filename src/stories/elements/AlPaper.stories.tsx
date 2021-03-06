@@ -1,29 +1,29 @@
 import React from "react";
 import { Meta, Story } from "@storybook/react";
-import { AlPaper } from "../../components/elements/AlPaper";
+import { Paper } from "components/elements/Paper";
 import { Grid } from "@material-ui/core";
-import { AlButton } from "../../components/elements/AlButton";
+import { Button } from "components/elements/Button";
 
 export default {
   title: "components/AlPaper",
-  component: AlPaper,
+  component: Paper,
 } as Meta;
 
 const Template: Story = () => (
-  <AlPaper>
+  <Paper>
     Content goes here
     <Grid container>
       <Grid item>
-        <AlButton>Great</AlButton>
+        <Button>Great</Button>
       </Grid>
       <Grid item>
-        <AlButton variant="outline">Oh no!</AlButton>
+        <Button variant="outline">Oh no!</Button>
       </Grid>
       <Grid item>
-        <AlButton variant="outline">Help!</AlButton>
+        <Button variant="outline">Help!</Button>
       </Grid>
     </Grid>
-  </AlPaper>
+  </Paper>
 );
 
 export const Primary = Template.bind({});

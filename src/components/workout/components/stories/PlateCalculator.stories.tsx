@@ -1,13 +1,15 @@
-import React from 'react';
-import {Meta, Story} from '@storybook/react';
-import {PlateCalculator, PlateCalculatorProps} from "../components/workout/PlateCalculator";
+import React from "react";
+import { Meta, Story } from "@storybook/react";
+import { PlateCalculator, PlateCalculatorProps } from "../PlateCalculator";
 
 export default {
-  title: 'components/PlateCalculator',
-  component: PlateCalculator
+  title: "components/PlateCalculator",
+  component: PlateCalculator,
 } as Meta;
 
-const Template: Story<PlateCalculatorProps> = (args) => <PlateCalculator {...args} />;
+const Template: Story<PlateCalculatorProps> = (args) => (
+  <PlateCalculator {...args} />
+);
 
 export const Normal = Template.bind({});
 Normal.args = {

@@ -5,17 +5,17 @@ export const Lifts: Lift[] = [
   {
     name: "Bench Press",
     id: 1,
-    tm: 150,
+    tm: 155,
   },
   {
     name: "Squat",
     id: 2,
-    tm: 200,
+    tm: 205,
   },
   {
     name: "Deadlift",
     id: 3,
-    tm: 190,
+    tm: 195,
   },
   {
     name: "Overhead Press",
@@ -551,22 +551,17 @@ export const Programs: ProgramData[] = [
         name: "Legs 2",
         groups: [
           {
+            liftId: 17,
+            mode: "absolute",
+            lifts: [{ weight: 0, reps: 10, sets: 2 }],
+          },
+          {
             liftId: 16,
             mode: "absolute",
             lifts: [{ weight: 70, reps: 10, sets: 3 }],
           },
           {
-            liftId: 17,
-            mode: "absolute",
-            lifts: [{ weight: 0, reps: 10, sets: 3 }],
-          },
-          {
-            liftId: 18,
-            mode: "absolute",
-            lifts: [{ weight: 0, reps: 10, sets: 3 }],
-          },
-          {
-            liftId: 2,
+            liftId: 3,
             mode: "percent",
             lifts: [
               { weight: 40, reps: 5 },
@@ -577,6 +572,16 @@ export const Programs: ProgramData[] = [
               { weight: 85, reps: 5, amrap: true },
               { weight: 65, reps: 5, sets: 5 },
             ],
+          },
+          {
+            liftId: 17,
+            mode: "absolute",
+            lifts: [{ weight: 0, reps: 10, sets: 3 }],
+          },
+          {
+            liftId: 18,
+            mode: "absolute",
+            lifts: [{ weight: 0, reps: 10, sets: 3 }],
           },
         ],
       },

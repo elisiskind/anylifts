@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useState } from "react";
 import {
   AppBar,
   createStyles,
@@ -9,12 +8,14 @@ import {
   Theme,
   Toolbar,
 } from "@material-ui/core";
-import { Fullscreen, FullscreenExit, Menu } from "@material-ui/icons";
-import { AlHeader } from "../elements/AlHeader";
+import { Menu } from "@material-ui/icons";
 import Hidden from "@material-ui/core/Hidden";
-import { AlButton } from "../elements/AlButton";
+import { Button, Header } from "components/elements";
 import { useHistory } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
+import { isEmpty, isLoaded, useFirebase } from "react-redux-firebase";
+import { useSelector } from "react-redux";
+import { State } from "store/reducers";
 
 const useStyles = makeStyles(
   ({ palette, spacing, breakpoints, mixins }: Theme) =>
@@ -45,6 +46,7 @@ const useStyles = makeStyles(
         justifyContent: "space-between",
       },
       leftSide: {
+        width: "initial",
         display: "flex",
         alignItems: "center",
       },
@@ -59,16 +61,10 @@ export const AlAppBar = ({ handleToggle }: AlAppBarProps) => {
   const classes = useStyles();
   const history = useHistory();
 
-  const toggleFullscreen = () => {
-    if (!fullscreen) {
-      setFullscreen(true);
-      document.body.requestFullscreen().then((r) => setFullscreen(true));
-    } else {
-      document.exitFullscreen().then((r) => setFullscreen(false));
-    }
-  };
+  const firebase = useFirebase();
 
-  const [fullscreen, setFullscreen] = useState<boolean>(false);
+  const auth = useSelector((state: State) => state.firebase.auth);
+  const loggedIn = isLoaded(auth) && !isEmpty(auth);
 
   return (
     <AppBar position="fixed" className={classes.root}>
@@ -84,45 +80,53 @@ export const AlAppBar = ({ handleToggle }: AlAppBarProps) => {
             <Menu />
           </IconButton>
           <Hidden smUp>
-            <AlHeader variant="h1">AnyLifts</AlHeader>
+            <Header variant="h1">AnyLifts</Header>
           </Hidden>
           <Hidden xsDown>
-            <AlHeader variant="h1">AnyLifts</AlHeader>
-            <List component="nav" className={classes.navBar}>
-              <AlButton
-                onClick={() => history.push("workout")}
-                className={classes.navButton}
-                variant="link"
-              >
-                Workout
-              </AlButton>
-              <AlButton
-                onClick={() => history.push("programs")}
-                className={classes.navButton}
-                variant="link"
-              >
-                Programs
-              </AlButton>
-              <AlButton
-                onClick={() => history.push("exercises")}
-                className={classes.navButton}
-                variant="link"
-              >
-                Exercises
-              </AlButton>
-              <AlButton
-                onClick={() => history.push("equipment")}
-                className={classes.navButton}
-                variant="link"
-              >
-                Equipment
-              </AlButton>
-            </List>
+            <Header variant="h1">AnyLifts</Header>
+            {loggedIn && (
+              <List component="nav" className={classes.navBar}>
+                <Button
+                  onClick={() => history.push("workout")}
+                  className={classes.navButton}
+                  variant="link"
+                >
+                  Workout
+                </Button>
+                <Button
+                  onClick={() => history.push("programs")}
+                  className={classes.navButton}
+                  variant="link"
+                >
+                  Programs
+                </Button>
+                <Button
+                  onClick={() => history.push("exercises")}
+                  className={classes.navButton}
+                  variant="link"
+                >
+                  Exercises
+                </Button>
+                <Button
+                  onClick={() => history.push("equipment")}
+                  className={classes.navButton}
+                  variant="link"
+                >
+                  Equipment
+                </Button>
+              </List>
+            )}
           </Hidden>
         </Grid>
-        <AlButton variant="link" onClick={toggleFullscreen}>
-          {fullscreen ? <FullscreenExit /> : <Fullscreen />}
-        </AlButton>
+        {loggedIn && (
+          <Button
+            onClick={() => firebase.logout()}
+            className={classes.navButton}
+            variant="link"
+          >
+            Log Out
+          </Button>
+        )}
       </Toolbar>
     </AppBar>
   );

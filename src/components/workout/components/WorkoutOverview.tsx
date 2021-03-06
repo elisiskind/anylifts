@@ -1,9 +1,8 @@
 import * as React from "react";
-import { Box, Grid, Hidden, makeStyles, Theme } from "@material-ui/core";
-import { AlButton } from "../elements/AlButton";
-import { Set } from "../../state/Programs";
+import { Box, Grid, makeStyles, Theme } from "@material-ui/core";
+import { Set } from "state/Programs";
 import { Close, Replay, SkipNext, SkipPrevious } from "@material-ui/icons";
-import { AlDivider } from "../elements/AlDivider";
+import { Button, Divider } from "components/elements";
 
 const useStyles = makeStyles(({ spacing, palette, breakpoints }: Theme) => ({
   workoutOverview: {
@@ -90,7 +89,7 @@ export const WorkoutOverview = ({
                   <Grid item xs={12} container key={index}>
                     {index !== 0 &&
                       routine[index - 1].exercise !== set.exercise && (
-                        <AlDivider grid space={1} />
+                        <Divider grid space={1} />
                       )}
                     <Grid item xs={12}>
                       <Box className={className}>
@@ -107,28 +106,28 @@ export const WorkoutOverview = ({
         </Box>
         <Grid container className={classes.navigation}>
           <Grid item className={classes.buttons}>
-            <AlButton
+            <Button
               size={"small"}
               onClick={reset}
               className={classes.leftButton}
             >
               <Replay />
-            </AlButton>
-            <AlButton size={"small"} onClick={finish}>
+            </Button>
+            <Button size={"small"} onClick={finish}>
               <Close />
-            </AlButton>
+            </Button>
           </Grid>
           <Grid item className={classes.buttons}>
-            <AlButton
+            <Button
               size={"small"}
               onClick={prev}
               className={classes.leftButton}
             >
               <SkipPrevious />
-            </AlButton>
-            <AlButton size={"small"} onClick={next}>
+            </Button>
+            <Button size={"small"} onClick={next}>
               <SkipNext />
-            </AlButton>
+            </Button>
           </Grid>
         </Grid>
       </Box>

@@ -1,15 +1,10 @@
 import React, { useState } from "react";
-import { Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Add } from "@material-ui/icons";
-import { AlButton } from "../elements/AlButton";
-import Modal from "@material-ui/core/Modal";
-import { NewProgram } from "./NewProgram";
-import { AlPaper } from "../elements/AlPaper";
-import Grid from "@material-ui/core/Grid";
-import { Programs } from "../../state/HardcodedDataSource";
-import {AlHeader} from "../elements/AlHeader";
-import {AlSubtitle} from "../elements/AlSubtitle";
+import { Button, Header, Paper, Subtitle } from "components/elements";
+import { NewProgram } from "components/programs";
+import { Programs } from "state/HardcodedDataSource";
+import { Box, Grid, Modal } from "@material-ui/core";
 
 const useStyles = makeStyles(({ spacing }) => ({
   root: {
@@ -45,20 +40,18 @@ export const ProgramsView = () => {
           {Programs.map((program) => {
             return (
               <Grid item xs={12} sm={6}>
-                <AlPaper>
-                  <AlHeader variant={"h2"}>{program.name}</AlHeader>
-                  <AlSubtitle>
-                    {program.routines.length} day program
-                  </AlSubtitle>
-                </AlPaper>
+                <Paper>
+                  <Header variant={"h2"}>{program.name}</Header>
+                  <Subtitle>{program.routines.length} day program</Subtitle>
+                </Paper>
               </Grid>
             );
           })}
         </Grid>
         <Box className={classes.fab}>
-          <AlButton onClick={createNewProgam} color="secondary">
+          <Button onClick={createNewProgam} color="secondary">
             <Add className={classes.addIcon} /> Create
-          </AlButton>
+          </Button>
         </Box>
       </Box>
     </>

@@ -1,55 +1,56 @@
-import React from 'react';
-import { Story, Meta } from '@storybook/react';
+import React from "react";
+import { Story, Meta } from "@storybook/react";
 
-import { AlButton, AlButtonProps } from '../../components/elements/AlButton';
+import { Button, ButtonProps } from "components/elements/Button";
 
 export default {
-  title: 'elements/AlButton',
-  component: AlButton
+  title: "elements/AlButton",
+  component: Button,
 } as Meta;
 
-interface AlButtonStoryProps extends AlButtonProps {
-  label: string
+interface AlButtonStoryProps extends ButtonProps {
+  label: string;
 }
 
 const Template: Story<AlButtonStoryProps> = (args) => {
   const onclick = () => {
-    console.log('hello')
-  }
-  return <div>
-    <AlButton {...args} onClick={onclick} >
-      {args.label}
-    </AlButton>
-  </div>
-}
+    console.log("hello");
+  };
+  return (
+    <div>
+      <Button {...args} onClick={onclick}>
+        {args.label}
+      </Button>
+    </div>
+  );
+};
 
 export const Primary = Template.bind({});
 Primary.args = {
-  label: 'Button',
+  label: "Button",
 };
 
 export const PrimaryOutline = Template.bind({});
 PrimaryOutline.args = {
   variant: "outline",
-  label: 'Button',
+  label: "Button",
 };
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-  color: 'secondary',
-  label: 'Button',
+  color: "secondary",
+  label: "Button",
 };
 
 export const SecondaryOutline = Template.bind({});
 SecondaryOutline.args = {
-  color: 'secondary',
+  color: "secondary",
   variant: "outline",
-  label: 'Outline Button',
+  label: "Outline Button",
 };
 
 export const Link = Template.bind({});
 Link.args = {
   variant: "link",
-  label: 'Link Button',
+  label: "Link Button",
 };
-

@@ -1,7 +1,7 @@
 import React from "react";
 import { ListItemIcon, Theme } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-import { AlButton } from "./elements/AlButton";
+import { Button } from "components/elements";
 import { makeStyles } from "@material-ui/core/styles";
 
 interface ListItemLinkProps {
@@ -27,7 +27,12 @@ const useStyles = makeStyles(({ spacing }: Theme) => ({
   },
 }));
 
-export function ListItemLink({ primary, icon, to, action }: ListItemLinkProps) {
+export const ListItemLink = ({
+  primary,
+  icon,
+  to,
+  action,
+}: ListItemLinkProps) => {
   const history = useHistory();
   const classes = useStyles();
 
@@ -39,7 +44,7 @@ export function ListItemLink({ primary, icon, to, action }: ListItemLinkProps) {
   };
 
   return (
-    <AlButton
+    <Button
       onClick={handleClick}
       size={"small"}
       className={classes.button}
@@ -47,6 +52,6 @@ export function ListItemLink({ primary, icon, to, action }: ListItemLinkProps) {
     >
       <ListItemIcon className={classes.icon}>{icon}</ListItemIcon>
       {primary}
-    </AlButton>
+    </Button>
   );
-}
+};

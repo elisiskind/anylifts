@@ -8,8 +8,8 @@
 // You can also remove this file if you'd prefer not to use a
 // service worker, and the Workbox build step will be skipped.
 
-import {clientsClaim} from "workbox-core";
-import {precacheAndRoute} from "workbox-precaching";
+import { clientsClaim } from "workbox-core";
+import { precacheAndRoute } from "workbox-precaching";
 
 clientsClaim();
 
@@ -19,60 +19,67 @@ clientsClaim();
 // even if you decide not to use precaching. See https://cra.link/PWA
 precacheAndRoute(self.__WB_MANIFEST);
 
-self.addEventListener('notificationclose', function (e) {
-    var notification = e.notification;
-    var data = notification.data || {};
-    var primaryKey = data.primaryKey;
-    console.debug('Closed notification: ' + primaryKey);
+self.addEventListener("notificationclose", function (e) {
+  var notification = e.notification;
+  var data = notification.data || {};
+  var primaryKey = data.primaryKey;
+  console.debug("Closed notification: " + primaryKey);
 });
 
 function receivePushNotification(event) {
-    console.log("[Service Worker] Push Received.");
+  console.log("[Service Worker] Push Received.");
 
-    const {image, tag, url, title, text} = event.data.json();
+  const { image, tag, url, title, text } = event.data.json();
 
-    const options = {
-        data: url,
-        body: text,
-        icon: image,
-        vibrate: [200, 100, 200],
-        tag: tag,
-        image: image,
-        badge: "https://spyna.it/icons/favicon.ico",
-        actions: [{action: "Detail", title: "View", icon: "https://via.placeholder.com/128/ff0000"}]
-    };
-    event.waitUntil(self.registration.showNotification(title, options));
+  const options = {
+    data: url,
+    body: text,
+    icon: image,
+    vibrate: [200, 100, 200],
+    tag: tag,
+    image: image,
+    badge: "https://spyna.it/icons/favicon.ico",
+    actions: [
+      {
+        action: "Detail",
+        title: "View",
+        icon: "https://via.placeholder.com/128/ff0000",
+      },
+    ],
+  };
+  event.waitUntil(self.registration.showNotification(title, options));
 }
 
 function openPushNotification(event) {
-    event.notification.close();
-    const urlToOpen = new URL('https://anylifts.web.app/workout', self.location.origin).href;
+  event.notification.close();
+  const urlToOpen = new URL("/workout", self.location.origin).href;
 
-    // eslint-disable-next-line no-undef
-    const promiseChain = clients.matchAll({
-        type: 'window',
-        includeUncontrolled: true
+  // eslint-disable-next-line no-undef
+  const promiseChain = clients
+    .matchAll({
+      type: "window",
+      includeUncontrolled: true,
     })
-        .then((windowClients) => {
-            let matchingClient = null;
+    .then((windowClients) => {
+      let matchingClient = null;
 
-            for (let i = 0; i < windowClients.length; i++) {
-                const windowClient = windowClients[i];
-                if (windowClient.url === urlToOpen) {
-                    matchingClient = windowClient;
-                    break;
-                }
-            }
+      for (let i = 0; i < windowClients.length; i++) {
+        const windowClient = windowClients[i];
+        if (windowClient.url === urlToOpen) {
+          matchingClient = windowClient;
+          break;
+        }
+      }
 
-            if (matchingClient) {
-                return matchingClient.focus();
-            } else {
-                // eslint-disable-next-line no-undef
-                return clients.openWindow(urlToOpen);
-            }
-        });
+      if (matchingClient) {
+        return matchingClient.focus();
+      } else {
+        // eslint-disable-next-line no-undef
+        return clients.openWindow(urlToOpen);
+      }
+    });
 
-    event.waitUntil(promiseChain);
+  event.waitUntil(promiseChain);
 }
 
 self.addEventListener("push", receivePushNotification);

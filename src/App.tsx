@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import {
@@ -11,12 +11,14 @@ import {
   Theme,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { ProgramsView } from "./components/programs/ProgramsView";
-import { Exercises } from "./components/Exercises";
-import { Equipment } from "./components/Equipment";
-import { AlAppBar } from "./components/base/AlAppBar";
-import { AlNavigationDrawer } from "./components/base/AlNavigationDrawer";
-import { WorkoutsView } from "./components/workout/WorkoutsView";
+import ProgramsView from "components/programs";
+import ExercisesView from "components/exercises";
+import EquipmentView from "components/equipment";
+import { AlAppBar } from "components/base/AlAppBar";
+import { AlNavigationDrawer } from "components/base/AlNavigationDrawer";
+import WorkoutsView from "components/workout";
+import { LoginView, PrivateRoute } from "components/auth";
+import { RequestNotificationsPermissions } from "lib/notifications";
 
 const drawerWidth = 240;
 
@@ -88,6 +90,10 @@ function App() {
   };
   const theme = createMuiTheme(AppTheme);
 
+  useEffect(() => {
+    RequestNotificationsPermissions();
+  });
+
   return (
     <BrowserRouter>
       <MuiThemeProvider theme={theme}>
@@ -107,18 +113,21 @@ function App() {
             <div className={classes.toolbar} />
             <Box className={classes.contentContainer}>
               <Switch>
-                <Route path="/workout">
+                <Route path="/login">
+                  <LoginView />
+                </Route>
+                <PrivateRoute path="/workout">
                   <WorkoutsView />
-                </Route>
-                <Route path="/programs">
+                </PrivateRoute>
+                <PrivateRoute path="/programs">
                   <ProgramsView />
-                </Route>
-                <Route path="/exercises">
-                  <Exercises />
-                </Route>
-                <Route path="/equipment">
-                  <Equipment />
-                </Route>
+                </PrivateRoute>
+                <PrivateRoute path="/exercises">
+                  <ExercisesView />
+                </PrivateRoute>
+                <PrivateRoute path="/equipment">
+                  <EquipmentView />
+                </PrivateRoute>
               </Switch>
             </Box>
           </main>

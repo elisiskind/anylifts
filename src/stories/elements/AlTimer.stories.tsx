@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Meta, Story } from "@storybook/react";
-import { AlTimer } from "../../components/elements/AlTimer";
+import { Timer } from "components/elements/Timer";
 import Box from "@material-ui/core/Box";
 
 export default {
   title: "elements/AlTimer",
-  component: AlTimer,
+  component: Timer,
 } as Meta;
 
 interface AlTimerStoryProps {
@@ -24,7 +24,7 @@ const Template: Story<AlTimerStoryProps> = ({
 
   return (
     <>
-      <AlTimer
+      <Timer
         addTime={addTime}
         time={time}
         start={start}
@@ -33,9 +33,7 @@ const Template: Story<AlTimerStoryProps> = ({
         }}
       />
       <Box marginTop={3}>
-        <button onClick={() => setStart(Date.now())} >
-            Reset
-        </button>
+        <button onClick={() => setStart(Date.now())}>Reset</button>
       </Box>
     </>
   );

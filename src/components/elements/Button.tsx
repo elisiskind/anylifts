@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 
-export interface AlButtonProps {
+export interface ButtonProps {
   /**
    * Color of button
    */
@@ -52,13 +52,13 @@ const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
   btn: {
     display: "flex",
     alignItems: "center",
-    borderTopLeftRadius: ({ flatLeft, flatTop }: AlButtonProps) =>
+    borderTopLeftRadius: ({ flatLeft, flatTop }: ButtonProps) =>
       flatLeft || flatTop ? 0 : 20,
-    borderTopRightRadius: ({ flatRight, flatTop }: AlButtonProps) =>
+    borderTopRightRadius: ({ flatRight, flatTop }: ButtonProps) =>
       flatRight || flatTop ? 0 : 20,
-    borderBottomRightRadius: ({ flatRight, flatBottom }: AlButtonProps) =>
+    borderBottomRightRadius: ({ flatRight, flatBottom }: ButtonProps) =>
       flatRight || flatBottom ? 0 : 20,
-    borderBottomLeftRadius: ({ flatLeft, flatBottom }: AlButtonProps) =>
+    borderBottomLeftRadius: ({ flatLeft, flatBottom }: ButtonProps) =>
       flatLeft || flatBottom ? 0 : 20,
     cursor: "pointer",
     textTransform: "uppercase",
@@ -67,30 +67,30 @@ const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
     outline: "none",
     top: 0,
     position: "relative",
-    background: ({ variant, color }: AlButtonProps) => {
+    background: ({ variant, color }: ButtonProps) => {
       if (variant && variant !== "normal") {
         return "#fff";
       }
       return palette[color || "primary"].main;
     },
-    color: ({ variant, color }: AlButtonProps) => {
+    color: ({ variant, color }: ButtonProps) => {
       return palette[color || "primary"][
-          (variant && variant !== "normal") ? "main" : "contrastText"
+        variant && variant !== "normal" ? "main" : "contrastText"
       ];
     },
-    border: ({ variant, color }: AlButtonProps) => {
+    border: ({ variant, color }: ButtonProps) => {
       if (variant === "outline") {
         return "3px solid " + palette[color || "primary"].main;
       } else {
         return "none";
       }
     },
-    boxShadow: ({ color, variant }: AlButtonProps) => {
+    boxShadow: ({ color, variant }: ButtonProps) => {
       return variant === "link"
         ? "none"
         : "0 6px " + palette[color || "primary"].dark;
     },
-    padding: ({ variant, size }: AlButtonProps) => {
+    padding: ({ variant, size }: ButtonProps) => {
       const borderSize = variant === "outline" ? 2 : 0;
       switch (size ? size : "medium") {
         case "small":
@@ -111,23 +111,23 @@ const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
       }
     },
     "&:hover": {
-      top: ({ variant }: AlButtonProps) => (variant === "link" ? 0 : "2px"),
-      boxShadow: ({ color, variant }: AlButtonProps) => {
+      top: ({ variant }: ButtonProps) => (variant === "link" ? 0 : "2px"),
+      boxShadow: ({ color, variant }: ButtonProps) => {
         return variant === "link"
           ? "none"
           : "0 4px " + palette[color || "primary"].dark;
       },
-      textDecoration: ({ variant }: AlButtonProps) =>
+      textDecoration: ({ variant }: ButtonProps) =>
         variant === "link" ? "underline" : "none",
     },
     "&:active": {
-      top: ({ variant }: AlButtonProps) => (variant === "link" ? 0 : "6px"),
-      boxShadow: ({ color, variant }: AlButtonProps) => {
+      top: ({ variant }: ButtonProps) => (variant === "link" ? 0 : "6px"),
+      boxShadow: ({ color, variant }: ButtonProps) => {
         return variant === "link"
           ? "none"
           : "0 0 " + palette[color || "primary"].dark;
       },
-      textDecoration: ({ variant }: AlButtonProps) =>
+      textDecoration: ({ variant }: ButtonProps) =>
         variant === "link" ? "underline" : "none",
     },
     "&:after": {
@@ -141,7 +141,7 @@ const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
 /**
  * Primary UI component for user interaction
  */
-export const AlButton: FunctionComponent<AlButtonProps> = (props) => {
+export const Button: FunctionComponent<ButtonProps> = (props) => {
   const classes = useStyles(props);
   const buttonClasses = props.className
     ? `${classes.btn} ${props.className}`

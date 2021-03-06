@@ -7,7 +7,6 @@ export interface ProgramData {
   routines: RoutineData[];
 }
 
-
 export interface RoutineData {
   groups: SetGroup[];
   name: string;
@@ -21,7 +20,7 @@ export interface Program {
 
 export interface Routine {
   name: string;
-  sets: Set[]
+  sets: Set[];
 }
 
 export interface SetGroup {
@@ -42,6 +41,7 @@ export interface Set {
   amrap: boolean;
   weight: number;
   exercise: string;
+  jokerSet?: boolean;
 }
 
 const buildSets = (routine: RoutineData, lifts: Lift[]): Set[] => {
@@ -74,16 +74,20 @@ const buildSets = (routine: RoutineData, lifts: Lift[]): Set[] => {
 };
 
 export const getProgramsForUser = (userId: number) => {
-  return Programs.map((program): Program => {
-    return {
-      name: program.name,
-      id: program.id,
-      routines: program.routines.map((routine): Routine => {
-        return {
-          name: routine.name,
-          sets: buildSets(routine, getLiftsForUser(userId))
-        };
-      })
+  return Programs.map(
+    (program): Program => {
+      return {
+        name: program.name,
+        id: program.id,
+        routines: program.routines.map(
+          (routine): Routine => {
+            return {
+              name: routine.name,
+              sets: buildSets(routine, getLiftsForUser(userId)),
+            };
+          }
+        ),
+      };
     }
-  })
+  );
 };
