@@ -1,8 +1,6 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useContext } from "react";
 import { Redirect, Route, RouteProps } from "react-router-dom";
-import { isEmpty, isLoaded } from "react-redux-firebase";
-import { useSelector } from "react-redux";
-import { State } from "store/reducers";
+import { UserContext } from "store/UserProvider";
 
 export interface PrivateRouteProps extends RouteProps {}
 
@@ -10,17 +8,16 @@ export const PrivateRoute: FunctionComponent<PrivateRouteProps> = ({
   children,
   ...remainingProps
 }) => {
-  const auth = useSelector((state: State) => state.firebase.auth);
+  const user = useContext(UserContext);
   return (
     <Route
       {...remainingProps}
       render={({ location }) =>
-        isLoaded(auth) &&
-        (!isEmpty(auth) ? (
+        !!user ? (
           children
         ) : (
           <Redirect to={{ pathname: "/login", state: { from: location } }} />
-        ))
+        )
       }
     />
   );

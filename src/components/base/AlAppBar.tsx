@@ -13,9 +13,9 @@ import Hidden from "@material-ui/core/Hidden";
 import { Button, Header } from "components/elements";
 import { useHistory } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
-import { isEmpty, isLoaded, useFirebase } from "react-redux-firebase";
-import { useSelector } from "react-redux";
-import { State } from "store/reducers";
+import { useContext } from "react";
+import { UserContext } from "store/UserProvider";
+import { auth } from "index";
 
 const useStyles = makeStyles(
   ({ palette, spacing, breakpoints, mixins }: Theme) =>
@@ -61,10 +61,8 @@ export const AlAppBar = ({ handleToggle }: AlAppBarProps) => {
   const classes = useStyles();
   const history = useHistory();
 
-  const firebase = useFirebase();
-
-  const auth = useSelector((state: State) => state.firebase.auth);
-  const loggedIn = isLoaded(auth) && !isEmpty(auth);
+  const user = useContext(UserContext);
+  const loggedIn = !!user;
 
   return (
     <AppBar position="fixed" className={classes.root}>
@@ -120,7 +118,7 @@ export const AlAppBar = ({ handleToggle }: AlAppBarProps) => {
         </Grid>
         {loggedIn && (
           <Button
-            onClick={() => firebase.logout()}
+            onClick={() => auth.signOut()}
             className={classes.navButton}
             variant="link"
           >

@@ -1,38 +1,59 @@
 import { ProgramData } from "./Programs";
 import { Lift } from "./Lifts";
 
+/* 1 - bench
+ * 2 - squat
+ * 3 - dead
+ * 4 - press
+ * 5 - row
+ * 6 - pullup
+ * 7 - chest supported row
+ * 8 - rear delt flye
+ * 9 - hammer curl
+ * 10 - curl
+ * 11 - incline dumbell press
+ * 12 - lat raise
+ * 13 - skullcrusher
+ * 14 - triceps ext
+ * 15 - rom dead
+ * 16 - f squat
+ * 17 - jump tuck
+ * 18 - burpee
+ * 19 - dumbell press
+ */
+
 export const Lifts: Lift[] = [
   {
     name: "Bench Press",
     id: 1,
-    tm: 155,
+    tm: 160,
   },
   {
     name: "Squat",
     id: 2,
-    tm: 205,
+    tm: 210,
   },
   {
     name: "Deadlift",
     id: 3,
-    tm: 195,
+    tm: 200,
   },
   {
     name: "Overhead Press",
     id: 4,
-    tm: 95,
+    tm: 100,
   },
   {
     name: "Barbell Row",
     id: 5,
-    tm: 120,
+    tm: 150,
   },
   {
     name: "Pullup",
     id: 6,
   },
   {
-    name: "Chest Supported Row",
+    name: "Dumbbell Row",
     id: 7,
   },
   {
@@ -96,7 +117,7 @@ export const Lifts: Lift[] = [
 
 export const Programs: ProgramData[] = [
   {
-    name: "5/3/1 For Beginners",
+    name: "5/3/1",
     id: 0,
     routines: [
       {
@@ -127,6 +148,26 @@ export const Programs: ProgramData[] = [
               { weight: 85, reps: 5, amrap: true },
               { weight: 65, reps: 5, sets: 5 },
             ],
+          },
+          {
+            liftId: 7,
+            mode: "absolute",
+            lifts: [{ weight: 40, reps: 10, sets: 3 }],
+          },
+          {
+            liftId: 19,
+            mode: "absolute",
+            lifts: [{ weight: 30, reps: 10, sets: 3 }],
+          },
+          {
+            liftId: 12,
+            mode: "absolute",
+            lifts: [{ weight: 5, reps: 10, sets: 3 }],
+          },
+          {
+            liftId: 10,
+            mode: "absolute",
+            lifts: [{ weight: 25, reps: 10, sets: 3 }],
           },
         ],
       },
@@ -220,6 +261,26 @@ export const Programs: ProgramData[] = [
               { weight: 90, reps: 3, amrap: true },
               { weight: 70, reps: 5, sets: 5 },
             ],
+          },
+          {
+            liftId: 7,
+            mode: "absolute",
+            lifts: [{ weight: 40, reps: 10, sets: 3 }],
+          },
+          {
+            liftId: 19,
+            mode: "absolute",
+            lifts: [{ weight: 30, reps: 10, sets: 3 }],
+          },
+          {
+            liftId: 12,
+            mode: "absolute",
+            lifts: [{ weight: 5, reps: 10, sets: 3 }],
+          },
+          {
+            liftId: 10,
+            mode: "absolute",
+            lifts: [{ weight: 25, reps: 10, sets: 3 }],
           },
         ],
       },
@@ -620,6 +681,68 @@ export const Programs: ProgramData[] = [
             liftId: 12,
             mode: "absolute",
             lifts: [{ weight: 10, reps: 10, sets: 3 }],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: "Full Body",
+    id: 3,
+    routines: [
+      {
+        name: "Day 1",
+        groups: [
+          {
+            liftId: 1,
+            mode: "percent",
+            lifts: [
+              { weight: 40, reps: 5 },
+              { weight: 50, reps: 5 },
+              { weight: 60, reps: 3 },
+              { weight: 70, reps: 3 },
+              { weight: 80, reps: 3 },
+              { weight: 90, reps: 3, amrap: true },
+              { weight: 70, reps: 5, sets: 5 },
+            ],
+          },
+          {
+            liftId: 2,
+            mode: "percent",
+            lifts: [
+              { weight: 40, reps: 5 },
+              { weight: 50, reps: 5 },
+              { weight: 60, reps: 3 },
+              { weight: 65, reps: 5 },
+              { weight: 75, reps: 5 },
+              { weight: 85, reps: 5, amrap: true },
+              { weight: 65, reps: 5, sets: 5 },
+            ],
+          },
+          {
+            liftId: 19,
+            mode: "absolute",
+            lifts: [{ weight: 35, reps: 10, sets: 3 }],
+          },
+          {
+            liftId: 6,
+            mode: "absolute",
+            lifts: [{ weight: 0, reps: 6, sets: 5 }],
+          },
+          {
+            liftId: 12,
+            mode: "absolute",
+            lifts: [{ weight: 10, reps: 10, sets: 3 }],
+          },
+          {
+            liftId: 13,
+            mode: "absolute",
+            lifts: [{ weight: 30, reps: 10, sets: 3 }],
+          },
+          {
+            liftId: 10,
+            mode: "absolute",
+            lifts: [{ weight: 20, reps: 10, sets: 3 }],
           },
         ],
       },

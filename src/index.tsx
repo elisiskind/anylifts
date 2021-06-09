@@ -3,12 +3,10 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import * as serviceWorkerRegistration from "serviceWorkerRegistration";
 import reportWebVitals from "reportWebVitals";
-import firebase from "firebase";
-import { createStore } from "redux";
-import { Provider } from "react-redux";
-import { ReactReduxFirebaseProvider } from "react-redux-firebase";
-import { createFirestoreInstance } from "redux-firestore";
-import { rootReducer } from "store/reducers";
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/database";
+import UserProvider from "store/UserProvider";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBPHyEuVw6pjLi7J23dbiIlHsvLwBLNKGE",
@@ -22,34 +20,18 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-firebase.firestore();
-
-const initialState = {};
-const store = createStore(rootReducer, initialState);
-
-const rrfConfig = {
-  userProfile: "users",
-  useFirestoreForProfile: true,
-};
-
-const rrfProps = {
-  firebase,
-  config: rrfConfig,
-  dispatch: store.dispatch,
-  createFirestoreInstance, //since we are using Firestore
-};
+export const auth = firebase.auth();
+export const db = firebase.database();
 
 const render = () => {
   const App = require("./App").default;
 
   ReactDOM.render(
-    <Provider store={store}>
-      <React.StrictMode>
-        <ReactReduxFirebaseProvider {...rrfProps}>
-          <App />
-        </ReactReduxFirebaseProvider>
-      </React.StrictMode>
-    </Provider>,
+    <React.StrictMode>
+      <UserProvider>
+        <App />
+      </UserProvider>
+    </React.StrictMode>,
     document.getElementById("root")
   );
 };

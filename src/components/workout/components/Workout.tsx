@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Box, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Paper, Timer } from "components/elements";
 import { AvailableEquipment } from "components/equipment";
 import Hidden from "@material-ui/core/Hidden";
-import { Routine, Set } from "state/Programs";
+import { Set } from "state/Programs";
 import { CurrentLift, WorkoutOverview } from "components/workout";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import Grid from "@material-ui/core/Grid";
@@ -15,6 +15,7 @@ import {
   storeSetIndex,
   storeStartTime,
 } from "state/localStorage";
+import CurrentWorkoutContext from "store/CurrentWorkoutContext";
 
 const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
   root: {
@@ -61,18 +62,18 @@ const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
 }));
 
 interface WorkoutProps {
-  routine: Routine;
   reset: () => void;
 }
 
-export const Workout = ({ routine, reset }: WorkoutProps) => {
+export const Workout = ({ reset }: WorkoutProps) => {
+  const routine = useContext(CurrentWorkoutContext);
   const [currentIndex, setCurrentIndex] = useState<number>(
     retrieveSetIndex() || 0
   );
   storeSetIndex(currentIndex);
 
   const [complete, setComplete] = useState<boolean>(false);
-  const [sets, setSets] = useState<Set[]>(routine.sets);
+  const [sets, setSets] = useState<Set[]>(routine!.sets);
   const currentSet = sets[currentIndex];
 
   const [time, setTime] = useState<number>(90);

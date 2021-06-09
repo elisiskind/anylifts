@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { useFirebase } from "react-redux-firebase";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Theme } from "@material-ui/core";
 import { Button, Divider, Paper, TextInput } from "components/elements";
+import { auth } from "index";
+import firebase from "firebase/app";
 
 const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
   loginContainer: {
@@ -25,11 +26,15 @@ const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
     alignItems: "center",
     gap: spacing(2),
   },
+  googleSignIn: {
+    display: "flex",
+    gap: spacing(2),
+    alignItems: "center",
+  },
 }));
 
 export const LoginView = () => {
   const classes = useStyles();
-  const firebase = useFirebase();
   const history = useHistory();
 
   const [email, setEmail] = useState<string>("");
@@ -37,24 +42,20 @@ export const LoginView = () => {
   const [error, setError] = useState<boolean>(false);
 
   const signInWithGoogle = () => {
-    firebase
-      .login({
-        provider: "google",
-        type: "popup",
-      })
+    auth
+      .signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .then(() => {
         setError(false);
         history.push("/workout");
       })
-      .catch((err) => {
+      .catch((err: any) => {
         console.log(err);
         setError(true);
       });
   };
 
   const passwordSignIn = (email: string, password: string) => {
-    firebase
-      .auth()
+    auth
       .signInWithEmailAndPassword(email, password)
       .then(() => {
         setError(false);
@@ -83,7 +84,12 @@ export const LoginView = () => {
       </div>
       <Divider label={"or"} />
       <div className={classes.signInContent}>
-        <Button onClick={signInWithGoogle} />
+        <Button onClick={signInWithGoogle} size={"small"}>
+          <div className={classes.googleSignIn}>
+            <img src={"/google-logo.svg"} alt={"Google logo"} />
+            Sign in with Google
+          </div>
+        </Button>
         {error && <div className={classes.error}>Login failed</div>}
       </div>
     </Paper>
