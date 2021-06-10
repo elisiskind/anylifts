@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Button, Paper, Timer } from "components/elements";
 import { AvailableEquipment } from "components/equipment";
 import Hidden from "@material-ui/core/Hidden";
-import { Set } from "state/Programs";
+import { Set } from "store/ProgramsProvider";
 import { CurrentLift, WorkoutOverview } from "components/workout";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import Grid from "@material-ui/core/Grid";
@@ -15,7 +15,7 @@ import {
   storeSetIndex,
   storeStartTime,
 } from "state/localStorage";
-import CurrentWorkoutContext from "store/CurrentWorkoutContext";
+import { CurrentRoutineContext } from "store/CurrentRoutineProvider";
 
 const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
   root: {
@@ -61,15 +61,12 @@ const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
   },
 }));
 
-interface WorkoutProps {
-  reset: () => void;
-}
-
-export const Workout = ({ reset }: WorkoutProps) => {
-  const routine = useContext(CurrentWorkoutContext);
+export const Workout = () => {
+  const { routine, setRoutine } = useContext(CurrentRoutineContext);
   const [currentIndex, setCurrentIndex] = useState<number>(
     retrieveSetIndex() || 0
   );
+
   storeSetIndex(currentIndex);
 
   const [complete, setComplete] = useState<boolean>(false);
@@ -127,7 +124,7 @@ export const Workout = ({ reset }: WorkoutProps) => {
     setCurrentIndex(0);
     setComplete(false);
     clearTimer();
-    reset();
+    setRoutine(null, null);
   };
 
   const restart = () => {

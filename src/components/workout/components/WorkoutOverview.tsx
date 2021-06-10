@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Box, Grid, makeStyles, Theme } from "@material-ui/core";
-import { Set } from "state/Programs";
+import { Set } from "store/ProgramsProvider";
 import { Close, Replay, SkipNext, SkipPrevious } from "@material-ui/icons";
 import { Button, Divider } from "components/elements";
 

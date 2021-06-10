@@ -1,8 +1,9 @@
 import * as React from "react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Box, Grid, makeStyles, Theme } from "@material-ui/core";
-import { getProgramsForUser, Program } from "state/Programs";
 import { Button, Header, Paper, Subtitle } from "components/elements";
+import { CurrentRoutineContext } from "store/CurrentRoutineProvider";
+import { ProgramsContext } from "store/ProgramsProvider";
 
 const useStyles = makeStyles(({ breakpoints, spacing }: Theme) => ({
   root: {
@@ -16,15 +17,12 @@ const useStyles = makeStyles(({ breakpoints, spacing }: Theme) => ({
   clickableCard: {},
 }));
 
-interface WorkoutSelectorProps {
-  selectWorkout: (programId: number, workoutIndex: number) => void;
-}
-
-export const WorkoutSelector = ({ selectWorkout }: WorkoutSelectorProps) => {
+export const WorkoutSelector = () => {
   const classes = useStyles();
 
+  const { setRoutine } = useContext(CurrentRoutineContext);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [programs] = useState<Program[] | null>(getProgramsForUser(0));
+  const programs = useContext(ProgramsContext);
 
   if (selectedIndex !== null && programs) {
     const selectedProgram = programs[selectedIndex];
@@ -38,7 +36,7 @@ export const WorkoutSelector = ({ selectWorkout }: WorkoutSelectorProps) => {
               .join(", ");
             return (
               <Grid xs={12} item>
-                <Paper onClick={() => selectWorkout(selectedIndex, index)}>
+                <Paper onClick={() => setRoutine(selectedProgram.id, index)}>
                   <Header variant={"h2"}>
                     {selectedProgram.routines[index].name}
                   </Header>

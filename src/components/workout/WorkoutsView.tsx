@@ -1,25 +1,17 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
 import { Workout, WorkoutSelector } from "components/workout";
-import { Routine } from "state/Programs";
-import { CurrentWorkoutProvider } from "store/CurrentWorkoutContext";
+import CurrentRoutineProvider, {
+  CurrentRoutineConsumer,
+} from "store/CurrentRoutineProvider";
 
 export const WorkoutsView = () => {
-  useEffect(() => {});
-
-  const [currentRoutine, setCurrentRoutine] = useState<Routine | null>(null);
-
-  const reset = () => {
-    setCurrentRoutine(null);
-  };
-
   return (
-    <CurrentWorkoutProvider value={currentRoutine}>
-      {currentRoutine ? (
-        <Workout reset={reset} />
-      ) : (
-        <WorkoutSelector selectWorkout={() => {}} />
-      )}
-    </CurrentWorkoutProvider>
+    <CurrentRoutineProvider>
+      <CurrentRoutineConsumer>
+        {(context) => {
+          return context.routine ? <Workout /> : <WorkoutSelector />;
+        }}
+      </CurrentRoutineConsumer>
+    </CurrentRoutineProvider>
   );
 };

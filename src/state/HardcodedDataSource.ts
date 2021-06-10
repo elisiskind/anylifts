@@ -1,6 +1,3 @@
-import { ProgramData } from "./Programs";
-import { Lift } from "./Lifts";
-
 /* 1 - bench
  * 2 - squat
  * 3 - dead
@@ -22,109 +19,112 @@ import { Lift } from "./Lifts";
  * 19 - dumbell press
  */
 
+import { Lift } from "store/LiftsProvider";
+import { ProgramData } from "store/ProgramsProvider";
+
 export const Lifts: Lift[] = [
   {
     name: "Bench Press",
-    id: 1,
+    id: "1",
     tm: 160,
   },
   {
     name: "Squat",
-    id: 2,
+    id: "2",
     tm: 210,
   },
   {
     name: "Deadlift",
-    id: 3,
+    id: "3",
     tm: 200,
   },
   {
     name: "Overhead Press",
-    id: 4,
+    id: "4",
     tm: 100,
   },
   {
     name: "Barbell Row",
-    id: 5,
+    id: "5",
     tm: 150,
   },
   {
     name: "Pullup",
-    id: 6,
+    id: "6",
   },
   {
     name: "Dumbbell Row",
-    id: 7,
+    id: "7",
   },
   {
     name: "Rear Delt Flye",
-    id: 8,
+    id: "8",
     tm: 20,
   },
   {
     name: "Hammer Curl",
-    id: 9,
+    id: "9",
     tm: 30,
   },
   {
     name: "Dumbbell Curl",
-    id: 10,
+    id: "10",
     tm: 30,
   },
   {
     name: "Incline Dumbell Press",
-    id: 11,
+    id: "11",
     tm: 30,
   },
   {
     name: "Lateral Raise",
-    id: 12,
+    id: "12",
     tm: 30,
   },
   {
     name: "Skullcrusher",
-    id: 13,
+    id: "13",
     tm: 30,
   },
   {
     name: "Triceps Extension",
-    id: 14,
+    id: "14",
     tm: 30,
   },
   {
     name: "Romanian Deadlift",
-    id: 15,
+    id: "15",
     tm: 30,
   },
   {
     name: "Front Squat",
-    id: 16,
+    id: "16",
     tm: 30,
   },
   {
     name: "Jump Tuck",
-    id: 17,
+    id: "17",
   },
   {
     name: "Burpee",
-    id: 18,
+    id: "18",
   },
   {
     name: "Dumbbell Shoulder Press",
-    id: 19,
+    id: "19",
   },
 ];
 
 export const Programs: ProgramData[] = [
   {
     name: "5/3/1",
-    id: 0,
+    id: "0",
     routines: [
       {
         name: "1-1",
         groups: [
           {
-            liftId: 1,
+            liftId: "1",
             mode: "percent",
             lifts: [
               { weight: 40, reps: 5 },
@@ -137,7 +137,7 @@ export const Programs: ProgramData[] = [
             ],
           },
           {
-            liftId: 2,
+            liftId: "2",
             mode: "percent",
             lifts: [
               { weight: 40, reps: 5 },
@@ -150,22 +150,22 @@ export const Programs: ProgramData[] = [
             ],
           },
           {
-            liftId: 7,
+            liftId: "7",
             mode: "absolute",
             lifts: [{ weight: 40, reps: 10, sets: 3 }],
           },
           {
-            liftId: 19,
+            liftId: "19",
             mode: "absolute",
             lifts: [{ weight: 30, reps: 10, sets: 3 }],
           },
           {
-            liftId: 12,
+            liftId: "12",
             mode: "absolute",
             lifts: [{ weight: 5, reps: 10, sets: 3 }],
           },
           {
-            liftId: 10,
+            liftId: "10",
             mode: "absolute",
             lifts: [{ weight: 25, reps: 10, sets: 3 }],
           },
@@ -175,7 +175,7 @@ export const Programs: ProgramData[] = [
         name: "1-2",
         groups: [
           {
-            liftId: 3,
+            liftId: "3",
             mode: "percent",
             lifts: [
               { weight: 40, reps: 5 },
@@ -188,7 +188,7 @@ export const Programs: ProgramData[] = [
             ],
           },
           {
-            liftId: 4,
+            liftId: "4",
             mode: "percent",
             lifts: [
               { weight: 40, reps: 5 },
@@ -206,7 +206,7 @@ export const Programs: ProgramData[] = [
         name: "1-3",
         groups: [
           {
-            liftId: 2,
+            liftId: "2",
             mode: "percent",
             lifts: [
               { weight: 40, reps: 5 },
@@ -219,7 +219,7 @@ export const Programs: ProgramData[] = [
             ],
           },
           {
-            liftId: 1,
+            liftId: "1",
             mode: "percent",
             lifts: [
               { weight: 40, reps: 5 },
@@ -237,7 +237,7 @@ export const Programs: ProgramData[] = [
         name: "2-1",
         groups: [
           {
-            liftId: 1,
+            liftId: "1",
             mode: "percent",
             lifts: [
               { weight: 40, reps: 5 },
@@ -250,7 +250,7 @@ export const Programs: ProgramData[] = [
             ],
           },
           {
-            liftId: 2,
+            liftId: "2",
             mode: "percent",
             lifts: [
               { weight: 40, reps: 5 },
@@ -263,22 +263,22 @@ export const Programs: ProgramData[] = [
             ],
           },
           {
-            liftId: 7,
+            liftId: "7",
             mode: "absolute",
             lifts: [{ weight: 40, reps: 10, sets: 3 }],
           },
           {
-            liftId: 19,
+            liftId: "19",
             mode: "absolute",
             lifts: [{ weight: 30, reps: 10, sets: 3 }],
           },
           {
-            liftId: 12,
+            liftId: "12",
             mode: "absolute",
             lifts: [{ weight: 5, reps: 10, sets: 3 }],
           },
           {
-            liftId: 10,
+            liftId: "10",
             mode: "absolute",
             lifts: [{ weight: 25, reps: 10, sets: 3 }],
           },
@@ -288,13 +288,13 @@ export const Programs: ProgramData[] = [
   },
   {
     name: "PPL",
-    id: 1,
+    id: "1",
     routines: [
       {
         name: "Pull 1",
         groups: [
           {
-            liftId: 5,
+            liftId: "5",
             mode: "percent",
             lifts: [
               { weight: 40, reps: 5 },
@@ -306,27 +306,27 @@ export const Programs: ProgramData[] = [
             ],
           },
           {
-            liftId: 6,
+            liftId: "6",
             mode: "percent",
             lifts: [{ weight: 100, reps: 10, sets: 3 }],
           },
           {
-            liftId: 7,
+            liftId: "7",
             mode: "absolute",
             lifts: [{ weight: 35, reps: 10, sets: 3 }],
           },
           {
-            liftId: 8,
+            liftId: "8",
             mode: "absolute",
             lifts: [{ weight: 10, reps: 10, sets: 3 }],
           },
           {
-            liftId: 9,
+            liftId: "9",
             mode: "absolute",
             lifts: [{ weight: 20, reps: 10, sets: 3 }],
           },
           {
-            liftId: 10,
+            liftId: "10",
             mode: "absolute",
             lifts: [{ weight: 20, reps: 10, sets: 3 }],
           },
@@ -336,7 +336,7 @@ export const Programs: ProgramData[] = [
         name: "Push 1",
         groups: [
           {
-            liftId: 1,
+            liftId: "1",
             mode: "percent",
             lifts: [
               { weight: 40, reps: 5 },
@@ -348,32 +348,32 @@ export const Programs: ProgramData[] = [
             ],
           },
           {
-            liftId: 4,
+            liftId: "4",
             mode: "percent",
             lifts: [{ weight: 60, reps: 10, sets: 3 }],
           },
           {
-            liftId: 11,
+            liftId: "11",
             mode: "absolute",
             lifts: [{ weight: 35, reps: 10, sets: 3 }],
           },
           {
-            liftId: 12,
+            liftId: "12",
             mode: "absolute",
             lifts: [{ weight: 10, reps: 18, sets: 3 }],
           },
           {
-            liftId: 13,
+            liftId: "13",
             mode: "absolute",
             lifts: [{ weight: 10, reps: 10, sets: 3 }],
           },
           {
-            liftId: 12,
+            liftId: "12",
             mode: "absolute",
             lifts: [{ weight: 20, reps: 18, sets: 3 }],
           },
           {
-            liftId: 14,
+            liftId: "14",
             mode: "absolute",
             lifts: [{ weight: 20, reps: 10, sets: 3 }],
           },
@@ -383,7 +383,7 @@ export const Programs: ProgramData[] = [
         name: "Legs 1",
         groups: [
           {
-            liftId: 2,
+            liftId: "2",
             mode: "percent",
             lifts: [
               { weight: 40, reps: 5 },
@@ -395,17 +395,17 @@ export const Programs: ProgramData[] = [
             ],
           },
           {
-            liftId: 15,
+            liftId: "15",
             mode: "absolute",
             lifts: [{ weight: 90, reps: 10, sets: 3 }],
           },
           {
-            liftId: 16,
+            liftId: "16",
             mode: "absolute",
             lifts: [{ weight: 50, reps: 10, sets: 3 }],
           },
           {
-            liftId: 17,
+            liftId: "17",
             mode: "absolute",
             lifts: [{ weight: 10, reps: 10, sets: 3 }],
           },
@@ -415,7 +415,7 @@ export const Programs: ProgramData[] = [
         name: "Pull 2",
         groups: [
           {
-            liftId: 3,
+            liftId: "3",
             mode: "percent",
             lifts: [
               { weight: 40, reps: 5 },
@@ -426,27 +426,27 @@ export const Programs: ProgramData[] = [
             ],
           },
           {
-            liftId: 6,
+            liftId: "6",
             mode: "percent",
             lifts: [{ weight: 100, reps: 10, sets: 3 }],
           },
           {
-            liftId: 7,
+            liftId: "7",
             mode: "absolute",
             lifts: [{ weight: 35, reps: 10, sets: 3 }],
           },
           {
-            liftId: 8,
+            liftId: "8",
             mode: "absolute",
             lifts: [{ weight: 10, reps: 10, sets: 3 }],
           },
           {
-            liftId: 9,
+            liftId: "9",
             mode: "absolute",
             lifts: [{ weight: 20, reps: 10, sets: 3 }],
           },
           {
-            liftId: 10,
+            liftId: "10",
             mode: "absolute",
             lifts: [{ weight: 20, reps: 10, sets: 3 }],
           },
@@ -456,7 +456,7 @@ export const Programs: ProgramData[] = [
         name: "Push 2",
         groups: [
           {
-            liftId: 4,
+            liftId: "4",
             mode: "percent",
             lifts: [
               { weight: 50, reps: 5 },
@@ -468,32 +468,32 @@ export const Programs: ProgramData[] = [
             ],
           },
           {
-            liftId: 1,
+            liftId: "1",
             mode: "percent",
             lifts: [{ weight: 60, reps: 10, sets: 3 }],
           },
           {
-            liftId: 11,
+            liftId: "11",
             mode: "absolute",
             lifts: [{ weight: 30, reps: 10, sets: 3 }],
           },
           {
-            liftId: 12,
+            liftId: "12",
             mode: "absolute",
             lifts: [{ weight: 5, reps: 18, sets: 3 }],
           },
           {
-            liftId: 13,
+            liftId: "13",
             mode: "absolute",
             lifts: [{ weight: 10, reps: 10, sets: 3 }],
           },
           {
-            liftId: 12,
+            liftId: "12",
             mode: "absolute",
             lifts: [{ weight: 5, reps: 18, sets: 3 }],
           },
           {
-            liftId: 14,
+            liftId: "14",
             mode: "absolute",
             lifts: [{ weight: 20, reps: 10, sets: 3 }],
           },
@@ -503,7 +503,7 @@ export const Programs: ProgramData[] = [
         name: "Legs 2",
         groups: [
           {
-            liftId: 2,
+            liftId: "2",
             mode: "percent",
             lifts: [
               { weight: 40, reps: 5 },
@@ -515,17 +515,17 @@ export const Programs: ProgramData[] = [
             ],
           },
           {
-            liftId: 15,
+            liftId: "15",
             mode: "absolute",
             lifts: [{ weight: 90, reps: 10, sets: 3 }],
           },
           {
-            liftId: 16,
+            liftId: "16",
             mode: "absolute",
             lifts: [{ weight: 50, reps: 10, sets: 3 }],
           },
           {
-            liftId: 17,
+            liftId: "17",
             mode: "absolute",
             lifts: [{ weight: 10, reps: 10, sets: 3 }],
           },
@@ -535,13 +535,13 @@ export const Programs: ProgramData[] = [
   },
   {
     name: "4 Day Split",
-    id: 2,
+    id: "2",
     routines: [
       {
         name: "Legs 1",
         groups: [
           {
-            liftId: 2,
+            liftId: "2",
             mode: "percent",
             lifts: [
               { weight: 40, reps: 5 },
@@ -554,17 +554,17 @@ export const Programs: ProgramData[] = [
             ],
           },
           {
-            liftId: 15,
+            liftId: "15",
             mode: "absolute",
             lifts: [{ weight: 90, reps: 10, sets: 3 }],
           },
           {
-            liftId: 17,
+            liftId: "17",
             mode: "absolute",
             lifts: [{ weight: 0, reps: 10, sets: 3 }],
           },
           {
-            liftId: 18,
+            liftId: "18",
             mode: "absolute",
             lifts: [{ weight: 0, reps: 10, sets: 3 }],
           },
@@ -574,7 +574,7 @@ export const Programs: ProgramData[] = [
         name: "Upper Body 1",
         groups: [
           {
-            liftId: 1,
+            liftId: "1",
             mode: "percent",
             lifts: [
               { weight: 40, reps: 5 },
@@ -587,22 +587,22 @@ export const Programs: ProgramData[] = [
             ],
           },
           {
-            liftId: 6,
+            liftId: "6",
             mode: "percent",
             lifts: [{ weight: 100, reps: 10, sets: 3 }],
           },
           {
-            liftId: 19,
+            liftId: "19",
             mode: "absolute",
             lifts: [{ weight: 35, reps: 10, sets: 3 }],
           },
           {
-            liftId: 8,
+            liftId: "8",
             mode: "absolute",
             lifts: [{ weight: 10, reps: 10, sets: 3 }],
           },
           {
-            liftId: 10,
+            liftId: "10",
             mode: "absolute",
             lifts: [{ weight: 20, reps: 10, sets: 3 }],
           },
@@ -612,17 +612,17 @@ export const Programs: ProgramData[] = [
         name: "Legs 2",
         groups: [
           {
-            liftId: 17,
+            liftId: "17",
             mode: "absolute",
             lifts: [{ weight: 0, reps: 10, sets: 2 }],
           },
           {
-            liftId: 16,
+            liftId: "16",
             mode: "absolute",
             lifts: [{ weight: 70, reps: 10, sets: 3 }],
           },
           {
-            liftId: 3,
+            liftId: "3",
             mode: "percent",
             lifts: [
               { weight: 40, reps: 5 },
@@ -635,12 +635,12 @@ export const Programs: ProgramData[] = [
             ],
           },
           {
-            liftId: 17,
+            liftId: "17",
             mode: "absolute",
             lifts: [{ weight: 0, reps: 10, sets: 3 }],
           },
           {
-            liftId: 18,
+            liftId: "18",
             mode: "absolute",
             lifts: [{ weight: 0, reps: 10, sets: 3 }],
           },
@@ -650,7 +650,7 @@ export const Programs: ProgramData[] = [
         name: "Upper Body 2",
         groups: [
           {
-            liftId: 4,
+            liftId: "4",
             mode: "percent",
             lifts: [
               { weight: 40, reps: 5 },
@@ -663,22 +663,22 @@ export const Programs: ProgramData[] = [
             ],
           },
           {
-            liftId: 1,
+            liftId: "1",
             mode: "percent",
             lifts: [{ weight: 65, reps: 10, sets: 3 }],
           },
           {
-            liftId: 5,
+            liftId: "5",
             mode: "percent",
             lifts: [{ weight: 60, reps: 10, sets: 3 }],
           },
           {
-            liftId: 13,
+            liftId: "13",
             mode: "absolute",
             lifts: [{ weight: 30, reps: 10, sets: 3 }],
           },
           {
-            liftId: 12,
+            liftId: "12",
             mode: "absolute",
             lifts: [{ weight: 10, reps: 10, sets: 3 }],
           },
@@ -688,13 +688,13 @@ export const Programs: ProgramData[] = [
   },
   {
     name: "Full Body",
-    id: 3,
+    id: "3",
     routines: [
       {
         name: "Day 1",
         groups: [
           {
-            liftId: 1,
+            liftId: "1",
             mode: "percent",
             lifts: [
               { weight: 40, reps: 5 },
@@ -707,7 +707,7 @@ export const Programs: ProgramData[] = [
             ],
           },
           {
-            liftId: 2,
+            liftId: "2",
             mode: "percent",
             lifts: [
               { weight: 40, reps: 5 },
@@ -720,27 +720,27 @@ export const Programs: ProgramData[] = [
             ],
           },
           {
-            liftId: 19,
+            liftId: "19",
             mode: "absolute",
             lifts: [{ weight: 35, reps: 10, sets: 3 }],
           },
           {
-            liftId: 6,
+            liftId: "6",
             mode: "absolute",
             lifts: [{ weight: 0, reps: 6, sets: 5 }],
           },
           {
-            liftId: 12,
+            liftId: "12",
             mode: "absolute",
             lifts: [{ weight: 10, reps: 10, sets: 3 }],
           },
           {
-            liftId: 13,
+            liftId: "13",
             mode: "absolute",
             lifts: [{ weight: 30, reps: 10, sets: 3 }],
           },
           {
-            liftId: 10,
+            liftId: "10",
             mode: "absolute",
             lifts: [{ weight: 20, reps: 10, sets: 3 }],
           },

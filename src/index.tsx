@@ -5,8 +5,10 @@ import * as serviceWorkerRegistration from "serviceWorkerRegistration";
 import reportWebVitals from "reportWebVitals";
 import firebase from "firebase/app";
 import "firebase/auth";
-import "firebase/database";
+import "firebase/firestore";
 import UserProvider from "store/UserProvider";
+import LiftsProvider from "store/LiftsProvider";
+import ProgramsProvider from "store/ProgramsProvider";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBPHyEuVw6pjLi7J23dbiIlHsvLwBLNKGE",
@@ -21,7 +23,7 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 export const auth = firebase.auth();
-export const db = firebase.database();
+export const db = firebase.firestore();
 
 const render = () => {
   const App = require("./App").default;
@@ -29,7 +31,11 @@ const render = () => {
   ReactDOM.render(
     <React.StrictMode>
       <UserProvider>
-        <App />
+        <LiftsProvider>
+          <ProgramsProvider>
+            <App />
+          </ProgramsProvider>
+        </LiftsProvider>
       </UserProvider>
     </React.StrictMode>,
     document.getElementById("root")
