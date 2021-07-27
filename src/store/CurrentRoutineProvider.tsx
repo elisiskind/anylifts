@@ -4,53 +4,56 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { db } from "index";
-import { UserContext } from "store/UserProvider";
 import { ProgramsContext, Routine } from "store/ProgramsProvider";
+import { CurrentUserContext, ProgramIndex } from "store/UserProvider";
 
 interface RoutineContext {
   routine: Routine | null;
-  setRoutine: (programId: string | null, routineIndex: number | null) => void;
+  setRoutine: (programIndex: ProgramIndex | null) => Promise<void>;
 }
 
 export const CurrentRoutineContext = React.createContext<RoutineContext>({
   routine: null,
-  setRoutine: (id) => {},
+  setRoutine: async () => {},
 });
 
 export const CurrentRoutineConsumer = CurrentRoutineContext.Consumer;
 
 const CurrentRoutineProvider: FunctionComponent = ({ children }) => {
   const [routine, setRoutine] = useState<Routine | null>(null);
-  const programs = useContext(ProgramsContext);
-  const user = useContext(UserContext);
+  const { data: programs, loading } = useContext(ProgramsContext);
+  const { data: user, updateUser } = useContext(CurrentUserContext);
 
   useEffect(() => {
-    db.collection("users")
-      .doc(user?.id)
-      .get()
-      .then((resp) => {});
-  }, [user]);
+    const { programIndex, set } = user?.currentWorkout ?? {
+      programIndex: null,
+      set: null,
+    };
 
-  const saveRoutine = (
-    programId: string | null,
-    routineIndex: number | null
-  ) => {
-    if (!!programId || !!routineIndex) {
+    if (!user || !programIndex || !programs) {
       setRoutine(null);
-      return;
+    } else {
+      console.log(
+        `Updating program: [${programIndex.programId}, ${programIndex.routineIndex}`
+      );
+      const currentProgram = programs!.find(
+        (program) => program.id === programIndex.programId
+      );
+      const currentRoutine =
+        currentProgram && currentProgram.routines[programIndex.routineIndex];
+      if (currentRoutine) {
+        setRoutine(currentRoutine);
+      }
     }
+  }, [user, programs]);
 
-    const program = programs!.find((program) => program.id === programId);
-    const currentRoutine = program && program.routines[routineIndex!];
-    if (currentRoutine) {
-      setRoutine(currentRoutine);
-    }
+  const selectRoutine = async (programIndex: ProgramIndex | null) => {
+    await updateUser("currentWorkout", { programIndex });
   };
 
   return (
     <CurrentRoutineContext.Provider
-      value={{ routine, setRoutine: saveRoutine }}
+      value={{ routine, setRoutine: selectRoutine }}
     >
       {children}
     </CurrentRoutineContext.Provider>

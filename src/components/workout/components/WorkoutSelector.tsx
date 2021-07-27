@@ -4,6 +4,7 @@ import { Box, Grid, makeStyles, Theme } from "@material-ui/core";
 import { Button, Header, Paper, Subtitle } from "components/elements";
 import { CurrentRoutineContext } from "store/CurrentRoutineProvider";
 import { ProgramsContext } from "store/ProgramsProvider";
+import { Loader } from "components/elements/Loader";
 
 const useStyles = makeStyles(({ breakpoints, spacing }: Theme) => ({
   root: {
@@ -22,9 +23,27 @@ export const WorkoutSelector = () => {
 
   const { setRoutine } = useContext(CurrentRoutineContext);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const programs = useContext(ProgramsContext);
+  const { data: programs, loading } = useContext(ProgramsContext);
 
-  if (selectedIndex !== null && programs) {
+  const selectRoutine = async (
+    programId: string | null,
+    routineIndex: number | null
+  ) => {
+    console.log("Selecting routine...");
+    const programIndex =
+      programId === null || routineIndex === null
+        ? null
+        : {
+            programId,
+            routineIndex,
+          };
+    await setRoutine(programIndex);
+    console.log("selected!");
+  };
+
+  if (loading) {
+    return <Loader />;
+  } else if (selectedIndex !== null && programs) {
     const selectedProgram = programs[selectedIndex];
     return (
       <Box className={classes.root}>
@@ -35,8 +54,8 @@ export const WorkoutSelector = () => {
               .filter((v, i, a) => a.indexOf(v) === i)
               .join(", ");
             return (
-              <Grid xs={12} item>
-                <Paper onClick={() => setRoutine(selectedProgram.id, index)}>
+              <Grid xs={12} item key={index}>
+                <Paper onClick={() => selectRoutine(selectedProgram.id, index)}>
                   <Header variant={"h2"}>
                     {selectedProgram.routines[index].name}
                   </Header>

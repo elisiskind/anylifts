@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Paper, Timer } from "components/elements";
@@ -78,6 +78,10 @@ export const Workout = () => {
     retrieveStartTime() || Date.now()
   );
 
+  useEffect(() => {
+    setSets(routine!.sets);
+  }, [routine]);
+
   const addTime = (timeToAdd: number) => {
     setTime(time + timeToAdd);
   };
@@ -120,11 +124,11 @@ export const Workout = () => {
     }
   };
 
-  const finish = () => {
+  const finish = async () => {
     setCurrentIndex(0);
     setComplete(false);
     clearTimer();
-    setRoutine(null, null);
+    await setRoutine(null);
   };
 
   const restart = () => {

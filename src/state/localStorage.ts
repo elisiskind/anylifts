@@ -24,7 +24,5 @@ export const localStorageState = (
   ];
 };
 
-export const [retrieveRoutineIndex, storeRoutineIndex] = localStorageState("workout");
-export const [retrieveProgramId, storeProgramId] = localStorageState("program");
 export const [retrieveSetIndex, storeSetIndex] = localStorageState("set");
 export const [retrieveStartTime, storeStartTime] = localStorageState("time");

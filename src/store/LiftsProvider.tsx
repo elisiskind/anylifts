@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import { db } from "index";
-import { UserContext } from "store/UserProvider";
+import { CurrentUserContext } from "store/UserProvider";
 
 export interface Lift {
   id: string;
@@ -21,25 +21,17 @@ export const addLift = async (lift: Lift, userId: string) => {
 };
 
 const LiftsProvider: FunctionComponent = ({ children }) => {
-  const user = useContext(UserContext);
+  const { data: user } = useContext(CurrentUserContext);
   const [lifts, setLifts] = useState<Lift[] | null>(null);
-  const [cancelSubscription, setCancelSubscription] = useState<
-    (() => void) | null
-  >(null);
 
   useEffect(() => {
-    if (cancelSubscription) {
-      // cancelSubscription();
-    }
-
     if (user) {
-      const cancelSubscriptionFunction = db
+      return db
         .collection("users")
-        .doc(user!.id!)
+        .doc(user.id)
         .collection("lifts")
         .onSnapshot(
           (resp) => {
-            console.log("Setting lifts!");
             setLifts(
               resp.docs.map((doc) => {
                 return {
@@ -50,16 +42,13 @@ const LiftsProvider: FunctionComponent = ({ children }) => {
             );
           },
           (err) => {
-            console.log(err);
+            console.log("Error fetching lifts: " + err);
           }
         );
-
-      // setCancelSubscription(cancelSubscriptionFunction);
     } else {
       setLifts(null);
-      setCancelSubscription(null);
     }
-  }, [cancelSubscription, user]);
+  }, [user]);
 
   return (
     <LiftsContext.Provider value={lifts}>{children}</LiftsContext.Provider>

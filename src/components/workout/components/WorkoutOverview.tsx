@@ -57,7 +57,7 @@ interface WorkoutOverviewProps {
   routine: Set[];
   currentIndex: number;
   reset: () => void;
-  finish: () => void;
+  finish: () => Promise<void>;
   next: () => void;
   prev: () => void;
 }

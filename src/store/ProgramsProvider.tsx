@@ -5,9 +5,10 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { UserContext } from "store/UserProvider";
+import { CurrentUserContext } from "store/UserProvider";
 import { db } from "index";
 import firebase from "firebase/app";
+import { DataContext } from "store/utils";
 
 export interface ProgramData {
   name: string;
@@ -81,7 +82,10 @@ const buildSets = (routine: RoutineData, lifts: Lift[]): Set[] => {
   return sets;
 };
 
-export const ProgramsContext = React.createContext<Program[] | null>(null);
+export const ProgramsContext = React.createContext<DataContext<Program[]>>({
+  data: null,
+  loading: false,
+});
 
 const getResponseMapper = (lifts: Lift[]) => {
   return (
@@ -105,38 +109,41 @@ const getResponseMapper = (lifts: Lift[]) => {
 };
 
 const ProgramsProvider: FunctionComponent = ({ children }) => {
-  const user = useContext(UserContext);
+  const { data: user } = useContext(CurrentUserContext);
   const lifts = useContext(LiftsContext);
-  const [programs, setPrograms] = useState<Program[] | null | "LOADING">(null);
+  const [programs, setPrograms] = useState<Program[] | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    console.log("Refreshing programs");
     if (user && lifts) {
-      setPrograms("LOADING");
-      db.collection("users")
+      setLoading(true);
+      return db
+        .collection("users")
         .doc("3P0vlRjrYXbe2Q0BBwkWDRoKeok2")
         .collection("programs")
-        .get()
-        .then((resp) => {
-          setPrograms(
-            resp.docs.map((doc) => {
-              console.log(JSON.stringify(doc.data()));
-              return getResponseMapper(lifts)(doc);
-            })
-          );
-        })
-        .catch((err) => {
-          console.log("Error: " + JSON.stringify(err));
-        });
-
-      // setCancelSubscription(cancelSubscriptionFunction);
+        .onSnapshot(
+          (resp) => {
+            setPrograms(
+              resp.docs.map((doc) => {
+                return getResponseMapper(lifts)(doc);
+              })
+            );
+            setLoading(false);
+          },
+          (err) => {
+            console.log("Error fetching programs: " + err);
+            setLoading(false);
+          }
+        );
     } else {
       setPrograms(null);
     }
   }, [user, lifts]);
 
   return (
-    <ProgramsContext.Provider value={programs === "LOADING" ? null : programs}>
-      {programs === "LOADING" ? "Loading programs" : programs && children}
+    <ProgramsContext.Provider value={{ data: programs, loading }}>
+      {children}
     </ProgramsContext.Provider>
   );
 };
