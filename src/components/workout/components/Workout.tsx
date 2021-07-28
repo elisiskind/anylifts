@@ -61,6 +61,11 @@ const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
   },
 }));
 
+interface JokerSet {
+  set: Set;
+  index: number;
+}
+
 export const Workout = () => {
   const { routine, setRoutine } = useContext(CurrentRoutineContext);
   const [currentIndex, setCurrentIndex] = useState<number>(
@@ -71,6 +76,7 @@ export const Workout = () => {
 
   const [complete, setComplete] = useState<boolean>(false);
   const [sets, setSets] = useState<Set[]>(routine!.sets);
+  const [jokerSets, setJokerSets] = useState<JokerSet[]>([]);
   const currentSet = sets[currentIndex];
 
   const [time, setTime] = useState<number>(90);
@@ -79,8 +85,12 @@ export const Workout = () => {
   );
 
   useEffect(() => {
-    setSets(routine!.sets);
-  }, [routine]);
+    const newSets = routine!.sets;
+    jokerSets.forEach((jokerSet) => {
+      newSets.splice(jokerSet.index, 0, jokerSet.set);
+    });
+    setSets(newSets);
+  }, [routine, jokerSets]);
 
   const addTime = (timeToAdd: number) => {
     setTime(time + timeToAdd);
@@ -127,6 +137,7 @@ export const Workout = () => {
   const finish = async () => {
     setCurrentIndex(0);
     setComplete(false);
+    setJokerSets([]);
     clearTimer();
     await setRoutine(null);
   };
@@ -134,6 +145,7 @@ export const Workout = () => {
   const restart = () => {
     setComplete(false);
     setCurrentIndex(0);
+    setJokerSets([]);
     restartTimer();
   };
 
@@ -143,17 +155,18 @@ export const Workout = () => {
   };
 
   const addJokerSet = () => {
-    const jokerSet = {
-      weight: Math.round((currentSet.weight * 1.05) / 2.5) * 2.5,
-      reps: currentSet.reps,
-      amrap: false,
-      exercise: currentSet.exercise,
-      jokerSet: true,
+    const jokerSet: JokerSet = {
+      index: currentIndex + 1,
+      set: {
+        weight: Math.round((currentSet.weight * 1.05) / 2.5) * 2.5,
+        reps: currentSet.reps,
+        amrap: false,
+        exercise: currentSet.exercise,
+        jokerSet: true,
+      },
     };
-    sets.splice(currentIndex + 1, 0, jokerSet);
-    setSets([...sets]);
-    setCurrentIndex(currentIndex + 1);
-    restartTimer();
+    setJokerSets([jokerSet, ...jokerSets]);
+    next();
   };
 
   const classes = useStyles(showMobileOverview);

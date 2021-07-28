@@ -64,10 +64,12 @@ const UserProvider: FunctionComponent = ({ children }) => {
             setLoading(false);
           },
           (err) => {
+            setLoading(false);
             console.log("Error fetching user: " + err);
           }
         );
     } else {
+      setLoading(false);
       setUser(null);
     }
   }, [loggedInUser]);
