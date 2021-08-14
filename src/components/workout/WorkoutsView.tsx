@@ -9,7 +9,7 @@ export const WorkoutsView = () => {
     <CurrentRoutineProvider>
       <CurrentRoutineConsumer>
         {(context) => {
-          return context.routine ? <Workout /> : <WorkoutSelector />;
+          return context.currentRoutine ? <Workout /> : <WorkoutSelector />;
         }}
       </CurrentRoutineConsumer>
     </CurrentRoutineProvider>

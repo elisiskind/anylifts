@@ -15,14 +15,19 @@ interface UserContext extends DataContext<User> {
   ) => Promise<void>;
 }
 
-export interface ProgramIndex {
+export interface CurrentRoutineIndex {
   programId: string;
   routineIndex: number;
 }
 
+export interface CurrentSet {
+  setIndex: number;
+  startTime: number;
+}
+
 interface CurrentWorkout {
-  programIndex?: ProgramIndex | null;
-  set?: number;
+  currentRoutineIndex?: CurrentRoutineIndex | null;
+  currentSet?: CurrentSet | null;
 }
 
 export const CurrentUserContext = createContext<UserContext>({

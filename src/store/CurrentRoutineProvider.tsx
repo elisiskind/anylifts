@@ -5,55 +5,72 @@ import React, {
   useState,
 } from "react";
 import { ProgramsContext, Routine } from "store/ProgramsProvider";
-import { CurrentUserContext, ProgramIndex } from "store/UserProvider";
+import {
+  CurrentRoutineIndex,
+  CurrentSet,
+  CurrentUserContext,
+} from "store/UserProvider";
 
 interface RoutineContext {
-  routine: Routine | null;
-  setRoutine: (programIndex: ProgramIndex | null) => Promise<void>;
+  currentRoutine: Routine | null;
+  currentSet: CurrentSet | null;
+  selectCurrentRoutineIndex: (
+    programIndex: CurrentRoutineIndex | null
+  ) => Promise<void>;
+  selectCurrentSet: (currentSet: CurrentSet | null) => Promise<void>;
 }
 
 export const CurrentRoutineContext = React.createContext<RoutineContext>({
-  routine: null,
-  setRoutine: async () => {},
+  currentSet: null,
+  selectCurrentSet: async () => {},
+  currentRoutine: null,
+  selectCurrentRoutineIndex: async () => {},
 });
 
 export const CurrentRoutineConsumer = CurrentRoutineContext.Consumer;
 
 const CurrentRoutineProvider: FunctionComponent = ({ children }) => {
-  const [routine, setRoutine] = useState<Routine | null>(null);
-  const { data: programs, loading } = useContext(ProgramsContext);
+  const [currentRoutine, setCurrentRoutine] = useState<Routine | null>(null);
+  const [currentSet, setCurrentSet] = useState<CurrentSet | null>(null);
+  const { data: programs } = useContext(ProgramsContext);
   const { data: user, updateUser } = useContext(CurrentUserContext);
 
   useEffect(() => {
-    const { programIndex, set } = user?.currentWorkout ?? {
-      programIndex: null,
-      set: null,
-    };
+    const { currentRoutineIndex, currentSet } = user?.currentWorkout ?? {};
 
-    if (!user || !programIndex || !programs) {
-      setRoutine(null);
+    if (!user || !currentRoutineIndex || !programs) {
+      setCurrentRoutine(null);
     } else {
-      console.log(
-        `Updating program: [${programIndex.programId}, ${programIndex.routineIndex}`
-      );
       const currentProgram = programs!.find(
-        (program) => program.id === programIndex.programId
+        (program) => program.id === currentRoutineIndex.programId
       );
-      const currentRoutine =
-        currentProgram && currentProgram.routines[programIndex.routineIndex];
-      if (currentRoutine) {
-        setRoutine(currentRoutine);
-      }
+      setCurrentRoutine(
+        currentProgram?.routines[currentRoutineIndex.routineIndex] ?? null
+      );
     }
+
+    console.log(JSON.stringify(currentSet));
+    setCurrentSet(currentSet ?? null);
   }, [user, programs]);
 
-  const selectRoutine = async (programIndex: ProgramIndex | null) => {
-    await updateUser("currentWorkout", { programIndex });
+  const selectCurrentRoutineIndex = async (
+    currentRoutineIndex: CurrentRoutineIndex | null
+  ) => {
+    await updateUser("currentWorkout.currentRoutineIndex", currentRoutineIndex);
+  };
+
+  const selectCurrentSet = async (currentSet: CurrentSet | null) => {
+    await updateUser("currentWorkout.currentSet", currentSet);
   };
 
   return (
     <CurrentRoutineContext.Provider
-      value={{ routine, setRoutine: selectRoutine }}
+      value={{
+        currentRoutine,
+        selectCurrentRoutineIndex,
+        currentSet,
+        selectCurrentSet,
+      }}
     >
       {children}
     </CurrentRoutineContext.Provider>

@@ -21,7 +21,7 @@ const useStyles = makeStyles(({ breakpoints, spacing }: Theme) => ({
 export const WorkoutSelector = () => {
   const classes = useStyles();
 
-  const { setRoutine } = useContext(CurrentRoutineContext);
+  const { selectCurrentRoutineIndex } = useContext(CurrentRoutineContext);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const { data: programs, loading } = useContext(ProgramsContext);
 
@@ -30,14 +30,14 @@ export const WorkoutSelector = () => {
     routineIndex: number | null
   ) => {
     console.log("Selecting routine...");
-    const programIndex =
+    const currentRoutineIndex =
       programId === null || routineIndex === null
         ? null
         : {
             programId,
             routineIndex,
           };
-    await setRoutine(programIndex);
+    await selectCurrentRoutineIndex(currentRoutineIndex);
     console.log("selected!");
   };
 
