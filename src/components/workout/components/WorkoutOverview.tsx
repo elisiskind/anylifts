@@ -1,32 +1,31 @@
 import * as React from "react";
-import { Box, Grid, makeStyles, Theme } from "@material-ui/core";
-import { Set } from "store/ProgramsProvider";
+import { makeStyles, Theme } from "@material-ui/core";
+import { CurrentRoutineSet } from "store/Models";
 import { Close, Replay, SkipNext, SkipPrevious } from "@material-ui/icons";
 import { Button, Divider } from "components/elements";
 
 const useStyles = makeStyles(({ spacing, palette, breakpoints }: Theme) => ({
   workoutOverview: {
     height: "100%",
-  },
-  setList: {
-    height: "100%",
-    overflowY: "scroll",
-    padding: spacing(2),
-    borderRadius: 20,
+    display: "flex",
+    flexDirection: "column",
   },
   setListContainer: {
-    border: "2px solid " + palette.grey.A100,
+    overflowY: "scroll",
     boxShadow: "inset 0 4px " + palette.grey[100],
-    height: "calc(100% - 64px)",
+    padding: spacing(2),
+    borderBottom: "2px solid " + palette.grey.A100,
     overflow: "hidden",
-    borderRadius: 20,
   },
   navigation: {
-    paddingTop: spacing(2),
+    display: "flex",
+    flexDirection: "row",
+    padding: spacing(1, 2, 2, 2),
     justifyContent: "space-between",
   },
   buttons: {
     display: "flex",
+    flexDirection: "row",
   },
   leftButton: {
     marginRight: spacing(1),
@@ -54,7 +53,7 @@ const useStyles = makeStyles(({ spacing, palette, breakpoints }: Theme) => ({
 }));
 
 interface WorkoutOverviewProps {
-  routine: Set[];
+  routine: CurrentRoutineSet[];
   currentIndex: number;
   reset: () => void;
   finish: () => Promise<void>;
@@ -73,64 +72,49 @@ export const WorkoutOverview = ({
   const classes = useStyles();
 
   return (
-    <>
-      <Box className={classes.workoutOverview}>
-        <Box className={classes.setListContainer}>
-          <Box className={classes.setList}>
-            <Grid container>
-              {routine.map((set, index) => {
-                const className =
-                  index === currentIndex
-                    ? classes.currentLift
-                    : index < currentIndex
-                    ? classes.finishedLift
-                    : classes.futureLift;
-                return (
-                  <Grid item xs={12} container key={index}>
-                    {index !== 0 &&
-                      routine[index - 1].exercise !== set.exercise && (
-                        <Divider grid space={1} />
-                      )}
-                    <Grid item xs={12}>
-                      <Box className={className}>
-                        <span className={classes.setName}>{set.exercise}</span>{" "}
-                        - {set.weight} lbs - {set.reps}
-                        {set.amrap && "+"}
-                      </Box>
-                    </Grid>
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </Box>
-        </Box>
-        <Grid container className={classes.navigation}>
-          <Grid item className={classes.buttons}>
-            <Button
-              size={"small"}
-              onClick={reset}
-              className={classes.leftButton}
-            >
-              <Replay />
-            </Button>
-            <Button size={"small"} onClick={finish}>
-              <Close />
-            </Button>
-          </Grid>
-          <Grid item className={classes.buttons}>
-            <Button
-              size={"small"}
-              onClick={prev}
-              className={classes.leftButton}
-            >
-              <SkipPrevious />
-            </Button>
-            <Button size={"small"} onClick={next}>
-              <SkipNext />
-            </Button>
-          </Grid>
-        </Grid>
-      </Box>
-    </>
+    <div className={classes.workoutOverview}>
+      <div className={classes.setListContainer}>
+        {routine.map((set, index) => {
+          const className =
+            index === currentIndex
+              ? classes.currentLift
+              : index < currentIndex
+              ? classes.finishedLift
+              : classes.futureLift;
+          return (
+            <div key={index}>
+              {index !== 0 && routine[index - 1].lift !== set.lift && (
+                <Divider grid space={1} />
+              )}
+              <div>
+                <div className={className}>
+                  <span className={classes.setName}>{set.lift}</span> -{" "}
+                  {set.weight} lbs - {set.reps}
+                  {set.amrap && "+"}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <div className={classes.navigation}>
+        <div className={classes.buttons}>
+          <Button size={"small"} onClick={reset} className={classes.leftButton}>
+            <Replay />
+          </Button>
+          <Button size={"small"} onClick={finish}>
+            <Close />
+          </Button>
+        </div>
+        <div className={classes.buttons}>
+          <Button size={"small"} onClick={prev} className={classes.leftButton}>
+            <SkipPrevious />
+          </Button>
+          <Button size={"small"} onClick={next}>
+            <SkipNext />
+          </Button>
+        </div>
+      </div>
+    </div>
   );
 };

@@ -1,31 +1,31 @@
 import React from "react";
-import { Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { Header, Paper, Subtitle } from "components/elements";
+import { Program } from "store/Models";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(({ spacing }) => ({
   root: {
     maxWidth: 345,
   },
   media: {
     height: 140,
   },
-});
+  program: {
+    width: "calc((100% - " + spacing(2) + "px) / 3)",
+  },
+}));
 
-export const ProgramCard = () => {
+interface ProgramCardProps {
+  program: Program;
+}
+
+export const ProgramCard = ({ program }: ProgramCardProps) => {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root}>
-      {/*<CardActionArea>*/}
-      {/*  <CardContent>*/}
-      {/*    <Typography gutterBottom color="textPrimary" variant="h5" component="h2">*/}
-      {/*      {program.name}*/}
-      {/*    </Typography>*/}
-      {/*    <Typography variant="body2" color="textSecondary" component="p">*/}
-      {/*      {program.routines.length} routines*/}
-      {/*    </Typography>*/}
-      {/*  </CardContent>*/}
-      {/*</CardActionArea>*/}
-    </Card>
+    <Paper className={classes.program}>
+      <Header variant={"h2"}>{program.name}</Header>
+      <Subtitle>{program.routines.length} day program</Subtitle>
+    </Paper>
   );
 };

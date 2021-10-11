@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useContext } from "react";
 import { Redirect, Route, RouteProps } from "react-router-dom";
-import { CurrentUserContext } from "store/UserProvider";
 import { Loader } from "components/elements/Loader";
+import { StorageContext } from "store/StorageProvider";
 
 export interface PrivateRouteProps extends RouteProps {}
 
@@ -9,7 +9,7 @@ export const PrivateRoute: FunctionComponent<PrivateRouteProps> = ({
   children,
   ...remainingProps
 }) => {
-  const { data: user, loading } = useContext(CurrentUserContext);
+  const { user, userLoading: loading } = useContext(StorageContext);
 
   if (loading) {
     return <Loader />;

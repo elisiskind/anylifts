@@ -6,19 +6,27 @@ import reportWebVitals from "reportWebVitals";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-import UserProvider from "store/UserProvider";
-import LiftsProvider from "store/LiftsProvider";
-import ProgramsProvider from "store/ProgramsProvider";
+import StorageProvider from "store/StorageProvider";
+
+// const firebaseConfig = {
+//   apiKey: "AIzaSyBPHyEuVw6pjLi7J23dbiIlHsvLwBLNKGE",
+//   authDomain: "anylifts.firebaseapp.com",
+//   databaseURL: "https://anylifts-default-rtdb.firebaseio.com",
+//   projectId: "anylifts",
+//   storageBucket: "anylifts.appspot.com",
+//   messagingSenderId: "826852575492",
+//   appId: "1:826852575492:web:0174edf9ba70e809d0e851",
+//   measurementId: "G-PXC5YY149E",
+// };
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBPHyEuVw6pjLi7J23dbiIlHsvLwBLNKGE",
-  authDomain: "anylifts.firebaseapp.com",
-  databaseURL: "https://anylifts-default-rtdb.firebaseio.com",
-  projectId: "anylifts",
-  storageBucket: "anylifts.appspot.com",
-  messagingSenderId: "826852575492",
-  appId: "1:826852575492:web:0174edf9ba70e809d0e851",
-  measurementId: "G-PXC5YY149E",
+  apiKey: "AIzaSyCOl1xTxoBStpXqdiGxUJC-V9Ndz7gL4f4",
+  authDomain: "anylifts-dev-a2afb.firebaseapp.com",
+  projectId: "anylifts-dev-a2afb",
+  storageBucket: "anylifts-dev-a2afb.appspot.com",
+  messagingSenderId: "74773365167",
+  appId: "1:74773365167:web:317f50617dc86dbecdaf5a",
+  measurementId: "G-H250DLQ9B6",
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -30,13 +38,9 @@ const render = () => {
 
   ReactDOM.render(
     <React.StrictMode>
-      <UserProvider>
-        <LiftsProvider>
-          <ProgramsProvider>
-            <App />
-          </ProgramsProvider>
-        </LiftsProvider>
-      </UserProvider>
+      <StorageProvider>
+        <App />
+      </StorageProvider>
     </React.StrictMode>,
     document.getElementById("root")
   );

@@ -20,8 +20,6 @@ export interface CurrentLiftProps {
   bar?: number;
   amrap: boolean;
   next: () => void;
-  jokerSet: boolean;
-  addJokerSet: () => void;
 }
 
 const useStyles = makeStyles(({ breakpoints, spacing }: Theme) => ({
@@ -52,8 +50,6 @@ export const CurrentLift = ({
   bar,
   amrap,
   next,
-  jokerSet,
-  addJokerSet,
 }: CurrentLiftProps) => {
   const classes = useStyles();
 
@@ -64,10 +60,7 @@ export const CurrentLift = ({
           <FitnessCenter className={classes.icon} />
         </Grid>
         <Grid item>
-          <Header variant={"h2"}>
-            {name}
-            {jokerSet && " - Joker Set"}
-          </Header>
+          <Header variant={"h2"}>{name}</Header>
           <Subtitle>
             {!!weight && (
               <>
@@ -87,28 +80,14 @@ export const CurrentLift = ({
           </>
         )}
         <Divider grid />
-        <Grid item container xs={12} justify="flex-end">
-          {(jokerSet || amrap) && (
-            <Grid item>
-              <Button
-                className={classes.buttons}
-                color={"secondary"}
-                onClick={addJokerSet}
-                variant="link"
-              >
-                Joker Set
-              </Button>
-            </Grid>
-          )}
-          <Grid item>
-            <Button
-              className={classes.buttons}
-              onClick={next}
-              color={"secondary"}
-            >
-              Done
-            </Button>
-          </Grid>
+        <Grid justify="flex-end">
+          <Button
+            className={classes.buttons}
+            onClick={next}
+            color={"secondary"}
+          >
+            Done
+          </Button>
         </Grid>
       </Grid>
     </Paper>

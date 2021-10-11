@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import { Lifts } from "state/HardcodedDataSource";
 import { Grid } from "@material-ui/core";
-import { Paper, Header, EditIcon } from "components/elements";
+import { EditIcon, Header, Paper } from "components/elements";
+import { StorageContext } from "store/StorageProvider";
 
 const useStyles = makeStyles(({ spacing }: Theme) => ({
   root: {
@@ -12,10 +12,11 @@ const useStyles = makeStyles(({ spacing }: Theme) => ({
 
 export const ExercisesView = () => {
   const classes = useStyles();
+  const { lifts } = useContext(StorageContext);
 
   return (
     <Grid container spacing={3} className={classes.root}>
-      {Lifts.map((lift) => {
+      {lifts.map((lift) => {
         return (
           <Grid item xs={12} sm={4} md={3}>
             <Paper>

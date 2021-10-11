@@ -5,7 +5,7 @@ import { Theme } from "@material-ui/core";
 import { Button, Divider, Paper, TextInput } from "components/elements";
 import { auth } from "index";
 import firebase from "firebase/app";
-import { CurrentUserContext } from "store/UserProvider";
+import { StorageContext } from "store/StorageProvider";
 
 const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
   loginContainer: {
@@ -38,7 +38,7 @@ export const LoginView = () => {
   const classes = useStyles();
   const history = useHistory();
 
-  const { data: user } = useContext(CurrentUserContext);
+  const { user } = useContext(StorageContext);
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");

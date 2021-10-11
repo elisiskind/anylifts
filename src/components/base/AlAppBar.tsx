@@ -14,8 +14,8 @@ import { Button, Header } from "components/elements";
 import { useHistory } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import { useContext } from "react";
-import { CurrentUserContext } from "store/UserProvider";
 import { auth } from "index";
+import { StorageContext } from "store/StorageProvider";
 
 const useStyles = makeStyles(
   ({ palette, spacing, breakpoints, mixins }: Theme) =>
@@ -61,7 +61,7 @@ export const AlAppBar = ({ handleToggle }: AlAppBarProps) => {
   const classes = useStyles();
   const history = useHistory();
 
-  const { data: user } = useContext(CurrentUserContext);
+  const { user } = useContext(StorageContext);
   const loggedIn = !!user;
 
   return (

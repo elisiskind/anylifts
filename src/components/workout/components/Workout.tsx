@@ -1,15 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Box, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Paper, Timer } from "components/elements";
 import { AvailableEquipment } from "components/equipment";
 import Hidden from "@material-ui/core/Hidden";
-import { Set } from "store/ProgramsProvider";
 import { CurrentLift, WorkoutOverview } from "components/workout";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import Grid from "@material-ui/core/Grid";
 import { SendAlert } from "lib/notifications";
-import { CurrentRoutineContext } from "store/CurrentRoutineProvider";
+import { CurrentRoutineContext } from "components/workout/WorkoutsView";
 
 const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
   root: {
@@ -19,7 +18,6 @@ const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
   workoutOverviewContainer: {
     height: "100%",
     flex: 2,
-    padding: spacing(2),
     backgroundColor: palette.common.white,
     borderRight: "2px solid " + palette.grey.A100,
   },
@@ -55,88 +53,44 @@ const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
   },
 }));
 
-interface JokerSet {
-  set: Set;
-  index: number;
-}
-
 export const Workout = () => {
   const {
+    sets,
     currentSet,
-    selectCurrentSet,
-    currentRoutine,
-    selectCurrentRoutineIndex,
+    nextSet,
+    previousSet,
+    finish,
+    restart,
   } = useContext(CurrentRoutineContext);
 
-  const currentIndex = currentSet?.setIndex ?? 0;
-
+  const next = async () => {
+    if (currentSet.setIndex === sets.length - 1) {
+      if (complete) {
+        await finish();
+        setComplete(false);
+      } else {
+        setComplete(true);
+      }
+    } else {
+      await nextSet();
+    }
+  };
   const [complete, setComplete] = useState<boolean>(false);
-  const [sets, setSets] = useState<Set[]>(currentRoutine!.sets);
-  const [jokerSets, setJokerSets] = useState<JokerSet[]>([]);
-  const set = sets[currentIndex];
 
   const [time, setTime] = useState<number>(90);
-  const startTime = currentSet?.startTime ?? Date.now();
-
-  useEffect(() => {
-    const newSets = currentRoutine!.sets;
-    jokerSets.forEach((jokerSet) => {
-      newSets.splice(jokerSet.index, 0, jokerSet.set);
-    });
-    setSets(newSets);
-  }, [currentRoutine, jokerSets]);
+  const set = sets[currentSet.setIndex];
 
   const addTime = (timeToAdd: number) => {
     setTime(time + timeToAdd);
   };
 
   const onFinish = () => {
-    if (currentSet) {
-      const title = "Time for next set!";
-      const message = `${set.exercise} - ${set.reps}${set.amrap ? "+" : ""} x ${
-        set.weight
-      } lbs`;
+    const title = "Time for next set!";
+    const message = `${set.lift} - ${set.reps}${set.amrap ? "+" : ""} x ${
+      set.weight
+    } lbs`;
 
-      SendAlert(title, message);
-    }
-  };
-
-  const prev = async () => {
-    if (currentIndex > 0) {
-      await selectCurrentSet({
-        setIndex: currentIndex - 1,
-        startTime: Date.now(),
-      });
-    }
-  };
-
-  const selectSet = async (set: number) => {
-    await selectCurrentSet({
-      setIndex: set,
-      startTime: Date.now(),
-    });
-  };
-
-  const next = async () => {
-    if (currentIndex + 1 < sets.length) {
-      console.log("Next set: " + (currentIndex + 1));
-      await selectSet(currentIndex + 1);
-    } else {
-      setComplete(true);
-      await selectSet(0);
-    }
-  };
-
-  const finish = async () => {
-    setComplete(false);
-    setJokerSets([]);
-    await selectCurrentRoutineIndex(null);
-  };
-
-  const restart = async () => {
-    await selectSet(0);
-    setComplete(false);
-    setJokerSets([]);
+    SendAlert(title, message);
   };
 
   const [showMobileOverview, setShowMobileOverview] = useState<boolean>(false);
@@ -144,29 +98,14 @@ export const Workout = () => {
     setShowMobileOverview(!showMobileOverview);
   };
 
-  const addJokerSet = () => {
-    const jokerSet: JokerSet = {
-      index: currentIndex + 1,
-      set: {
-        weight: Math.round((set.weight * 1.05) / 2.5) * 2.5,
-        reps: set.reps,
-        amrap: false,
-        exercise: set.exercise,
-        jokerSet: true,
-      },
-    };
-    setJokerSets([jokerSet, ...jokerSets]);
-    next();
-  };
-
   const classes = useStyles(showMobileOverview);
 
   const workoutOverview = (
     <WorkoutOverview
       routine={sets}
-      currentIndex={currentIndex}
+      currentIndex={currentSet.setIndex}
       next={next}
-      prev={prev}
+      prev={previousSet}
       reset={restart}
       finish={finish}
     />
@@ -176,9 +115,9 @@ export const Workout = () => {
     <>
       <Box className={classes.root}>
         <Hidden xsDown>
-          <Box className={classes.workoutOverviewContainer}>
+          <div className={classes.workoutOverviewContainer}>
             {workoutOverview}
-          </Box>
+          </div>
         </Hidden>
         <Box className={classes.liftContainer}>
           <Hidden smUp>
@@ -189,7 +128,7 @@ export const Workout = () => {
                   onClick={toggleShowOverview}
                   className={classes.showMobileOverviewBtn}
                 >
-                  {currentIndex + 1}/{sets.length} -{" "}
+                  {currentSet.setIndex + 1}/{sets.length} -{" "}
                   {showMobileOverview ? "Hide" : "Show"} overview{" "}
                   {showMobileOverview ? <ExpandMore /> : <ExpandLess />}
                 </Button>
@@ -216,26 +155,24 @@ export const Workout = () => {
           ) : (
             <>
               <Box alignItems={"center"} marginBottom={2}>
-                {currentIndex > 0 && (
+                {currentSet.setIndex > 0 && (
                   <Timer
-                    key={currentIndex}
+                    key={currentSet.setIndex}
                     time={time}
-                    start={startTime}
+                    start={currentSet.startTime}
                     addTime={addTime}
                     onFinish={onFinish}
                   />
                 )}
               </Box>
               <CurrentLift
-                name={set.exercise}
+                name={set.lift}
                 reps={set.reps}
-                amrap={set.amrap || false}
+                amrap={set.amrap}
                 weight={set.weight}
                 plates={AvailableEquipment[0].plates}
                 bar={AvailableEquipment[0].bar}
                 next={next}
-                jokerSet={!!set.jokerSet}
-                addJokerSet={addJokerSet}
               />
             </>
           )}

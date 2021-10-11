@@ -52,7 +52,7 @@ const useStyles = makeStyles(
         overflowX: "hidden",
         height: "calc(100% - 58px)",
         [breakpoints.up("sm")]: {
-          height: "calc(100% - 69px)",
+          height: "calc(100% - 66px)",
         },
       },
     })
