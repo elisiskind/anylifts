@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
 import * as serviceWorkerRegistration from "serviceWorkerRegistration";
 import reportWebVitals from "reportWebVitals";
 import firebase from "firebase/app";
@@ -8,25 +7,14 @@ import "firebase/auth";
 import "firebase/firestore";
 import StorageProvider from "store/StorageProvider";
 
-// const firebaseConfig = {
-//   apiKey: "AIzaSyBPHyEuVw6pjLi7J23dbiIlHsvLwBLNKGE",
-//   authDomain: "anylifts.firebaseapp.com",
-//   databaseURL: "https://anylifts-default-rtdb.firebaseio.com",
-//   projectId: "anylifts",
-//   storageBucket: "anylifts.appspot.com",
-//   messagingSenderId: "826852575492",
-//   appId: "1:826852575492:web:0174edf9ba70e809d0e851",
-//   measurementId: "G-PXC5YY149E",
-// };
-
 const firebaseConfig = {
-  apiKey: "AIzaSyCOl1xTxoBStpXqdiGxUJC-V9Ndz7gL4f4",
-  authDomain: "anylifts-dev-a2afb.firebaseapp.com",
-  projectId: "anylifts-dev-a2afb",
-  storageBucket: "anylifts-dev-a2afb.appspot.com",
-  messagingSenderId: "74773365167",
-  appId: "1:74773365167:web:317f50617dc86dbecdaf5a",
-  measurementId: "G-H250DLQ9B6",
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 
 firebase.initializeApp(firebaseConfig);

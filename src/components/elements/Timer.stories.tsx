@@ -1,20 +1,18 @@
 import React, { useState } from "react";
 import { Meta, Story } from "@storybook/react";
-import { Timer } from "components/elements/Timer";
+import { Timer } from "components/elements";
 import Box from "@material-ui/core/Box";
 
 export default {
-  title: "elements/AlTimer",
+  title: "elements/Timer",
   component: Timer,
 } as Meta;
 
-interface AlTimerStoryProps {
+interface TimerStoryProps {
   startTime: number;
 }
 
-const Template: Story<AlTimerStoryProps> = ({
-  startTime,
-}: AlTimerStoryProps) => {
+const Template: Story<TimerStoryProps> = ({ startTime }) => {
   const [time, setTime] = useState<number>(startTime);
   const [start, setStart] = useState<number>(Date.now());
 

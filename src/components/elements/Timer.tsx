@@ -52,14 +52,14 @@ const displayTime = (value: number) => {
   return (value < 0 ? "-" : "") + minutes + ":" + seconds;
 };
 
-export interface AlTimerProps {
+export interface TimerProps {
   time: number;
   start: number;
   addTime: (time: number) => void;
   onFinish: () => void;
 }
 
-export const Timer = ({ time, onFinish, addTime, start }: AlTimerProps) => {
+export const Timer = ({ time, onFinish, addTime, start }: TimerProps) => {
   const [elapsed, setElapsed] = useState<number>(0);
   const [completed, setCompleted] = useState<boolean>(elapsed > time);
 
@@ -72,8 +72,7 @@ export const Timer = ({ time, onFinish, addTime, start }: AlTimerProps) => {
         clearInterval(timer);
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [start]);
 
   if (elapsed >= time && !completed) {
     onFinish();

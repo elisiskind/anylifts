@@ -69,7 +69,7 @@ const useStyles = makeStyles(({ palette, spacing }: Theme) => ({
     position: "relative",
     background: ({ variant, color }: ButtonProps) => {
       if (variant && variant !== "normal") {
-        return "#fff";
+        return "#fff0";
       }
       return palette[color || "primary"].main;
     },

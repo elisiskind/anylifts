@@ -1,10 +1,10 @@
 import React from "react";
-import { Story, Meta } from "@storybook/react";
+import { Meta, Story } from "@storybook/react";
 
 import { Button, ButtonProps } from "components/elements/Button";
 
 export default {
-  title: "elements/AlButton",
+  title: "elements/Button",
   component: Button,
 } as Meta;
 
